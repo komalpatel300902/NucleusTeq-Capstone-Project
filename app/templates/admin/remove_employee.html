@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee & Manager Remove</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Link to your external CSS file -->
+</head>
+<body class="dark-mode">
+    <header>
+        <h1>Employee & Manager Remove</h1>
+    </header>
+
+    <main>
+        <h2>Managers</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Gender</th>
+                <th>Actions</th>
+            </tr>
+            <!-- Loop through manager data -->
+            {% for manager in managers %}
+            <tr>
+                <td>{{ manager.name }}</td>
+                <td>{{ manager.id }}</td>
+                <td>{{ manager.email }}</td>
+                <td>{{ manager.mobile }}</td>
+                <td>{{ manager.gender }}</td>
+                <td>
+                    <!-- Button for removing manager -->
+                    <button class="removeManagerButton" data-manager-id="{{ manager.id }}">Remove</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Employees</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Gender</th>
+                <th>Actions</th>
+            </tr>
+            <!-- Loop through employee data -->
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.mobile }}</td>
+                <td>{{ employee.gender }}</td>
+                <td>
+                    <!-- Button for removing employee -->
+                    <button class="removeEmployeeButton" data-emp-id="{{ employee.id }}">Remove</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+
+    <!-- Link to external JavaScript file -->
+    <script src="/static/employee_manager_remove.js"></script>
+</body>
+</html>

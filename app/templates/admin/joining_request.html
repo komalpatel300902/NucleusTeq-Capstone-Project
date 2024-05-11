@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joining Requests</title>
+    <!-- <link rel="stylesheet" href="styles.css"> Link to your external CSS file -->
+</head>
+<body class="dark-mode">
+    <header>
+        <h1>Joining Requests</h1>
+    </header>
+
+    <main>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Employee Type</th>
+                <th>Admin ID</th>
+                <th>Admin Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Gender</th>
+                <th>Date of Joining</th>
+                <th>Actions</th>
+            </tr>
+            <!-- Loop through joining requests data -->
+            {% for request in data %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.name }}</td>
+                <td>{{ request.emp_type }}</td>
+                <td>{{ request.admin_id }}</td>
+                <td>{{ request.admin_name }}</td>
+                <td>{{ request.email }}</td>
+                <td>{{ request.mobile }}</td>
+                <td>{{ request.gender }}</td>
+                <td>{{ request.date_of_joining }}</td>
+                <td>
+                    <!-- Add buttons for actions -->
+                    <button onclick="acceptRequest('{{ request.id }}')">Accept</button>
+                    <button onclick="rejectRequest('{{ request.id }}')">Reject</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Form</title>
+</head>
+<body>
+
+<h2>Project Form</h2>
+
+<form action="#" method="post">
+  <div>
+    <label for="projectName">Project Name:</label>
+    <input type="text" id="projectName" name="projectName" required>
+  </div>
+  <div>
+    <label for="projectId">Project ID:</label>
+    <input type="text" id="projectId" name="projectId" required>
+  </div>
+  <div>
+    <label for="deadline">Deadline:</label>
+    <input type="date" id="deadline" name="deadline" required>
+  </div>
+  <div>
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+  </div>
+  <div>
+    <label for="assignTo">Assign Project To:</label>
+    <select id="assignTo" name="assignTo" required>
+      <option value="">Select User</option>
+      <option value="user1">User 1</option>
+      <option value="user2">User 2</option>
+      <option value="user3">User 3</option>
+      <!-- Add more options as needed -->
+    </select>
+  </div>
+  <div>
+    <button type="submit" id="submitButton">Submit</button>
+  </div>
+</form>
+
+</body>
+</html>

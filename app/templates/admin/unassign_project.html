@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Project</title>
+</head>
+<body>
+    <h2>Employee Information</h2>
+    <table>
+        <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Project ID</th>
+            <th>Project Name</th>
+            <th>Manager ID</th>
+            <th>Manager Name</th>
+            <th>Action</th>
+        </tr>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.emp_id }}</td>
+            <td>{{ employee.emp_name }}</td>
+            <td>{{ employee.gender }}</td>
+            <td>{{ employee.mobile }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.project_id }}</td>
+            <td>{{ employee.project_name }}</td>
+            <td>{{ employee.manager_id }}</td>
+            <td>{{ employee.manager_name }}</td>
+            <td>
+
+                <button onclick="unassignEmployeeProject('{{ employee.emp_id }}', '{{employee.project_id}}')">Unassign Project</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Manager Information</h2>
+    <table>
+        <tr>
+            <th>Manager ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Project ID</th>
+            <th>Project Name</th>
+            <th>Action</th>
+        </tr>
+        {% for manager in managers %}
+        <tr>
+            <td>{{ manager.manager_id }}</td>
+            <td>{{ manager.manager_name }}</td>
+            <td>{{ manager.gender }}</td>
+            <td>{{ manager.mobile }}</td>
+            <td>{{ manager.email }}</td>
+            <td>{{ manager.project_id }}</td>
+            <td>{{ manager.project_name }}</td>
+            <td>
+                <button onclick="unassignManagerProject('{{ manager.manager_id }}', '{{manager.project_id}}')">Unassign Project</button>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

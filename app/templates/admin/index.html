@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your external CSS file -->
+</head>
+<body class="dark-mode">
+    <header>
+        <h1>Admin Login</h1>
+    </header>
+
+    <main>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="employee">Employee</option>
+                <option value="manager">Manager</option>
+            </select>
+            <button type="submit">Login</button>
+        </form>
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+</body>
+</html>

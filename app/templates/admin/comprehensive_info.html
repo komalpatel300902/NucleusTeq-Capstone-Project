@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+    <!-- <link rel="stylesheet" href="/static/styles.css"> Link to your external CSS file -->
+</head>
+<body class="dark-mode">
+    <header>
+        <h1>Data Display</h1>
+    </header>
+
+    <main>
+        <table>
+            <tr>
+                <th>Admin ID</th>
+                <th>Admin Name</th>
+                <th>Manager ID</th>
+                <th>Manager Name</th>
+                <th>Project ID</th>
+                <th>Employee ID</th>
+            </tr>
+            <!-- Loop through data -->
+            {% for data_entry in data_entries %}
+            <tr>
+                <td>{{ data_entry.admin_id }}</td>
+                <td>{{ data_entry.admin_name }}</td>
+                <td>{{ data_entry.manager_id }}</td>
+                <td>{{ data_entry.manager_name }}</td>
+                <td>{{ data_entry.project_id }}</td>
+                <td>{{ data_entry.emp_id }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+</body>
+</html>

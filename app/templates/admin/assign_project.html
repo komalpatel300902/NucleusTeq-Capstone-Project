@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Project</title>
+</head>
+<body>
+    <h2>Employee Information</h2>
+    <table>
+        <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Skills</th>
+            <th>Project to Assign</th>
+            <th>Action</th>
+        </tr>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.emp_id }}</td>
+            <td>{{ employee.emp_name }}</td>
+            <td>{{ employee.gender }}</td>
+            <td>{{ employee.mobile }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.skills }}</td>
+            <td>
+                <select>
+                {% for project in employee_projects %}
+                    <option value = '{{project.project_id}}'>{{project.project_id}} : {{project.project_name}}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td>
+
+                <button onclick="assignEmployeeProject('{{ employee.emp_id }}', '{{employee.project_id}}')">Assign Project</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Manager Information</h2>
+    <table>
+        <tr>
+            <th>Manager ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Project ID</th>
+            <th>Project Name</th>
+            <th>Project to Assign</th>
+            <th>Action</th>
+        </tr>
+        {% for manager in managers %}
+        <tr>
+            <td>{{ manager.manager_id }}</td>
+            <td>{{ manager.manager_name }}</td>
+            <td>{{ manager.gender }}</td>
+            <td>{{ manager.mobile }}</td>
+            <td>{{ manager.email }}</td>
+            <td>{{ manager.project_id }}</td>
+            <td>{{ manager.project_name }}</td>
+            <td>
+                <select name = "unassinged_project" id = "unassinged_project">
+                {% for unassinged_project in manager_projects %}
+                    <option value = '{{unassinged_project.project_id}}'>{{unassinged_project.project_id}} : {{unassinged_project.project_name}}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td>
+                <button onclick="assignManagerProject('{{ manager.manager_id }}', '{{manager.project_id}}')">Assign Project</button>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
