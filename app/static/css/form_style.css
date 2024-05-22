@@ -1,0 +1,66 @@
+#form_div {
+    margin: 0 auto; /* Set left and right margins to auto */
+    width: calc(100% - 160px); /* Adjust the width of the div */
+    border: 1px solid black;
+    text-align: center;
+}
+
+/* Centering the form on the page */
+form {
+    margin: 0 auto;
+    width: 50%; /* Adjust the width of the form */
+    /* text-align: center; */
+}
+
+
+/* Style for label */
+label {
+    display: block; /* Change display to inline-block */
+    width: 150px; /* Adjust width of label */
+    text-align: left; /* Align text to the right of the label */
+    margin-right: 10px; /* Add spacing between label and input */
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    width: calc(100% - 160px); /* Calculate width of input fields based on label width */
+    padding: 10px; /* Adjust padding as needed */
+    margin-bottom: 15px; /* Add spacing between input fields */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Add border radius for rounded corners */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
+}
+
+
+button,
+input[type="submit"] {
+    background-color: #4caf50; /* Green background color */
+    color: white; /* Text color */
+    padding: 12px 20px; /* Adjust padding as needed */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Add border radius for rounded corners */
+    cursor: pointer; /* Add pointer cursor on hover */
+    font-size: 16px; /* Adjust font size as needed */
+}
+/* Change button color on hover */
+button:hover,
+input[type="submit"]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Reset button */
+button[type="reset"] {
+    background-color: #f44336; /* Red background color */
+}
+
+/* Change reset button color on hover */
+button[type="reset"]:hover {
+    background-color: #da190b; /* Darker red on hover */
+}

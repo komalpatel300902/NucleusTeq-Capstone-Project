@@ -14,8 +14,7 @@ body.dark-mode {
 }
 
 header {
-  margin-top: 40px;
-  background-color: #4b4b4b; /* Navigation bar background color */
+  margin-top: 40px;/* Navigation bar background color */
   padding: 10px 0;
 }
 

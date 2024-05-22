@@ -1,8 +1,8 @@
-function acceptRequest(requestId) {
+function acceptRequest(requestId, empType) {
     // Example: Send a POST request to the backend to accept the request with the given ID
     fetch('/accept_joining_request', {
         method: 'POST',
-        body: JSON.stringify({ requestId: requestId }),
+        body: JSON.stringify({ id: requestId , emp_type: empType}),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -10,6 +10,7 @@ function acceptRequest(requestId) {
     .then(response => {
         if (response.ok) {
             // Request accepted successfully, you can update the UI as needed
+            location.reload()
             console.log('Request accepted successfully');
         } else {
             // Error handling
@@ -25,7 +26,7 @@ function rejectRequest(requestId) {
     // Example: Send a POST request to the backend to reject the request with the given ID
     fetch('/reject_joining_request', {
         method: 'POST',
-        body: JSON.stringify({ requestId: requestId }),
+        body: JSON.stringify({ id: requestId}),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -33,6 +34,7 @@ function rejectRequest(requestId) {
     .then(response => {
         if (response.ok) {
             // Request rejected successfully, you can update the UI as needed
+            location.reload()
             console.log('Request rejected successfully');
         } else {
             // Error handling

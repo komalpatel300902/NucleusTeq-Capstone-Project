@@ -36,8 +36,11 @@ class DataFormatter:
 
         formatted_data = {}
         for index in range(len(table_row)):
+            print(table_row[index])
             if type(table_row[index]) == datetime.date:
+
                 date = table_row[index].strftime("%Y-%m-%d")
+                print(date)
                 formatted_data[table_columns[index]] = date
             else:
                 formatted_data[table_columns[index]] = table_row[index]

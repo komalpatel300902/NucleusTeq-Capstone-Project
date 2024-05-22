@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Project</title>
-</head>
-<body>
+{% extends "admin_navigation_bar.html" %}
+{% block header_content %}
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+<title>Unassign Project</title>
+{% endblock %}
+{% block content %}
     <h2>Employee Information</h2>
     <table>
         <tr>
@@ -33,7 +31,7 @@
             <td>{{ employee.manager_name }}</td>
             <td>
 
-                <button onclick="unassignEmployeeProject('{{ employee.emp_id }}', '{{employee.project_id}}')">Unassign Project</button>
+                <button onclick="unassignEmployeeProject('{{ employee.emp_id }}')">Unassign Project</button>
             </td>
         </tr>
         {% endfor %}
@@ -49,6 +47,7 @@
             <th>Email</th>
             <th>Project ID</th>
             <th>Project Name</th>
+            <th>Project To Unassign</th>
             <th>Action</th>
         </tr>
         {% for manager in managers %}
@@ -61,11 +60,19 @@
             <td>{{ manager.project_id }}</td>
             <td>{{ manager.project_name }}</td>
             <td>
-                <button onclick="unassignManagerProject('{{ manager.manager_id }}', '{{manager.project_id}}')">Unassign Project</button>
+                <Select id = "project-{{manager.manager_id}}">
+                    {% for id_of_project in manager.project_id.split(", ") %}
+                    <option value = "{{id_of_project}}">{{id_of_project}} : {{name_of_project}} </option>
+                    {% endfor %}
+                </Select>
+            </td>
+            
+            <td>
+                <button onclick="unassignManagerProject('{{ manager.manager_id }}')">Unassign Project</button>
 
             </td>
         </tr>
         {% endfor %}
     </table>
-</body>
-</html>
+    <script src = "../../static/js/admin/unassign_project.js"></script>
+{% endblock %}

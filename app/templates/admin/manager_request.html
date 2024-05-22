@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Display</title>
-    <link rel="stylesheet" href="/static/styles.css"> <!-- Link to your external CSS file -->
-</head>
-<body class="dark-mode">
+{% extends "admin_navigation_bar.html" %}
+{% block header_content %}
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+<title>Data Display</title>
+{% endblock %}
+{% block content %}
     <header>
-        <h1>Data Display</h1>
+        <h2>Data Display</h2>
     </header>
 
     <main>
@@ -34,17 +31,13 @@
 
                 <td>
                     <!-- Buttons for accepting and rejecting requests -->
-                    <button onclick="acceptRequest('{{ data_entry.id }}')">Accept</button>
-                    <button onclick="rejectRequest('{{ data_entry.id }}')">Reject</button>
+                    <button onclick="acceptRequest('{{ data_entry.emp_id }}','{{ data_entry.project_id }}','{{ data_entry.manager_id }}')">Accept</button>
+                    <button onclick="rejectRequest('{{ data_entry.emp_id }}','{{ data_entry.project_id }}','{{ data_entry.manager_id }}')">Reject</button>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </main>
+    <script src = "../../static/js/admin/manager_request.js"></script>
 
-    <footer>
-        <!-- Footer content -->
-        <p>&copy; 2024 Your Company</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

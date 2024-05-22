@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Project</title>
-</head>
-<body>
+{% extends "admin_navigation_bar.html" %}
+{% block header_content %}
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+<title>Assign Project</title>
+{% endblock %}
+
+{% block content %}
     <h2>Employee Information</h2>
     <table>
         <tr>
@@ -27,7 +26,7 @@
             <td>{{ employee.email }}</td>
             <td>{{ employee.skills }}</td>
             <td>
-                <select>
+                <select id = "project-{{employee.emp_id}}">
                 {% for project in employee_projects %}
                     <option value = '{{project.project_id}}'>{{project.project_id}} : {{project.project_name}}</option>
                 {% endfor %}
@@ -35,7 +34,7 @@
             </td>
             <td>
 
-                <button onclick="assignEmployeeProject('{{ employee.emp_id }}', '{{employee.project_id}}')">Assign Project</button>
+                <button onclick="assignEmployeeProject('{{ employee.emp_id }}')">Assign Project</button>
             </td>
         </tr>
         {% endfor %}
@@ -64,18 +63,18 @@
             <td>{{ manager.project_id }}</td>
             <td>{{ manager.project_name }}</td>
             <td>
-                <select name = "unassinged_project" id = "unassinged_project">
+                <select name = "unassinged_project" id = "project-{{manager.manager_id}}">
                 {% for unassinged_project in manager_projects %}
                     <option value = '{{unassinged_project.project_id}}'>{{unassinged_project.project_id}} : {{unassinged_project.project_name}}</option>
                 {% endfor %}
                 </select>
             </td>
             <td>
-                <button onclick="assignManagerProject('{{ manager.manager_id }}', '{{manager.project_id}}')">Assign Project</button>
+                <button onclick="assignManagerProject('{{ manager.manager_id }}')">Assign Project</button>
 
             </td>
         </tr>
         {% endfor %}
     </table>
-</body>
-</html>
+    <script src = "../../static/js/admin/assign_project.js"></script>
+{% endblock %}

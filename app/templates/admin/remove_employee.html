@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee & Manager Remove</title>
-    <link rel="stylesheet" href="/static/styles.css"> <!-- Link to your external CSS file -->
-</head>
-<body class="dark-mode">
+{% extends "admin_navigation_bar.html" %}
+{% block header_content %}
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+<title>Employee & Manager Remove</title>
+{% endblock %}
+{% block content %}
     <header>
-        <h1>Employee & Manager Remove</h1>
+        <h2>Employee & Manager Remove</h2>
     </header>
 
     <main>
-        <h2>Managers</h2>
+        <h3>Managers</h3>
         <table>
             <tr>
                 <th>Name</th>
@@ -32,13 +29,13 @@
                 <td>{{ manager.gender }}</td>
                 <td>
                     <!-- Button for removing manager -->
-                    <button class="removeManagerButton" data-manager-id="{{ manager.id }}">Remove</button>
+                    <button onclick="removeManager('{{ manager.id }}')">Remove</button>
                 </td>
             </tr>
             {% endfor %}
         </table>
 
-        <h2>Employees</h2>
+        <h3>Employees</h3>
         <table>
             <tr>
                 <th>Name</th>
@@ -58,19 +55,11 @@
                 <td>{{ employee.gender }}</td>
                 <td>
                     <!-- Button for removing employee -->
-                    <button class="removeEmployeeButton" data-emp-id="{{ employee.id }}">Remove</button>
+                    <button onclick="removeEmployee('{{ employee.id }}')">Remove</button>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </main>
-
-    <footer>
-        <!-- Footer content -->
-        <p>&copy; 2024 Your Company</p>
-    </footer>
-
-    <!-- Link to external JavaScript file -->
-    <script src="/static/employee_manager_remove.js"></script>
-</body>
-</html>
+    <script src = "../../static/js/admin/remove_employee.js"></script>
+{% endblock %}

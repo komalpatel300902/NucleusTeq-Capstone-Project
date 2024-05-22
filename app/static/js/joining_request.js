@@ -1,9 +1,12 @@
+
+alert('JavaScript file is linked correctly!');
+console.log("js linked correctly");
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('myForm');
+    const form = document.getElementById('employeeRegistrationForm');
 
     if (form) {
         form.addEventListener('submit', async function(event) {
-            console.log("i am in create project");
+            console.log("i am in register employees");
             event.preventDefault(); // Prevent the default form submission
 
             const formData = new FormData(form);
@@ -12,11 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-            location.reload();
+            // location.reload();
             const jsonData = JSON.stringify(data);
             console.log(jsonData)
             try {
-                const response = await fetch('/create_project_form_processing', {
+                const response = await fetch('/register_form_submission', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -1,0 +1,33 @@
+h2,h3 {
+    text-align: center;
+}
+
+/* Centering the table on the page */
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%; /* Adjust the width according to your preference */
+  }
+  
+  /* Style for table headers */
+  th {
+    background-color: #f2f2f2; /* Light gray background */
+    padding: 10px; /* Adjust the padding as needed */
+    border: 1px solid #ddd; /* Add border */
+  }
+  
+  /* Style for table cells */
+  td {
+    padding: 10px; /* Adjust the padding as needed */
+    text-align: center; /* Center-align text */
+    border: 1px solid #ddd; /* Add border */
+  }
+  
+  /* Font style for table */
+  table {
+    font-family: Arial, sans-serif; /* Choose the font style you prefer */
+  }
+  table:last-of-type {
+    margin-bottom: 40px; /* Space between last table and footer */
+  }
+  

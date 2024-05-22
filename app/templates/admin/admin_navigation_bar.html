@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/css/admin/navigation_bar.css" >
+    {% block header_content %}
+    <title>Admin Navigation Bar</title>
+    {% endblock %}
+    
+</head>
+<body class = "dark-mode">
+    <div class="header-text">Employee Management Portal</div>
+    <nav>
+        <ul>
+            <li><a href="{{request.url_for('admin_home')}}">Home</a></li>
+            <li><a href="{{request.url_for('fetch_all_employees_and_project_for_admin')}}">Veiw All</a></li>
+            <li>
+                <a href="#">Employee</a>
+                <ul>
+                    <li><a href="{{request.url_for('get_joining_request')}}">Add New Employee</a></li>
+                    <li><a href="{{request.url_for('get_manager_request')}}">Manager Request</a></li>
+                    <li><a href="{{request.url_for('get_employee_for_assigning_project')}}">Assign Project</a></li>
+                    <li><a href="{{request.url_for('unassign_project_page')}}">Unassign Project</a></li>
+                    <li><a href="{{request.url_for('remove_employees_page')}}">Remove Employee</a></li>
+                    <li><a href="{{request.url_for('update_employees_skill')}}">Update Employee Skills</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Project</a>
+                <ul>
+                    <li><a href="{{request.url_for('create_project_form')}}">Create Project</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Your content goes here -->
+</body>
+</html>
