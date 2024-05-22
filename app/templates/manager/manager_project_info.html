@@ -16,6 +16,7 @@
                 <th>Name</th>
                 <th>Start Date</th>
                 <th>Deadline</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +26,7 @@
                 <td>{{ project.project_name }}</td>
                 <td>{{ project.start_date }}</td>
                 <td>{{ project.dead_line }}</td>
-                <td>{{ project.manager_id }}</td>
-                <td>{{ project.manager_name }}</td>
+                <td>{{ project.description }}</td>
             </tr>
             {% endfor %}
         </tbody>

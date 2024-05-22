@@ -5,9 +5,10 @@ Facility:
 3 : View all details about its project
 """
 
-from fastapi import APIRouter , Request
+from fastapi import APIRouter , Request, status
 from fastapi .templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
+from models.employee_model import UpdateSkill
 from config.db_connection import sql , cursor
 from schema.schemas import DataFormatter
 
@@ -27,14 +28,16 @@ async def employee_home(request :Request):
 
 @emp_router.get(r"/employee_for_project")
 async def fetch_all_workers_for_project(request: Request) -> None:
-    sql_query_to_get_all_information = f"""SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,e.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    sql_query_to_get_all_information = f"""SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
     FROM employees AS e
     LEFT JOIN employee_project_details AS epd
     ON e.emp_id = epd.emp_id
     LEFT JOIN project AS p
     ON p.project_id = epd.project_id
     LEFT JOIN manager AS m
-    ON m.manager_id = epd.manager_id;"""
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin AS a
+    ON a.admin_id = e.admin_id;"""
 
     table_column = ["emp_id", "emp_name","gender","email","admin_id","admin_name","manager_id","manager_name","project_id","project_name"]
     try:
@@ -64,9 +67,45 @@ async def update_skills_as_employee(request : Request) -> None:
     else:
         return templates.TemplateResponse("update_skill.html",{"request":request, "employees": employees})
 
-@emp_router.get(r"/update_skills_as_employee")
-async def update_skills_as_employee(request : Request) -> None: ...
+@emp_router.put(r"/add_skill",response_class=HTMLResponse)
+async def add_skill(request : Request, employee_data: UpdateSkill) -> None:
+    sql_query_to_add_skill = f"""
+    UPDATE employees
+    SET skills = CONCAT(skills,' {employee_data.skills}')
+    WHERE emp_id = '{employee_data.emp_id}';
+    """
+    print(sql_query_to_add_skill)
+    try:
+        cursor.execute("START TRANSACTION ;")
+        cursor.execute(sql_query_to_add_skill)
+        
+    except Exception as e:
+        sql.rollback()
+        print(e)
+    else:
+        sql.commit()
+        redirect_url = request.url_for("update_skills_as_employee")
+        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
 
+@emp_router.put(r"/replace_skill",response_class=HTMLResponse)
+async def replace_skill(request : Request, employee_data: UpdateSkill) -> None:
+    sql_query_to_replace_skill = f"""
+    UPDATE employees
+    SET skills =  '{employee_data.skills}'
+    WHERE emp_id = '{employee_data.emp_id}';
+    """
+    try:
+        cursor.execute("START TRANSACTION;")
+        cursor.execute(sql_query_to_replace_skill)
+        
+    except Exception as e:
+        sql.rollback()
+        print(e)
+    else:
+        sql.commit()
+        redirect_url = request.url_for("update_skills_as_employee")
+        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+    
 @emp_router.get(r"/employee_project_details")
 async def employee_project_details(request: Request) -> None:
     sql_query_to_fetch_project_details = f"""SELECT p.project_id, p.project_name , p.start_date, p.dead_line, m.manager_id, m.manager_name

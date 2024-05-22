@@ -30,7 +30,7 @@
                 <td>{{ worker.email }}</td>
                 <td>{{ worker.skills }}</td>
                 <td>
-                    <select>
+                    <select id = "project-{{worker.emp_id}}">
                         {% for project in projects %}
                         <option>{{ project.project_id }} : {{project.project_name}} </option>
                         {% endfor %}
@@ -41,5 +41,6 @@
             {% endfor %}
         </tbody>
     </table>
+    <script src = "../../static/js/manager/filter_employee_for_project.js"></script>
 
 {% endblock %}

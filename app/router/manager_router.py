@@ -5,9 +5,10 @@
 4: see all theproject on which manager is working
 """ 
 
-from fastapi import APIRouter , Request
+from fastapi import APIRouter , Request , status
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse , RedirectResponse
+from models.employee_model import RequestForEmployee
 from config.db_connection import sql , cursor
 from schema.schemas import DataFormatter
 
@@ -26,35 +27,42 @@ async def manager_home(request: Request):
 
 @manager_router.get(r"/comprehensive_info")
 async def get_all_employees_and_project(request: Request) -> None:
-    sql_query_to_get_all_information = f"""SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,e.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    sql_query_to_get_all_information = f"""SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
     FROM employees AS e
     LEFT JOIN employee_project_details AS epd
     ON e.emp_id = epd.emp_id
     LEFT JOIN project AS p
     ON p.project_id = epd.project_id
     LEFT JOIN manager AS m
-    ON m.manager_id = epd.manager_id;"""
+    ON m.manager_id = epd.manager_id 
+    LEFT JOIN admin AS a
+    ON a.admin_id = e.admin_id
+    ORDER BY a.admin_id ASC;"""
 
-    sql_query_to_get_manager_information = f"""SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,m.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    sql_query_to_get_manager_information = f"""SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
     FROM manager AS m
     LEFT JOIN manager_project_details AS mpd
     ON m.manager_id = mpd.manager_id
     LEFT JOIN project AS p
     ON p.project_id = mpd.project_id
+    LEFT JOIN admin AS a
+    ON a.admin_id = m.admin_id
     GROUP BY m.manager_id ;"""
 
-    sql_query_to_get_project_information = f"""SELECT p.project_id , p.project_name ,p.start_date, p.dead_line, mpd.manager_id, m.manager_name 
+    sql_query_to_get_project_information = f"""SELECT p.project_id , p.project_name , a.admin_id , a.admin_name,p.start_date, p.dead_line, mpd.manager_id, m.manager_name 
     FROM project AS p
     LEFT JOIN manager_project_details AS mpd
     ON mpd.project_id = p.project_id
     LEFT JOIN manager AS m
     ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin AS a
+    ON a.admin_id = p.admin_id
     ;
     """
 
     table_column_all_information = ["emp_id", "emp_name","gender","email","admin_id","admin_name","manager_id","manager_name","project_id","project_name"]
     table_column_manager_information = ["manager_id", "manager_name","gender","email","admin_id","admin_name","project_id","project_name"]
-    table_column_project_information = ["project_id", "project_name","start_date","dead_line","manager_id","manager_name"]
+    table_column_project_information = ["project_id", "project_name","admin_id","admin_name","start_date","dead_line","manager_id","manager_name"]
     
     try:
         cursor.execute(sql_query_to_get_all_information)
@@ -104,28 +112,39 @@ async def get_filtered_employees(request: Request) -> None:
         return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects})
 
 @manager_router.post(r"/request_for_employee")
-async def request_employee(request:Request , manager_id: str , emp_id: str, project_id : str) -> None:
+async def request_employee(request:Request , employee_data: RequestForEmployee) -> None:
 
     sql_query_for_employee_request = f"""
     INSERT INTO manager_request_for_employees (emp_id, manager_id, project_id,admin_id,status)
     WITH request_details AS(
-    SELECT '{emp_id}' , '{manager_id}' , '{project_id}' , admin_id , 'Pending'
+    SELECT '{employee_data.emp_id}' , '{manager_id}' , '{employee_data.project_id}' , admin_id , 'Pending'
     FROM manager 
     WHERE manager_id = '{manager_id}'
     )
     SELECT * FROM request_details ;"""
 
+    try:
+        cursor.execute("START TRANSACTION;")
+        cursor.execute(sql_query_for_employee_request)
+    except Exception as e:
+        sql.rollback()
+        print(e)
+    else:
+        sql.commit()
+        redirect_url = request.url_for("get_filtered_employees")
+        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+
 
 
 @manager_router.get(r"/projects_manager_have")
 async def project_manager_have(request: Request) -> None:
-    sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line 
+    sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line , p.description
     FROM  project AS p
     INNER JOIN manager_project_details AS mpd
     ON mpd.project_id = p.project_id
     WHERE mpd.manager_id = '{manager_id}';
     """
-    table_column_project_information = ["project_id", "project_name","start_date","dead_line"]
+    table_column_project_information = ["project_id", "project_name","start_date","dead_line","description"]
     
     try:
         cursor.execute(sql_query_to_fetch_project)

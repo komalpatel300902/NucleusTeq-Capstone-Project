@@ -17,6 +17,10 @@ class UpdateSkill(BaseModel):
     emp_id: str
     skills: str
 
+class RequestForEmployee(BaseModel):
+    emp_id: str
+    project_id: str
+
 class Employee(BaseModel):
     emp_id: str
     emp_name : str
