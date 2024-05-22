@@ -1,5 +1,22 @@
 from pydantic import BaseModel
 
+class AcceptJoiningRequest(BaseModel):
+    id: str
+    emp_type: str
+
+class RejectJoiningRequest(BaseModel):
+    id: str
+
+class RemoveEmployee(BaseModel):
+    emp_id: str
+
+class RemoveManager(BaseModel):
+    manager_id: str
+
+class UpdateSkill(BaseModel):
+    emp_id: str
+    skills: str
+
 class Employee(BaseModel):
     emp_id: str
     emp_name : str

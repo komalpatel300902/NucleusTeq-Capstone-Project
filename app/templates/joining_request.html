@@ -1,63 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joining Request Form</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your external CSS file -->
-</head>
-<body class="dark-mode">
-    <header>
-        <h1>Joining Request Form</h1>
-    </header>
 
-    <main>
-        <form action="/submit_request" method="post">
-            <label for="id">ID:</label>
-            <input type="text" id="id" name="id" required><br>
+{% extends "navigation_bar.html" %}
+{% block header_content %}
+    <link rel = "stylesheet" type = "text/css" href="../static/css/form_style_II.css">
+    <title>Joining Request</title>
+{% endblock %}
+{% block content %}
+    <div id = "header">
+        <h2>Joining Request Form</h2>
+    </div>
 
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-
-            <label for="emp_type">Employee Type:</label>
-            <select id="emp_type" name="emp_type" required>
-                <option value="Manager">Manager</option>
-                <option value="Employee">Employee</option>
-            </select><br>
-
-            <label for="admin_id">Admin ID:</label>
-            <input type="text" id="admin_id" name="admin_id" required><br>
-
-            <label for="admin_name">Admin Name:</label>
-            <input type="text" id="admin_name" name="admin_name" required><br>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br>
-
-            <label for="mobile">Mobile:</label>
-            <input type="text" id="mobile" name="mobile" required><br>
-
-            <label for="gender">Gender:</label>
-            <select id="gender" name="gender" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Non-binary">Non-binary</option>
-                <!-- Add more gender options as needed -->
-            </select><br>
-
-            <label for="date_of_joining">Date of Joining:</label>
-            <input type="date" id="date_of_joining" name="date_of_joining" required><br>
-
-            <button type="submit" name="action" value="submit">Submit</button>
+    <div class="form-container">
+        <form id = "employeeRegistrationForm" action="#" method="POST" >
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" required><br>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+            </div>
+            <div class="form-group">
+                <label for="emp_type">Employee Type:</label>
+                <select id="emp_type" name="emp_type" required>
+                    <option value="Manager">Manager</option>
+                    <option value="Employee">Employee</option>
+                </select><br>
+            </div>
+            <div class="form-group">
+                <label for="admin_id">Admin: </label>
+                <select id="admin_id" name = "admin_id" required>
+                    {% for data in data_entries %}
+                        <option value="{{data.admin_id}}">{{data.admin_id}} : {{data.admin_name}}</options>
+                    {% endfor %}
+                </select><br>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="text" id="mobile" name="mobile" required><br>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-binary">Non-binary</option>
+                    <!-- Add more gender options as needed -->
+                </select><br>
+            </div>
+            <div class="form-group">
+                <label for="date_of_joining">Date of Joining:</label>
+                <input type="date" id="date_of_joining" name="date_of_joining" required><br>
+            </div>           
+            <button type="submit" id ="submit">Submit</button>
         </form>
-    </main>
+        <!-- <scrpit src = "../static/js/joining_request.js" defer></scrpit> -->
+        <script>
+            
+alert('JavaScript file is linked correctly!');
+console.log("js linked correctly");
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('employeeRegistrationForm');
 
-    <footer>
-        <!-- Footer content -->
-        <p>&copy; 2024 Your Company</p>
-    </footer>
-</body>
-</html>
+    if (form) {
+        form.addEventListener('submit', async function(event) {
+            console.log("i am in register employees");
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+            const data = {};
+
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            const jsonData = JSON.stringify(data);
+            console.log(jsonData)
+            try {
+                const response = await fetch('/registration_form_submission', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: jsonData
+                });
+
+                if (response.ok) {
+                    alert('Form submitted successfully!');
+                    location.reload();
+                    
+                } else {
+                    alert('Form submission failed.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during form submission.');
+            }
+        });
+    } else {
+        console.error('Form not found!');
+    }
+});
+
+        </script>
+    </div>
+    
+
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    {% block header_content %}
+    {% endblock %}
+</head>
+<body class="dark-mode">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a href="#">Login</a>
+                    <ul class="dropdown-content">
+                        <li><a href="{{request.url_for('admin_login')}}">Admin</a></li>
+                        <li><a href="{{request.url_for('manager_login')}}">Manager</a></li>
+                        <li><a href="{{request.url_for('employee_login')}}">Employee</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{request.url_for('register_as_employee')}}">Register as Employee</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% block content %}
+
+    {% endblock %}
+
+</body>
+</html>

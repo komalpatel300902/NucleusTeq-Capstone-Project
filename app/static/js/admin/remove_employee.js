@@ -1,71 +1,45 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Attach click event listener to all remove manager buttons
-    var removeManagerButtons = document.querySelectorAll(".removeManagerButton");
-    removeManagerButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-            var managerId = button.getAttribute("data-manager-id");
-            removeManager(managerId);
-        });
-    });
 
-    // Attach click event listener to all remove employee buttons
-    var removeEmployeeButtons = document.querySelectorAll(".removeEmployeeButton");
-    removeEmployeeButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-            var empId = button.getAttribute("data-emp-id");
-            removeEmployee(empId);
-        });
-    });
-});
 
 function removeManager(managerId) {
     // Send an AJAX request to your FastAPI backend to remove the manager
     // You can use fetch API or any other library like Axios for making AJAX requests
-    fetch(`/remove_manager?manager_id=${managerId}`, {
+    fetch(`/remove_manager`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
-        }
+        },
+        body: JSON.stringify({manager_id: managerId})
     })
     .then(response => {
-        if (response.ok) {
-            // Handle success
-            console.log('Manager removed successfully');
-            // Optionally, refresh the page or update UI as needed
-        } else {
-            // Handle errors
-            console.error('Failed to remove manager');
-        }
+        // Handle the response, maybe refresh the page or update UI as needed
+        location.reload()
+        console.log('Request accepted successfully');
     })
     .catch(error => {
-        // Handle network errors
-        console.error('Error:', error);
+        // Handle errors, show error message or log the error
+        console.error('Error accepting request:', error);
     });
 }
 
 function removeEmployee(empId) {
     // Send an AJAX request to your FastAPI backend to remove the employee
     // You can use fetch API or any other library like Axios for making AJAX requests
-    fetch(`/remove_employee?emp_id=${empId}`, {
+    fetch(`/remove_employee`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
-        }
+        },
+        body: JSON.stringify({emp_id: empId})
     })
     .then(response => {
-        if (response.ok) {
-            // Handle success
-            console.log('Employee removed successfully');
-            // Optionally, refresh the page or update UI as needed
-        } else {
-            // Handle errors
-            console.error('Failed to remove employee');
-        }
+        // Handle the response, maybe refresh the page or update UI as needed
+        location.reload()
+        console.log('Request accepted successfully');
     })
     .catch(error => {
-        // Handle network errors
-        console.error('Error:', error);
+        // Handle errors, show error message or log the error
+        console.error('Error accepting request:', error);
     });
 }

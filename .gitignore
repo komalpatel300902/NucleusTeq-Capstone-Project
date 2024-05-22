@@ -3,3 +3,6 @@ Notes.txt
 Database_Checks.txt
 app/__pycache__
 app/router/__pycache__
+app/models/__pycache__
+app/config/__pycache__
+app/schema/__pycache__

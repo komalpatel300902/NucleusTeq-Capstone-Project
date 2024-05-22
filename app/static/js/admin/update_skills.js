@@ -1,14 +1,15 @@
-function acceptRequest(empId,projectId,managerId) {
-    // Send an AJAX request to your FastAPI backend to accept the request with the given ID
-    // You can use fetch API or any other library like Axios for making AJAX requests
-    fetch("/accept_manager_request" , {
-        method: 'POST',
+function addSkills(empId) {
+    // Here you can implement the logic for assigning a project to an employee
+    const field = document.getElementById("new_skills")
+    const skills = field.value;
+    fetch("/add_employee_skill" , {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
         },
         // You can optionally send data in the request body if needed
-        body: JSON.stringify({ emp_id: empId, project_id: projectId , manager_id: managerId })
+        body: JSON.stringify({ emp_id: empId, skills: skills })
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed
@@ -21,24 +22,27 @@ function acceptRequest(empId,projectId,managerId) {
     });
 }
 
-function rejectRequest(empId,projectId,managerId) {
-    // Send an AJAX request to your FastAPI backend to reject the request with the given ID
-    fetch('/reject_manager_request', {
+function replaceSkills(empId) {
+    // Here you can implement the logic for assigning a project to a manager
+
+    const field = document.getElementById("new_skills")
+    const skills = field.value;
+    fetch("/replace_employee_skill" , {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
         },
         // You can optionally send data in the request body if needed
-        body: JSON.stringify({ emp_id: empId, project_id: projectId , manager_id: managerId })
+        body: JSON.stringify({ emp_id: empId, skills:skills})
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed
         location.reload()
-        console.log('Request rejected successfully');
+        console.log('Request accepted successfully');
     })
     .catch(error => {
         // Handle errors, show error message or log the error
-        console.error('Error rejecting request:', error);
+        console.error('Error accepting request:', error);
     });
 }

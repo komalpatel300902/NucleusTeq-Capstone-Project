@@ -1,45 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "admin_navigation_bar.html" %}
+{% block header_content %}
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/form_style_II.css">
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+
 <title>Project Form</title>
-</head>
-<body>
-
+{% endblock %}
+{% block content %}
 <h2>Project Form</h2>
-
-<form action="#" method="post">
-  <div>
-    <label for="projectName">Project Name:</label>
-    <input type="text" id="projectName" name="projectName" required>
-  </div>
-  <div>
+<div class = "form-container">
+<form id = "myForm" action="#">
+  <div class = "form-group">
     <label for="projectId">Project ID:</label>
-    <input type="text" id="projectId" name="projectId" required>
+    <input type="text" id="projectId" name="project_id" required>
   </div>
-  <div>
+  <div class = "form-group">
+    <label for="projectName">Project Name:</label>
+    <input type="text" id="projectName" name="project_name" required>
+  </div>
+  
+  <div class = "form-group">
     <label for="deadline">Deadline:</label>
-    <input type="date" id="deadline" name="deadline" required>
+    <input type="date" id="deadline" name="dead_line" required>
   </div>
-  <div>
+  <div class = "form-group">
     <label for="description">Description:</label><br>
     <textarea id="description" name="description" rows="4" cols="50" required></textarea>
   </div>
-  <div>
+  <div class = "form-group">
     <label for="assignTo">Assign Project To:</label>
-    <select id="assignTo" name="assignTo" required>
-      <option value="">Select User</option>
-      <option value="user1">User 1</option>
-      <option value="user2">User 2</option>
-      <option value="user3">User 3</option>
+    <select id="assignTo" name="assign_to" required>
+      <option value = "later">Later</option>
+      {% for manager in managers %}
+      <option value="{{manager.manager_id}}">{{manager.manager_id}} : {{manager.manager_name}}</option>
+      {% endfor %}
       <!-- Add more options as needed -->
     </select>
   </div>
-  <div>
+  <div class = "form-group">
     <button type="submit" id="submitButton">Submit</button>
   </div>
 </form>
-
-</body>
-</html>
+</div>
+<script src = "../../static/js/admin/create_project.js"></script>
+{% endblock %}

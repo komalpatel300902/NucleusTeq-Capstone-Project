@@ -1,12 +1,12 @@
 {% extends "navigation_bar.html" %}
 {% block header_content %}
     <title>Login</title>
-    <link rel="stylesheet" type= "text/css" href="../../static/css/form_style_II.css"> <!-- Link to your external CSS file -->
-    <script src = "../../static/js/admin/index.js"></script>
+    <link rel="stylesheet" type= "text/css" href="../../static/css/form_style_II.css">
+    <script src = "../../static/js/manager/index.js"></script>
 {% endblock %}
 {% block content %}
     <div id = "header">
-        <h2>Admin Login</h2>
+        <h2>Manager Login</h2>
     </div>
 
     <main class="form-container">
@@ -22,4 +22,5 @@
             <button type="submit" onclick="validateCredential()">Login</button>
         </form>
     </main>
+
 {% endblock %}

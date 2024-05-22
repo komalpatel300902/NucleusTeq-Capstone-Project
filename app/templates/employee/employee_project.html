@@ -1,0 +1,33 @@
+{% extends "employee_navigation_bar.html" %}
+{% block header_content %}
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+    <title>Project Records</title>
+{% endblock %}
+{% block content %}
+    <h2>Project Records</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Project ID</th>
+                <th>Project Name</th>
+                <th>Start Date</th>
+                <th>Deadline</th>
+                <th>Manager ID</th>
+                <th>Manager Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in project_records %}
+            <tr>
+                <td>{{ record.project_id }}</td>
+                <td>{{ record.project_name }}</td>
+                <td>{{ record.start_date }}</td>
+                <td>{{ record.dead_line }}</td>
+                <td>{{ record.manager_id }}</td>
+                <td>{{ record.manager_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

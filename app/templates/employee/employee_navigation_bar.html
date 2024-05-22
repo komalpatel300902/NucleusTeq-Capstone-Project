@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/css/admin/navigation_bar.css" >
+    {% block header_content %}
+    <title>Employee Navigation Bar</title>
+    {% endblock %}
+    
+</head>
+<body>
+    <div class="header-text">Employee Management Portal</div>
+    <nav>
+        <ul>
+            <li><a href="{{request.url_for('employee_home')}}">Home</a></li>
+            <li><a href="{{request.url_for('fetch_all_workers_for_project')}}">Veiw All</a></li>
+            <li>
+                <a href="{{request.url_for('update_skills_as_employee')}}">Update Skills</a>
+            </li>
+            <li>
+                <a href="{{request.url_for('employee_project_details')}}">My Project</a>
+            </li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Your content goes here -->
+</body>
+</html>

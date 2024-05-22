@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joining Requests</title>
+{% extends "admin_navigation_bar.html" %}
+{% block header_content %}
+<link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+<title>Joining Requests</title>
     <!-- <link rel="stylesheet" href="styles.css"> Link to your external CSS file -->
-</head>
-<body class="dark-mode">
+{% endblock %}
+{% block content %}
     <header>
-        <h1>Joining Requests</h1>
+        <h2>Joining Requests</h2>
     </header>
 
     <main>
@@ -16,7 +14,6 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Password</th>
                 <th>Employee Type</th>
                 <th>Admin ID</th>
                 <th>Admin Name</th>
@@ -27,30 +24,26 @@
                 <th>Actions</th>
             </tr>
             <!-- Loop through joining requests data -->
-            {% for request in data %}
+            {% for value in data %}
             <tr>
-                <td>{{ request.id }}</td>
-                <td>{{ request.name }}</td>
-                <td>{{ request.emp_type }}</td>
-                <td>{{ request.admin_id }}</td>
-                <td>{{ request.admin_name }}</td>
-                <td>{{ request.email }}</td>
-                <td>{{ request.mobile }}</td>
-                <td>{{ request.gender }}</td>
-                <td>{{ request.date_of_joining }}</td>
+                <td>{{ value.id }}</td>
+                <td>{{ value.name }}</td>
+                <td>{{ value.emp_type }}</td>
+                <td>{{ value.admin_id }}</td>
+                <td>{{ value.admin_name }}</td>
+                <td>{{ value.email }}</td>
+                <td>{{ value.mobile }}</td>
+                <td>{{ value.gender }}</td>
+                <td>{{ value.date_of_joining }}</td>
                 <td>
                     <!-- Add buttons for actions -->
-                    <button onclick="acceptRequest('{{ request.id }}')">Accept</button>
-                    <button onclick="rejectRequest('{{ request.id }}')">Reject</button>
+                    <button onclick="acceptRequest('{{ value.id }}','{{value.emp_type}}')">Accept</button>
+                    <button onclick="rejectRequest('{{ value.id }}')">Reject</button>
                 </td>
             </tr>
             {% endfor %}
         </table>
     </main>
+    <script src = "../../static/js/admin/joining_request.js"></script>
 
-    <footer>
-        <!-- Footer content -->
-        <p>&copy; 2024 Your Company</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
