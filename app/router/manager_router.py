@@ -10,7 +10,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse , RedirectResponse, JSONResponse
 from models.employee_model import RequestForEmployee
 from models.index_model import LoginDetails
-from config.db_connection import sql , cursor
+from config.db_connection import get_db
 from schema.schemas import DataFormatter
 
 
@@ -40,13 +40,15 @@ async def manager_login(request: Request):
     return templates.TemplateResponse("index.html",{"request":request}) 
 
 @manager_router.post(r"/manager_login_data", response_class = HTMLResponse)
-async def manager_authentication(response: Response,request : Request, login_details: LoginDetails) -> None:
+async def manager_credential_authentication(response: Response,request : Request, login_details: LoginDetails, db = Depends(get_db)) -> None:
+
+    sql , cursor = db
 
     sql_query_to_check_admin = f"""SELECT COUNT(manager_id) ,manager_id, password 
     FROM manager
     WHERE manager_id = '{login_details.username}' AND password = '{login_details.password}' ;
     """
-    print( login_details.username , login_details.password )
+    print( "manager",login_details.username , login_details.password )
     try:
         cursor.execute(sql_query_to_check_admin)
         data = cursor.fetchall()
@@ -71,7 +73,9 @@ async def manager_home(request: Request):
 
 
 @manager_router.get(r"/comprehensive_info")
-async def get_all_employees_and_project(request: Request) -> None:
+async def get_all_employees_and_project(request: Request, db = Depends(get_db)) -> None:
+
+    sql, cursor = db
     sql_query_to_get_all_information = f"""SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
     FROM employees AS e
     LEFT JOIN employee_project_details AS epd
@@ -127,8 +131,8 @@ async def get_all_employees_and_project(request: Request) -> None:
 
 
 @manager_router.get(r"/filtered_employee")
-async def get_filtered_employees(request: Request, manager_id: str = Depends(get_user) ) -> None:
-
+async def get_filtered_employees(request: Request, manager_id: str = Depends(get_user), db = Depends(get_db) ) -> None:
+    sql , cursor = db
     sql_query_to_fetch_employees = f"""SELECT e.emp_id , e.emp_name , e.gender , e.mobile , e.email , e.skills
     FROM employees AS e,manager AS m
     WHERE m.manager_id = '{manager_id}' AND e.admin_id = m.admin_id and e.project_assigned = 'NO';
@@ -157,8 +161,8 @@ async def get_filtered_employees(request: Request, manager_id: str = Depends(get
         return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects , "manager":{"manager_id":manager_id}})
 
 @manager_router.post(r"/request_for_employee", response_class=JSONResponse)
-async def request_employee(request:Request , employee_data: RequestForEmployee) -> None:
-
+async def request_employee(request:Request , employee_data: RequestForEmployee, db = Depends(get_db)) -> None:
+    sql, cursor = db
     sql_query_for_employee_request = f"""
     INSERT INTO manager_request_for_employees (emp_id, manager_id, project_id,admin_id,status)
     WITH request_details AS(
@@ -182,7 +186,8 @@ async def request_employee(request:Request , employee_data: RequestForEmployee) 
 
 
 @manager_router.get(r"/projects_manager_have")
-async def project_manager_have(request: Request, manager_id: str = Depends(get_user)) -> None:
+async def project_manager_have(request: Request, manager_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+    sql, cursor = db
     sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line, p.status , p.description
     FROM  project AS p
     INNER JOIN manager_project_details AS mpd

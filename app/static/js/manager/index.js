@@ -37,3 +37,8 @@ function validateCredential() {
     });
     
 }
+function preventEnterKeySubmission(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+}
