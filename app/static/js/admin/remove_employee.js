@@ -3,13 +3,13 @@
 function removeManager(managerId) {
     // Send an AJAX request to your FastAPI backend to remove the manager
     // You can use fetch API or any other library like Axios for making AJAX requests
-    fetch(`/remove_manager`, {
+    fetch('/remove_manager?manager_id='+managerId, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
         },
-        body: JSON.stringify({manager_id: managerId})
+        // body: JSON.stringify({manager_id: managerId})
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed

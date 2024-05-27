@@ -1,6 +1,6 @@
 function addSkills(empId) {
     // Here you can implement the logic for assigning a project to an employee
-    const field = document.getElementById("new_skills")
+    const field = document.getElementById("new_skills-"+empId)
     const skills = field.value;
     fetch("/add_employee_skill" , {
         method: 'PUT',
@@ -25,7 +25,7 @@ function addSkills(empId) {
 function replaceSkills(empId) {
     // Here you can implement the logic for assigning a project to a manager
 
-    const field = document.getElementById("new_skills")
+    const field = document.getElementById("new_skills-"+empId)
     const skills = field.value;
     fetch("/replace_employee_skill" , {
         method: 'PUT',

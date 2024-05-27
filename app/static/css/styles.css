@@ -1,38 +1,75 @@
-body{
+body {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
-  position:relative;
-
+  position: relative;
 }
 
-/* styles.css */
+/* Dark mode styles */
 body.dark-mode {
   background-color: #333; /* Dark background color */
   color: #fff; /* Light text color */
   font-family: 'Montserrat', sans-serif;
 }
-
-header {
-  margin-top: 40px;/* Navigation bar background color */
-  padding: 10px 0;
+.header-text {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333; /* Choose your desired color */
+  padding: 20px 0;
+  background-color: #fff; /* Background color for the header */
+  opacity: 0;
+  animation: fadeIn 1s ease forwards; /* Animation */
 }
 
+nav {
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
 nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  display: flex;
 }
 
 nav ul li {
-  display: inline;
+  position: relative; /* Required for submenus */
+  margin-right: 20px;
 }
 
 nav ul li a {
   color: #fff;
   text-decoration: none;
+  padding: 10px;
+  transition: background-color 0.3s;
+  display: block; /* Ensure full width for hover effect */
+}
+nav ul li a:hover {
+  background-color: #555;
+}
+nav ul li ul {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  padding: 0;
+  top: 100%; /* Position below parent item */
+  left: 0;
+  width: 200px; /* Set submenu width */
+}
+nav ul li:hover ul {
+  display: block;
+}
+nav ul li ul li {
+  display: block;
+  margin: 0;
+}
+nav ul li ul li a {
   padding: 10px 20px;
-  display: inline-block;
 }
 
 .dropdown {
@@ -42,7 +79,8 @@ nav ul li a {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #333;
+  background-color: #dddddd;
+  left: 0; /* Align dropdown content to the left of the parent */
   z-index: 1;
 }
 

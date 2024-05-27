@@ -1,6 +1,8 @@
 function requestForEmployees(empId){
     // You can use fetch API or any other library like Axios for making AJAX requests
     const selectField = document.getElementById("project-"+empId);
+    const manger_idField = document.getElementById("mnaager_id");
+    const manager_id = manger_idField.value;
     const projectId = selectField.value;
     fetch("/request_for_employee" , {
         method: 'POST',
@@ -9,7 +11,7 @@ function requestForEmployees(empId){
             // Add any other headers if required
         },
         // You can optionally send data in the request body if needed
-        body: JSON.stringify({ emp_id: empId, project_id: projectId })
+        body: JSON.stringify({ emp_id: empId, project_id: projectId , manager_id: manager_id})
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed

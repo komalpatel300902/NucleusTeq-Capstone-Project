@@ -21,13 +21,13 @@
             <li>
                 <a href="{{request.url_for('employee_project_details')}}">My Project</a>
             </li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#" onclick = "logout()">Logout</a></li>
         </ul>
     </nav>
 
     {% block content %}
     {% endblock %}
-
+    <script src = "../../static/js/employee/logout.js"></script>
     <!-- Your content goes here -->
 </body>
 </html>

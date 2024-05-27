@@ -6,3 +6,7 @@ app/router/__pycache__
 app/models/__pycache__
 app/config/__pycache__
 app/schema/__pycache__
+app/test_app/__pycache__
+app/test_app/.pytest_cache
+.pytest_cache
+.vscode

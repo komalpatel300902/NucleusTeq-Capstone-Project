@@ -3,9 +3,11 @@ from pydantic import BaseModel
 class AcceptJoiningRequest(BaseModel):
     id: str
     emp_type: str
+    
 
 class RejectJoiningRequest(BaseModel):
     id: str
+    
 
 class RemoveEmployee(BaseModel):
     emp_id: str
@@ -20,6 +22,7 @@ class UpdateSkill(BaseModel):
 class RequestForEmployee(BaseModel):
     emp_id: str
     project_id: str
+    manager_id: str
 
 class Employee(BaseModel):
     emp_id: str

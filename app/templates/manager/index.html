@@ -2,7 +2,7 @@
 {% block header_content %}
     <title>Login</title>
     <link rel="stylesheet" type= "text/css" href="../../static/css/form_style_II.css">
-    <script src = "../../static/js/manager/index.js"></script>
+   
 {% endblock %}
 {% block content %}
     <div id = "header">
@@ -10,7 +10,7 @@
     </div>
 
     <main class="form-container">
-        <form  method="post">
+        <form >
             <div class = "form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -21,6 +21,7 @@
             </div>
             <button type="submit" onclick="validateCredential()">Login</button>
         </form>
-    </main>
+    </main> 
+    <script src = "../../static/js/manager/index.js"></script>
 
 {% endblock %}
