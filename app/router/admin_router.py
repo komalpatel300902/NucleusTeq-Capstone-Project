@@ -9,7 +9,7 @@
 from fastapi import APIRouter, HTTPException, Request , Form , status, Response , Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse , JSONResponse, RedirectResponse
-from config.db_connection import sql , cursor
+from config.db_connection import get_db
 from schema.schemas import DataFormatter
 from models.index_model import JoiningRequest , LoginDetails
 from models.employee_model import AcceptJoiningRequest , RejectJoiningRequest, RemoveEmployee,RemoveManager, UpdateSkill
@@ -49,13 +49,13 @@ async def admin_login(request : Request) -> None:
     return templates.TemplateResponse("index.html",{"request":request})
 
 @admin_router.post(r"/admin_login_data", response_class = HTMLResponse)
-async def login(response: Response,request : Request,  login_details: LoginDetails) -> None:
-
+async def admin_credential_authentication(response: Response,request : Request,  login_details: LoginDetails, db = Depends(get_db)) -> None:
+    sql, cursor = db
     sql_query_to_check_admin = f"""SELECT COUNT(admin_id) ,admin_id, password 
     FROM admin
     WHERE admin_id = '{login_details.username}' AND password = '{login_details.password}' ;
     """
-    print( login_details.username , login_details.password )
+    print( "Admin",login_details.username , login_details.password )
     try:
         cursor.execute(sql_query_to_check_admin)
         data = cursor.fetchall()
@@ -78,7 +78,8 @@ def admin_home(request: Request):
     return templates.TemplateResponse("home.html",{"request":request})
 
 @admin_router.get(r"/joining_request", response_class = JSONResponse)
-async def get_joining_request(request : Request, admin_id: str = Depends(get_user)) -> None:
+async def get_joining_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+    sql,cursor = db
     try:
         sql_query_for_schema = """DESCRIBE joining_request;"""
         cursor.execute(sql_query_for_schema)
@@ -97,12 +98,13 @@ async def get_joining_request(request : Request, admin_id: str = Depends(get_use
         print(e)
     else:
         print(formatted_data)
-        return JSONResponse(content = {"message":f"--{admin_id}"})
-        # return templates.TemplateResponse("joining_request.html",context={"request": request ,"data": formatted_data})
+        # return JSONResponse(content = {"message":""})
+        return templates.TemplateResponse("joining_request.html",context={"request": request ,"data": formatted_data})
 
 
 @admin_router.post(r"/accept_joining_request", response_class = JSONResponse)
-async def accept_joining_request(request : Request, joining_request: AcceptJoiningRequest ):
+async def accept_joining_request(request : Request, joining_request: AcceptJoiningRequest , db = Depends(get_db)):
+    sql, cursor = db
     if joining_request.emp_type == "Employee":
         query_to_insert_date_in_table = f"""INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
         SELECT id, name, password, admin_id, email,mobile , gender, 'None'
@@ -135,7 +137,8 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
         return JSONResponse(content = {"message":"Employee Joining Request was successfully Accepted"})
 
 @admin_router.post(r"/reject_joining_request", response_class = JSONResponse)
-async def reject_joining_request(request : Request, joining_request: RejectJoiningRequest) -> None:
+async def reject_joining_request(request : Request, joining_request: RejectJoiningRequest, db = Depends(get_db)) -> None:
+    sql, cursor = db
     query_to_update_status_of_joining_request = f"""
     UPDATE joining_request
     SET status = 'Rejected'
@@ -154,7 +157,8 @@ async def reject_joining_request(request : Request, joining_request: RejectJoini
 
 
 @admin_router.get(r"/create_project_form", response_class = HTMLResponse)
-async def create_project_form(request: Request, admin_id: str = Depends(get_user)):
+async def create_project_form(request: Request, admin_id: str = Depends(get_user), db = Depends(get_db)):
+    sql, cursor = db
     sql_query_to_get_manager_detail = f"""SELECT manager_id, manager_name
     FROM manager
     WHERE admin_id = '{admin_id}';"""
@@ -174,7 +178,8 @@ async def create_project_form(request: Request, admin_id: str = Depends(get_user
 
 
 @admin_router.post(r"/create_project_form_processing",response_class=JSONResponse)
-async def create_project_form_processing(request: Request, project_details: ProjectDetails ):
+async def create_project_form_processing(request: Request, project_details: ProjectDetails, db = Depends(get_db) ):
+    sql, cursor = db
     # status values ["Not Assigned", "Started" , "In Progress" ,"Review" , "On Hold"]
 
     if project_details.assign_to == "Later" or project_details.assign_to == "later" :
@@ -219,7 +224,8 @@ async def create_project_form_processing(request: Request, project_details: Proj
         return JSONResponse(content = {"message":"A Project has been created successfully"})
 
 @admin_router.get(r"/admin_view_all",response_class=HTMLResponse)
-async def fetch_all_employees_and_project_for_admin(request : Request)->None:
+async def fetch_all_employees_and_project_for_admin(request : Request, db = Depends(get_db))->None:
+    sql, cursor = db
 
     sql_query_to_get_all_information = f"""SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
     FROM employees AS e
@@ -279,7 +285,8 @@ async def fetch_all_employees_and_project_for_admin(request : Request)->None:
 
 
 @admin_router.get(r"/assign_project",response_class=HTMLResponse)
-async def get_employee_for_assigning_project(request : Request, admin_id: str = Depends(get_user))->None: 
+async def get_employee_for_assigning_project(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))->None: 
+    sql, cursor = db
     sql_query_to_get_employee_detail = f"""
     SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
     FROM employees AS e
@@ -337,7 +344,8 @@ async def get_employee_for_assigning_project(request : Request, admin_id: str = 
 
 
 @admin_router.post(r"/assign_employee_a_project",response_class=JSONResponse)
-async def assign_project_to_employees(request : Request ,employee_data : AssignProjectToEmployee )->None:
+async def assign_project_to_employees(request : Request ,employee_data : AssignProjectToEmployee, db = Depends(get_db) )->None:
+    sql, cursor = db
     
     sql_query_to_insert_record = f"""
     INSERT INTO employee_project_details (emp_id,manager_id,project_id)
@@ -363,7 +371,9 @@ async def assign_project_to_employees(request : Request ,employee_data : AssignP
         return JSONResponse(content = {"message":"A project is assigned to employee"})
 
 @admin_router.post(r"/assign_manager_a_project",response_class=JSONResponse)
-async def assign_project_to_employees(request : Request , manager_data: AssignProjectToManager ):
+async def assign_project_to_employees(request : Request , manager_data: AssignProjectToManager , db = Depends(get_db)):
+    sql,cursor = db
+
     sql_query_to_find_manager_record = f"""
     SELECT COUNT(project_id) 
     FROM manager_project_details
@@ -402,7 +412,8 @@ async def assign_project_to_employees(request : Request , manager_data: AssignPr
 
 
 @admin_router.get(r"/unassign_project",response_class=HTMLResponse)
-async def unassign_project_page(request : Request, admin_id: str = Depends(get_user))->None:
+async def unassign_project_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))->None:
+    sql, cursor = db
     sql_query_to_find_employee_project = f"""SELECT e.emp_id,e.emp_name, e.gender , e.mobile , e.email,
     p.project_id , p.project_name, m.manager_id , m.manager_name
     FROM employees AS e
@@ -442,7 +453,8 @@ async def unassign_project_page(request : Request, admin_id: str = Depends(get_u
         return templates.TemplateResponse("unassign_project.html",{"request":request,"employees":employees,"managers":managers})
 
 @admin_router.put(r"/unassign_employee_from_project",response_class=JSONResponse)
-async def unassig_employee_from_project(request : Request, employee_data : UnassignPtojectToEmployee  )->None:
+async def unassig_employee_from_project(request : Request, employee_data : UnassignPtojectToEmployee, db = Depends(get_db)  )->None:
+    sql, cursor = db
     sql_query_to_unassign_employee_from_project = f"""
     DELETE FROM employee_project_details
     WHERE emp_id = '{employee_data.emp_id}' ;
@@ -463,7 +475,8 @@ async def unassig_employee_from_project(request : Request, employee_data : Unass
         return JSONResponse(content = {"message":"Employee was unassigned from a Project"})
 
 @admin_router.put(r"/unassign_manager_from_project",response_class=JSONResponse)
-async def unassig_manager_from_project(request : Request, manager_data: UnassignPtojectToManager )->None:
+async def unassig_manager_from_project(request : Request, manager_data: UnassignPtojectToManager, db = Depends(get_db) )->None:
+    sql, cursor = db
     sql_query_to_update_manager_project_details =  f"""
     UPDATE manager_project_details
     SET manager_id = 'Unassigned'
@@ -488,7 +501,8 @@ async def unassig_manager_from_project(request : Request, manager_data: Unassign
         return JSONResponse(content = {"message":"Manager was unassigned from a Project"})
 
 @admin_router.get(r"/manager_request",response_class=HTMLResponse)
-async def get_manager_request(request : Request, admin_id: str = Depends(get_user))-> None:
+async def get_manager_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+    sql, cursor = db
     sql_query_for_manager_request = f"""
     SELECT m.manager_name, m.manager_id, p.project_name , p.project_id , e.emp_name , e.emp_id
     FROM manager_request_for_employees AS mrfe
@@ -512,7 +526,8 @@ async def get_manager_request(request : Request, admin_id: str = Depends(get_use
         return templates.TemplateResponse("manager_request.html",{"request":request,"data_entries":data_entries})
 
 @admin_router.post(r"/accept_manager_request",response_class=JSONResponse)
-async def accept_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees):
+async def accept_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees, db = Depends(get_db)):
+    sql, cursor = db
     sql_to_insert_record = f"""
     INSERT INTO employee_project_details (emp_id,project_id,manager_id)
     VALUES ('{manager_request_for_employees.emp_id}', '{manager_request_for_employees.project_id}', '{manager_request_for_employees.manager_id}')"""
@@ -540,8 +555,8 @@ async def accept_manager_request(request : Request, manager_request_for_employee
         return JSONResponse(content = {"message":"Manager request Accepted"})
     
 @admin_router.put(r"/reject_manager_request",response_class=JSONResponse)
-async def reject_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees):
-    
+async def reject_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees, db = Depends(get_db)):
+    sql, cursor = db
     sql_query_to_update = f"""
     UPDATE manager_request_for_employees
     SET status = 'Rejected'
@@ -558,7 +573,8 @@ async def reject_manager_request(request : Request, manager_request_for_employee
 
 #[In Progress]
 @admin_router.get(r"/update_employee_skill",response_class=HTMLResponse)
-async def update_employees_skill(request : Request, admin_id: str = Depends(get_user)) -> None:
+async def update_employees_skill(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+    sql, cursor = db
     sql_query_to_get_employee_details = f"""SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
     FROM employees AS e
     WHERE admin_id = '{admin_id}'; """
@@ -575,7 +591,8 @@ async def update_employees_skill(request : Request, admin_id: str = Depends(get_
         return templates.TemplateResponse("update_skill.html",{"request": request,"employees":employees}) 
 
 @admin_router.put(r"/add_employee_skill",response_class=JSONResponse)
-async def update_employees_skill(request : Request, employee_data: UpdateSkill) -> None:
+async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+    sql, cursor = db
     sql_query_to_add_skill = f"""
     UPDATE employees
     SET skills = CONCAT(skills,' {employee_data.skills}')
@@ -595,7 +612,8 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill) 
         return JSONResponse(content = {"message":"skill added successfully"})
 
 @admin_router.put(r"/replace_employee_skill",response_class=JSONResponse)
-async def update_employees_skill(request : Request, employee_data: UpdateSkill) -> None:
+async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+    sql, cursor = db
     sql_query_to_replace_skill = f"""
     UPDATE employees
     SET skills =  '{employee_data.skills}'
@@ -614,7 +632,8 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill) 
         return JSONResponse(content = {"message":"Employee skill replaced Successfully"})
     
 @admin_router.get(r"/remove_workers",response_class=HTMLResponse)
-async def remove_employees_page(request : Request, admin_id: str = Depends(get_user))-> None:
+async def remove_employees_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+    sql, cursor = db
     query_for_manager = f"""
     SELECT manager_name, manager_id, email,mobile , gender
     FROM manager
@@ -642,7 +661,8 @@ async def remove_employees_page(request : Request, admin_id: str = Depends(get_u
 
 #[In Progress]
 @admin_router.delete("/remove_manager",response_class=JSONResponse)
-async def remove_manager(request : Request , manager_id : str)-> None:
+async def remove_manager(request : Request , manager_id : str, db = Depends(get_db))-> None:
+    sql, cursor = db
     sql_query_to_store_record = f"""
     INSERT INTO employee_termination_records (id,name,emp_type,admin_id,admin_name,email,mobile,gender,date_of_joining,departure_date)
     WITH manager_data AS(
@@ -689,7 +709,8 @@ async def remove_manager(request : Request , manager_id : str)-> None:
     
 
 @admin_router.delete("/remove_employee", response_class=JSONResponse)
-async def remove_employee(request : Request , emp_id: str)-> None:
+async def remove_employee(request : Request , emp_id: str, db = Depends(get_db))-> None:
+    sql, cursor = db
     sql_query_to_remove_employee = f"""
     DELETE FROM employees
     WHERE emp_id = '{emp_id}' ;
@@ -727,7 +748,8 @@ async def logout(request: Request):
     return JSONResponse(content = {"message": "Admin successfully Logout"})
 
 @admin_router.post("/remove_all",response_class= JSONResponse)
-async def remove_all(request:Request , admin_id: str = Depends(get_user)):
+async def remove_all(request:Request , admin_id: str = Depends(get_user), db = Depends(get_db)):
+    sql, cursor = db
     if admin_id :
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="The user is Unauthorised")
     sql_query_to_remove_employee = f"""DELETE FROM employees

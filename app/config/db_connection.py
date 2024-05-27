@@ -11,3 +11,10 @@ except Exception as e:
 else:
     print("connected Successfully !!!")
 
+def get_db():
+    try:
+        sql = mysql_connector.connect(host = "localhost", user = "root",passwd = "",database = "emp_management_db")
+        cursor = sql.cursor()
+        yield (sql,cursor)
+    except Exception as e:
+        print(e)

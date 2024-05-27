@@ -1,6 +1,6 @@
 function validateCredential() {
     // Example: Send a POST request to the backend to accept the request with the given ID
-
+    
     const username_field = document.getElementById("username")
     const password_field = document.getElementById("password")
     const username = username_field.value ;
@@ -26,18 +26,19 @@ function validateCredential() {
                 // Unauthorized - show error message
                 alert('Invalid username or password');
                 window.location.href = '/employee_login';
-            } 
-
-            else {
+            } else {
                 // Other errors - log to console
                 console.error('Login failed:', response.statusText);
             }
-
-            window.location.href = '/employee_login';
         }
     })
     .catch(error => {
         console.error('Error:', error);
     });
     
+}
+function preventEnterKeySubmission(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
 }
