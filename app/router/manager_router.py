@@ -5,20 +5,65 @@
 4: see all theproject on which manager is working
 """ 
 
-from fastapi import APIRouter , Request , status
+from fastapi import APIRouter, HTTPException , Request , status, Depends , Response 
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse , RedirectResponse
+from fastapi.responses import HTMLResponse , RedirectResponse, JSONResponse
 from models.employee_model import RequestForEmployee
+from models.index_model import LoginDetails
 from config.db_connection import sql , cursor
 from schema.schemas import DataFormatter
 
+
+class ManagerUserSession:
+    def __init__(self):
+        self.manager_id = None
+    
+    def login(self, username):
+        self.manager_id = username
+    
+    def logout(self):
+        self.manager_id = None
+    
+    def is_authenticated(self):
+        return self.manager_id is not None
+
+manager_user = ManagerUserSession()
+def get_user():
+    return manager_user.manager_id
+
 manager_router = APIRouter()
-manager_id = "MGR001"
+
 
 templates = Jinja2Templates(directory = "templates/manager")
 @manager_router.get("/manager_login")
 async def manager_login(request: Request):
     return templates.TemplateResponse("index.html",{"request":request}) 
+
+@manager_router.post(r"/manager_login_data", response_class = HTMLResponse)
+async def manager_authentication(response: Response,request : Request, login_details: LoginDetails) -> None:
+
+    sql_query_to_check_admin = f"""SELECT COUNT(manager_id) ,manager_id, password 
+    FROM manager
+    WHERE manager_id = '{login_details.username}' AND password = '{login_details.password}' ;
+    """
+    print( login_details.username , login_details.password )
+    try:
+        cursor.execute(sql_query_to_check_admin)
+        data = cursor.fetchall()
+    except Exception as e:
+        print(e)
+    else:
+        condition = data[0][0]
+        print(type(condition))
+        if condition:
+            manager_user.login(login_details.username)
+            redirect_url = request.url_for('admin_home')
+            print(redirect_url)
+            return JSONResponse(content={"message":"Login Successful"})
+        else:
+            raise HTTPException(status_code=401, detail="Invalid username or password")
+
+      
 
 @manager_router.get("/manager_home")
 async def manager_home(request: Request):
@@ -82,11 +127,11 @@ async def get_all_employees_and_project(request: Request) -> None:
 
 
 @manager_router.get(r"/filtered_employee")
-async def get_filtered_employees(request: Request) -> None:
+async def get_filtered_employees(request: Request, manager_id: str = Depends(get_user) ) -> None:
 
     sql_query_to_fetch_employees = f"""SELECT e.emp_id , e.emp_name , e.gender , e.mobile , e.email , e.skills
     FROM employees AS e,manager AS m
-    WHERE m.manager_id = '{manager_id}' AND e.admin_id = m.admin_id;
+    WHERE m.manager_id = '{manager_id}' AND e.admin_id = m.admin_id and e.project_assigned = 'NO';
     """
     sql_query_to_fetch_projects = f"""SELECT mpd.project_id , p.project_name
     FROM manager_project_details AS mpd
@@ -109,17 +154,17 @@ async def get_filtered_employees(request: Request) -> None:
     except Exception as e:
         print(e)
     else:
-        return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects})
+        return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects , "manager":{"manager_id":manager_id}})
 
-@manager_router.post(r"/request_for_employee")
+@manager_router.post(r"/request_for_employee", response_class=JSONResponse)
 async def request_employee(request:Request , employee_data: RequestForEmployee) -> None:
 
     sql_query_for_employee_request = f"""
     INSERT INTO manager_request_for_employees (emp_id, manager_id, project_id,admin_id,status)
     WITH request_details AS(
-    SELECT '{employee_data.emp_id}' , '{manager_id}' , '{employee_data.project_id}' , admin_id , 'Pending'
+    SELECT '{employee_data.emp_id}' , '{employee_data.manager_id}' , '{employee_data.project_id}' , admin_id , 'Pending'
     FROM manager 
-    WHERE manager_id = '{manager_id}'
+    WHERE manager_id = '{employee_data.manager_id}'
     )
     SELECT * FROM request_details ;"""
 
@@ -132,19 +177,19 @@ async def request_employee(request:Request , employee_data: RequestForEmployee) 
     else:
         sql.commit()
         redirect_url = request.url_for("get_filtered_employees")
-        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Request for employee sent Successfully"})
 
 
 
 @manager_router.get(r"/projects_manager_have")
-async def project_manager_have(request: Request) -> None:
-    sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line , p.description
+async def project_manager_have(request: Request, manager_id: str = Depends(get_user)) -> None:
+    sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line, p.status , p.description
     FROM  project AS p
     INNER JOIN manager_project_details AS mpd
     ON mpd.project_id = p.project_id
     WHERE mpd.manager_id = '{manager_id}';
     """
-    table_column_project_information = ["project_id", "project_name","start_date","dead_line","description"]
+    table_column_project_information = ["project_id", "project_name","start_date","dead_line","status","description"]
     
     try:
         cursor.execute(sql_query_to_fetch_project)
@@ -155,3 +200,10 @@ async def project_manager_have(request: Request) -> None:
         print(e)
     else:
         return templates.TemplateResponse("manager_project_info.html",{"request":request, "projects":projects})
+
+@manager_router.post("/manager_logout",response_class = HTMLResponse)
+async def logout(request: Request):
+    manager_user.logout()
+    return JSONResponse(content= {"message": "Manager Successfully Logout"})
+
+

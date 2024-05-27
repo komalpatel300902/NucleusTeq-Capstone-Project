@@ -32,13 +32,13 @@
                     <li><a href="{{request.url_for('create_project_form')}}">Create Project</a></li>
                 </ul>
             </li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
         </ul>
     </nav>
 
     {% block content %}
     {% endblock %}
-
+    <script src = "../../static/js/admin/logout.js"></script>
     <!-- Your content goes here -->
 </body>
 </html>

@@ -6,12 +6,12 @@
 5: Delete employee (include manager)
 6: Update employee detail
 """
-from fastapi import APIRouter, Request , Form , status
+from fastapi import APIRouter, HTTPException, Request , Form , status, Response , Depends
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse , RedirectResponse
-from config.db_connection import sql,cursor
+from fastapi.responses import HTMLResponse , JSONResponse, RedirectResponse
+from config.db_connection import sql , cursor
 from schema.schemas import DataFormatter
-from models.index_model import JoiningRequest
+from models.index_model import JoiningRequest , LoginDetails
 from models.employee_model import AcceptJoiningRequest , RejectJoiningRequest, RemoveEmployee,RemoveManager, UpdateSkill
 from models.project_model import (ProjectDetails, 
                                   ManagerRequestForEmployees, 
@@ -22,9 +22,24 @@ from models.project_model import (ProjectDetails,
 import json
 from datetime import datetime
 
-admin_router = APIRouter()
-admin_id ="ADM001" # i have to se this
+class UserSession:
+    def __init__(self):
+        self.admin_id = None
+    
+    def login(self, username):
+        self.admin_id = username
+    
+    def logout(self):
+        self.admin_id = None
+    
+    def is_authenticated(self):
+        return self.admin_id is not None
 
+user = UserSession()
+def get_user():
+    return user.admin_id
+
+admin_router = APIRouter()
 
 
 templates = Jinja2Templates(directory="templates/admin")
@@ -33,39 +48,37 @@ templates = Jinja2Templates(directory="templates/admin")
 async def admin_login(request : Request) -> None:
     return templates.TemplateResponse("index.html",{"request":request})
 
-@admin_router.post(r"/admin_login", response_class = HTMLResponse)
-async def login(request : Request, username: str = Form(...) , password: str = Form(...) ) -> None:
+@admin_router.post(r"/admin_login_data", response_class = HTMLResponse)
+async def login(response: Response,request : Request,  login_details: LoginDetails) -> None:
+
     sql_query_to_check_admin = f"""SELECT COUNT(admin_id) ,admin_id, password 
     FROM admin
-    WHERE admin_id = '{username}' ;
+    WHERE admin_id = '{login_details.username}' AND password = '{login_details.password}' ;
     """
-    print(username , password )
+    print( login_details.username , login_details.password )
     try:
         cursor.execute(sql_query_to_check_admin)
         data = cursor.fetchall()
-        condition = data[0][0]
-        passwd = data[0][2]
-        if condition:
-            if passwd == password:
-                global admin_id 
-                admin_id = username
-                redirect_url = request.url_for('get_joining_request')
-                print(redirect_url)
-                return RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
-      
-            else:
-                return json.dumps({"message":"Invalid Password"})
-        else:
-            return json.dumps({"message":"No such User Exists."})
     except Exception as e:
         print(e)
+    else:
+        condition = data[0][0]
+        print(type(condition))
+        if condition:
+            user.login(login_details.username)
+            redirect_url = request.url_for('admin_home')
+            print(redirect_url)
+            return JSONResponse(content={"message":"Login Successful"})
+        else:
+            raise HTTPException(status_code=401, detail="Invalid username or password")
 
+        
 @admin_router.get("/admin_home", response_class = HTMLResponse)
 def admin_home(request: Request):
     return templates.TemplateResponse("home.html",{"request":request})
 
-@admin_router.get(r"/joining_request", response_class = HTMLResponse)
-async def get_joining_request(request : Request) -> None:
+@admin_router.get(r"/joining_request", response_class = JSONResponse)
+async def get_joining_request(request : Request, admin_id: str = Depends(get_user)) -> None:
     try:
         sql_query_for_schema = """DESCRIBE joining_request;"""
         cursor.execute(sql_query_for_schema)
@@ -84,10 +97,11 @@ async def get_joining_request(request : Request) -> None:
         print(e)
     else:
         print(formatted_data)
-        return templates.TemplateResponse("joining_request.html",context={"request": request ,"data": formatted_data})
+        return JSONResponse(content = {"message":f"--{admin_id}"})
+        # return templates.TemplateResponse("joining_request.html",context={"request": request ,"data": formatted_data})
 
 
-@admin_router.post(r"/accept_joining_request", response_class = HTMLResponse)
+@admin_router.post(r"/accept_joining_request", response_class = JSONResponse)
 async def accept_joining_request(request : Request, joining_request: AcceptJoiningRequest ):
     if joining_request.emp_type == "Employee":
         query_to_insert_date_in_table = f"""INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
@@ -101,10 +115,13 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
         FROM joining_request 
         WHERE id = '{joining_request.id}';
         """
+    else:
+        raise HTTPException(status_code=400, detail="Invalid employee type")
+
     query_to_update_status_of_joining_request = f"""
     UPDATE joining_request
     SET status = 'Approved'
-    WHERE id = '{joining_request.id}';
+    WHERE id = '{joining_request.id}' ;
     """
     try:
         cursor.execute(query_to_insert_date_in_table)
@@ -112,16 +129,17 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
         sql.commit()
     except Exception as e:
         print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while processing the request")
     else:
         redirect_url = request.url_for("get_joining_request")
-        return RedirectResponse(redirect_url ,status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Employee Joining Request was successfully Accepted"})
 
-@admin_router.post(r"/reject_joining_request", response_class = HTMLResponse)
+@admin_router.post(r"/reject_joining_request", response_class = JSONResponse)
 async def reject_joining_request(request : Request, joining_request: RejectJoiningRequest) -> None:
     query_to_update_status_of_joining_request = f"""
     UPDATE joining_request
     SET status = 'Rejected'
-    WHERE id = '{joining_request.id}';
+    WHERE id = '{joining_request.id}' ;
     """
     try:
         cursor.execute(query_to_update_status_of_joining_request)
@@ -130,13 +148,13 @@ async def reject_joining_request(request : Request, joining_request: RejectJoini
         print(e)
     else:
         redirect_url = request.url_for("get_joining_request")
-        return RedirectResponse(redirect_url ,status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Employee Joining Request was Rejected"})
 
 
 
 
 @admin_router.get(r"/create_project_form", response_class = HTMLResponse)
-async def create_project_form(request: Request):
+async def create_project_form(request: Request, admin_id: str = Depends(get_user)):
     sql_query_to_get_manager_detail = f"""SELECT manager_id, manager_name
     FROM manager
     WHERE admin_id = '{admin_id}';"""
@@ -151,31 +169,33 @@ async def create_project_form(request: Request):
     except Exception as e:
         print(e)
     else:
-        return templates.TemplateResponse("create_project.html",{"request":request, "managers":managers})
+        return templates.TemplateResponse("create_project.html",{"request":request, "managers":managers, "admin":{"admin_id":admin_id}})
 
 
 
-@admin_router.post(r"/create_project_form_processing",response_class=HTMLResponse)
+@admin_router.post(r"/create_project_form_processing",response_class=JSONResponse)
 async def create_project_form_processing(request: Request, project_details: ProjectDetails ):
     # status values ["Not Assigned", "Started" , "In Progress" ,"Review" , "On Hold"]
-    if project_details.assign_to == "Later":
+
+    if project_details.assign_to == "Later" or project_details.assign_to == "later" :
         project_assigned = "NO"
         status_value = "Not Assigned"
     else:
         project_assigned = "YES"
         status_value = "Started"
-        sql_query_to_insert_manager_project_details = F"""
+        
+    start_date = datetime.now().strftime('%Y-%m-%d')
+    
+    sql_query_to_insert_manager_project_details = F"""
         INSERT INTO manager_project_details (manager_id , project_id)
         VALUES ('{project_details.assign_to}','{project_details.project_id}');
         """
 
-    start_date = datetime.now().strftime('%Y-%m-%d')
-    
     sql_query_to_create_project = f"""INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, project_completion_date, description)
     VALUES(
         '{project_details.project_id}',
         '{project_details.project_name}', 
-        '{admin_id}',
+        '{project_details.admin_id}',
         '{start_date}',
         '{project_details.dead_line}',
         '{status_value}',
@@ -185,16 +205,18 @@ async def create_project_form_processing(request: Request, project_details: Proj
     );
     """
     print(sql_query_to_create_project)
-
     try:
+        
         cursor.execute(sql_query_to_create_project)
-        cursor.execute(sql_query_to_insert_manager_project_details)
-        sql.commit()
+        if project_assigned == "YES":
+            cursor.execute(sql_query_to_insert_manager_project_details)
+        
     except Exception as e:
         print(e)
     else:
+        sql.commit()
         redirect_url = request.url_for("fetch_all_employees_and_project_for_admin")
-        return RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"A Project has been created successfully"})
 
 @admin_router.get(r"/admin_view_all",response_class=HTMLResponse)
 async def fetch_all_employees_and_project_for_admin(request : Request)->None:
@@ -257,7 +279,7 @@ async def fetch_all_employees_and_project_for_admin(request : Request)->None:
 
 
 @admin_router.get(r"/assign_project",response_class=HTMLResponse)
-async def get_employee_for_assigning_project(request : Request)->None: 
+async def get_employee_for_assigning_project(request : Request, admin_id: str = Depends(get_user))->None: 
     sql_query_to_get_employee_detail = f"""
     SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
     FROM employees AS e
@@ -311,10 +333,10 @@ async def get_employee_for_assigning_project(request : Request)->None:
     except Exception as e:
         print(e)
     else: 
-        return templates.TemplateResponse("assign_project.html",{"request": request, "employees":employees,"managers":managers,"manager_projects": manager_projects , "employee_projects":employee_projects })
+        return templates.TemplateResponse("assign_project.html",{"request": request, "employees":employees,"managers":managers,"manager_projects": manager_projects , "employee_projects":employee_projects})
 
 
-@admin_router.post(r"/assign_employee_a_project",response_class=HTMLResponse)
+@admin_router.post(r"/assign_employee_a_project",response_class=JSONResponse)
 async def assign_project_to_employees(request : Request ,employee_data : AssignProjectToEmployee )->None:
     
     sql_query_to_insert_record = f"""
@@ -338,18 +360,36 @@ async def assign_project_to_employees(request : Request ,employee_data : AssignP
         print(e)
     else: 
         redirect_url = request.url_for("get_employee_for_assigning_project")
-        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"A project is assigned to employee"})
 
-@admin_router.post(r"/assign_manager_a_project",response_class=HTMLResponse)
+@admin_router.post(r"/assign_manager_a_project",response_class=JSONResponse)
 async def assign_project_to_employees(request : Request , manager_data: AssignProjectToManager ):
+    sql_query_to_find_manager_record = f"""
+    SELECT COUNT(project_id) 
+    FROM manager_project_details
+    WHERE project_id = '{manager_data.project_id}';
+    """
+
+    sql_query_to_update_manager_project_details = f"""
+    UPDATE manager_project_details 
+    SET manager_id = '{manager_data.manager_id}'
+    WHERE project_id = '{manager_data.project_id}';
+    """
+
     sql_query_to_insert_data = f"""INSERT INTO manager_project_details (manager_id,project_id)
     VALUES('{manager_data.manager_id}','{manager_data.project_id}');"""
 
     sql_query_to_update_project_table = f"""UPDATE project
-    SET project_assigned = 'YES'
+    SET project_assigned = 'YES', status = 'Started'
     WHERE project_id = '{manager_data.project_id}' ;"""
     try:
-        cursor.execute(sql_query_to_insert_data)
+        cursor.execute(sql_query_to_find_manager_record)
+        records = cursor.fetchall()
+        if records[0][0]:
+            cursor.execute(sql_query_to_update_manager_project_details)
+        else:
+            cursor.execute(sql_query_to_insert_data)
+        
         cursor.execute(sql_query_to_update_project_table)
         sql.commit()
 
@@ -357,12 +397,12 @@ async def assign_project_to_employees(request : Request , manager_data: AssignPr
         print(e)
     else: 
         redirect_url = request.url_for("get_employee_for_assigning_project")
-        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"A project is assigned to manager"})
 
 
 
 @admin_router.get(r"/unassign_project",response_class=HTMLResponse)
-async def unassign_project_page(request : Request)->None:
+async def unassign_project_page(request : Request, admin_id: str = Depends(get_user))->None:
     sql_query_to_find_employee_project = f"""SELECT e.emp_id,e.emp_name, e.gender , e.mobile , e.email,
     p.project_id , p.project_name, m.manager_id , m.manager_name
     FROM employees AS e
@@ -401,7 +441,7 @@ async def unassign_project_page(request : Request)->None:
     else:
         return templates.TemplateResponse("unassign_project.html",{"request":request,"employees":employees,"managers":managers})
 
-@admin_router.put(r"/unassign_employee_from_project",response_class=HTMLResponse)
+@admin_router.put(r"/unassign_employee_from_project",response_class=JSONResponse)
 async def unassig_employee_from_project(request : Request, employee_data : UnassignPtojectToEmployee  )->None:
     sql_query_to_unassign_employee_from_project = f"""
     DELETE FROM employee_project_details
@@ -410,7 +450,7 @@ async def unassig_employee_from_project(request : Request, employee_data : Unass
 
     sql_query_to_update_employee_table = f"""UPDATE employees
     SET project_assigned = 'NO'
-    WHERE emp_id = '{employee_data.emp_id}' AND admin_id = '{admin_id}' ;"""
+    WHERE emp_id = '{employee_data.emp_id}' ;"""
     
     try:
         cursor.execute(sql_query_to_unassign_employee_from_project)
@@ -420,9 +460,9 @@ async def unassig_employee_from_project(request : Request, employee_data : Unass
         print(e)
     else:
         redirect_url = request.url_for("unassign_project_page")
-        return RedirectResponse(redirect_url,status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Employee was unassigned from a Project"})
 
-@admin_router.put(r"/unassign_manager_from_project",response_class=HTMLResponse)
+@admin_router.put(r"/unassign_manager_from_project",response_class=JSONResponse)
 async def unassig_manager_from_project(request : Request, manager_data: UnassignPtojectToManager )->None:
     sql_query_to_update_manager_project_details =  f"""
     UPDATE manager_project_details
@@ -445,10 +485,10 @@ async def unassig_manager_from_project(request : Request, manager_data: Unassign
     else:
         sql.commit()
         redirect_url = request.url_for("unassign_project_page")
-        return RedirectResponse(redirect_url,status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Manager was unassigned from a Project"})
 
 @admin_router.get(r"/manager_request",response_class=HTMLResponse)
-async def get_manager_request(request : Request)-> None:
+async def get_manager_request(request : Request, admin_id: str = Depends(get_user))-> None:
     sql_query_for_manager_request = f"""
     SELECT m.manager_name, m.manager_id, p.project_name , p.project_id , e.emp_name , e.emp_id
     FROM manager_request_for_employees AS mrfe
@@ -471,7 +511,7 @@ async def get_manager_request(request : Request)-> None:
     else: 
         return templates.TemplateResponse("manager_request.html",{"request":request,"data_entries":data_entries})
 
-@admin_router.post(r"/accept_manager_request",response_class=HTMLResponse)
+@admin_router.post(r"/accept_manager_request",response_class=JSONResponse)
 async def accept_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees):
     sql_to_insert_record = f"""
     INSERT INTO employee_project_details (emp_id,project_id,manager_id)
@@ -497,9 +537,9 @@ async def accept_manager_request(request : Request, manager_request_for_employee
         print(e)
     else: 
         redirect_url = request.url_for('get_manager_request')
-        return RedirectResponse(redirect_url,status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Manager request Accepted"})
     
-@admin_router.put(r"/reject_manager_request",response_class=HTMLResponse)
+@admin_router.put(r"/reject_manager_request",response_class=JSONResponse)
 async def reject_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees):
     
     sql_query_to_update = f"""
@@ -514,104 +554,11 @@ async def reject_manager_request(request : Request, manager_request_for_employee
         print(e)
     else: 
         redirect_url = request.url_for('get_manager_request')
-        return RedirectResponse(redirect_url,status.HTTP_303_SEE_OTHER)
-    
-@admin_router.get(r"/remove_workers",response_class=HTMLResponse)
-async def remove_employees_page(request : Request)-> None:
-    query_for_manager = f"""
-    SELECT manager_name, manager_id, email,mobile , gender
-    FROM manager
-    WHERE admin_id = '{admin_id}'"""
-    query_for_employee = f"""
-    SELECT emp_name, emp_id, email,mobile , gender
-    FROM employees
-    WHERE admin_id = '{admin_id}'"""
-
-    table_column = ["name","id","email","mobile","gender"]
-    try:
-        cursor.execute(query_for_manager)
-        manager_data = cursor.fetchall()
-        cursor.execute(query_for_employee)
-        employee_data = cursor.fetchall()
-        data_formatter = DataFormatter()
-        manager_data_entries = data_formatter.dictionary_list(table_data=manager_data, table_column=table_column)
-        employees_data_entries = data_formatter.dictionary_list(table_data=employee_data, table_column=table_column)
-    except Exception as e:
-        print(e)
-    else:
-        return templates.TemplateResponse("remove_employee.html",{"request":request,"managers":manager_data_entries,"employees":employees_data_entries})
-
-
-#[In Progress]
-@admin_router.delete("/remove_manager",response_class=HTMLResponse)
-async def remove_manager(request : Request , manager_data : RemoveManager)-> None:
-    sql_query_to_store_record = f"""
-    INSERT INTO employee_termination_records (id,name,emp_type,admin_id,admin_name,email,mobile,gender,date_of_joining,departure_date)
-    WITH manager_data AS(
-        SELECT m.manager_id , m.manager_name ,'Manager', m.admin_id , a.admin_name , m.email , m.mobile , m.gender , jr.date_of_joining, CURDATE()
-        FROM manager AS m
-        INNER JOIN admin AS a
-        ON a.admin_id = m.admin_id
-        INNER JOIN joining_request AS jr
-        ON m.manager_id = jr.id AND m.admin_id = jr.admin_id
-        WHERE m.admin_id = '{admin_id}' AND m.manager_id = '{manager_data.manager_id}'
-    )
-    SELECT * FROM manager_data;
-    """
-
-    sql_query_to_remove_manager = f"""
-    DELETE FROM manager
-    WHERE manager_id = '{manager_data.manager_id}' AND  admin_id = '{admin_id}';
-    """
-
-    sql_query_for_updating = f"""UPDATE manager_project_details
-    set manager_id = 'Terminated'
-    WHERE manager_id = '{manager_data.manager_id}';
-    """
-
-    sql_query_to_update_project = f"""UPDATE project
-    SET project_assigned = 'NO'
-    WHERE project_id in (
-        SELECT project_id FROM manager_project_details WHERE manager_id = '{manager_data.manager_id}'
-        );
-    """ 
-    try:
-        cursor.execute("START TRANSACTION ;")
-        cursor.execute(sql_query_to_store_record)
-        cursor.execute(sql_query_to_remove_manager)
-        cursor.execute(sql_query_for_updating)
-        cursor.execute(sql_query_to_update_project)
-    except Exception as e:
-        sql.rollback()
-        print(e)
-    else:
-        sql.commit()
-        redirect_url = request.url_for('remove_employees_page')
-        return RedirectResponse(redirect_url,status.HTTP_303_SEE_OTHER)
-    
-
-@admin_router.delete("/remove_employee",response_class=HTMLResponse)
-async def remove_employee(request : Request , employee_data: RemoveEmployee)-> None:
-    sql_query_to_remove_employee = f"""
-    DELETE FROM employees
-    WHERE emp_id = '{employee_data.emp_id}' AND  admin_id = '{admin_id}';
-    """
-    print(sql_query_to_remove_employee)
-    try:
-        cursor.execute("START TRANSACTION;")
-        cursor.execute(sql_query_to_remove_employee)
-    except Exception as e:
-        sql.rollback()
-        print(e)
-    else:
-        sql.commit()
-        redirect_url = request.url_for('remove_employees_page')
-        return RedirectResponse(redirect_url,status.HTTP_303_SEE_OTHER)
-    
+        return JSONResponse(content = {"message":"Manager request Rejected"})
 
 #[In Progress]
 @admin_router.get(r"/update_employee_skill",response_class=HTMLResponse)
-async def update_employees_skill(request : Request) -> None:
+async def update_employees_skill(request : Request, admin_id: str = Depends(get_user)) -> None:
     sql_query_to_get_employee_details = f"""SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
     FROM employees AS e
     WHERE admin_id = '{admin_id}'; """
@@ -627,7 +574,7 @@ async def update_employees_skill(request : Request) -> None:
     else:
         return templates.TemplateResponse("update_skill.html",{"request": request,"employees":employees}) 
 
-@admin_router.put(r"/add_employee_skill",response_class=HTMLResponse)
+@admin_router.put(r"/add_employee_skill",response_class=JSONResponse)
 async def update_employees_skill(request : Request, employee_data: UpdateSkill) -> None:
     sql_query_to_add_skill = f"""
     UPDATE employees
@@ -638,16 +585,16 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill) 
     try:
         cursor.execute("START TRANSACTION ;")
         cursor.execute(sql_query_to_add_skill)
-        
+        sql.commit()
     except Exception as e:
         sql.rollback()
         print(e)
     else:
-        sql.commit()
+        
         redirect_url = request.url_for("update_employees_skill")
-        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"skill added successfully"})
 
-@admin_router.put(r"/replace_employee_skill",response_class=HTMLResponse)
+@admin_router.put(r"/replace_employee_skill",response_class=JSONResponse)
 async def update_employees_skill(request : Request, employee_data: UpdateSkill) -> None:
     sql_query_to_replace_skill = f"""
     UPDATE employees
@@ -664,8 +611,145 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill) 
     else:
         sql.commit()
         redirect_url = request.url_for("update_employees_skill")
-        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message":"Employee skill replaced Successfully"})
     
-@admin_router.get("/logout",response_class = HTMLResponse)
-async def logout():
-    ...
+@admin_router.get(r"/remove_workers",response_class=HTMLResponse)
+async def remove_employees_page(request : Request, admin_id: str = Depends(get_user))-> None:
+    query_for_manager = f"""
+    SELECT manager_name, manager_id, email,mobile , gender
+    FROM manager
+    WHERE admin_id = '{admin_id}'"""
+    query_for_employee = f"""
+    SELECT emp_name, emp_id, email,mobile , gender
+    FROM employees
+    WHERE admin_id = '{admin_id}'"""
+
+    table_column = ["name","id","email","mobile","gender"]
+    try:
+        print(admin_id, "-----------------------------------------")
+        cursor.execute(query_for_manager)
+        manager_data = cursor.fetchall()
+        cursor.execute(query_for_employee)
+        employee_data = cursor.fetchall()
+        data_formatter = DataFormatter()
+        manager_data_entries = data_formatter.dictionary_list(table_data=manager_data, table_column=table_column)
+        employees_data_entries = data_formatter.dictionary_list(table_data=employee_data, table_column=table_column)
+    except Exception as e:
+        print(e)
+    else:
+        return templates.TemplateResponse("remove_employee.html",{"request":request,"managers":manager_data_entries,"employees":employees_data_entries})
+
+
+#[In Progress]
+@admin_router.delete("/remove_manager",response_class=JSONResponse)
+async def remove_manager(request : Request , manager_id : str)-> None:
+    sql_query_to_store_record = f"""
+    INSERT INTO employee_termination_records (id,name,emp_type,admin_id,admin_name,email,mobile,gender,date_of_joining,departure_date)
+    WITH manager_data AS(
+        SELECT m.manager_id , m.manager_name ,'Manager', m.admin_id , a.admin_name , m.email , m.mobile , m.gender , jr.date_of_joining, CURDATE()
+        FROM manager AS m
+        INNER JOIN admin AS a
+        ON a.admin_id = m.admin_id
+        INNER JOIN joining_request AS jr
+        ON m.manager_id = jr.id AND m.admin_id = jr.admin_id
+        WHERE m.manager_id = '{manager_id}'
+    )
+    SELECT * FROM manager_data;
+    """
+
+    sql_query_to_remove_manager = f"""
+    DELETE FROM manager
+    WHERE manager_id = '{manager_id}' ;
+    """
+
+    sql_query_for_updating = f"""UPDATE manager_project_details
+    set manager_id = 'Terminated'
+    WHERE manager_id = '{manager_id}';
+    """
+
+    sql_query_to_update_project = f"""UPDATE project
+    SET project_assigned = 'NO'
+    WHERE project_id in (
+        SELECT project_id FROM manager_project_details WHERE manager_id = '{manager_id}'
+        );
+    """ 
+    try:
+        cursor.execute("START TRANSACTION ;")
+        cursor.execute(sql_query_to_store_record)
+        cursor.execute(sql_query_to_update_project)
+        cursor.execute(sql_query_for_updating)
+        cursor.execute(sql_query_to_remove_manager)
+    except Exception as e:
+        sql.rollback()
+        print(e)
+    else:
+        sql.commit()
+        redirect_url = request.url_for('remove_employees_page')
+        return JSONResponse(content = {"message":"Manager has been removed successfully"})
+    
+
+@admin_router.delete("/remove_employee", response_class=JSONResponse)
+async def remove_employee(request : Request , emp_id: str)-> None:
+    sql_query_to_remove_employee = f"""
+    DELETE FROM employees
+    WHERE emp_id = '{emp_id}' ;
+    """
+    sql_query_to_store_record = f"""
+    INSERT INTO employee_termination_records (id,name,emp_type,admin_id,admin_name,email,mobile,gender,date_of_joining,departure_date)
+    WITH manager_data AS(
+        SELECT e.emp_id , e.emp_name ,'Employee', e.admin_id , a.admin_name , e.email , e.mobile , e.gender , jr.date_of_joining, CURDATE()
+        FROM employees AS e
+        INNER JOIN admin AS a
+        ON a.admin_id = e.admin_id
+        INNER JOIN joining_request AS jr
+        ON e.emp_id = jr.id AND e.admin_id = jr.admin_id
+        WHERE e.emp_id = '{emp_id}'
+    )
+    SELECT * FROM manager_data;
+    """
+    print(sql_query_to_remove_employee)
+    try:
+        cursor.execute("START TRANSACTION;")
+        cursor.execute(sql_query_to_store_record)
+        cursor.execute(sql_query_to_remove_employee)
+    except Exception as e:
+        sql.rollback()
+        print(e)
+    else:
+        sql.commit()
+        redirect_url = request.url_for('remove_employees_page')
+        return JSONResponse(content={"message":"Employee has been removed successfully"})
+    
+    
+@admin_router.post("/admin_logout",response_class = HTMLResponse)
+async def logout(request: Request):
+    user.logout()
+    return JSONResponse(content = {"message": "Admin successfully Logout"})
+
+@admin_router.post("/remove_all",response_class= JSONResponse)
+async def remove_all(request:Request , admin_id: str = Depends(get_user)):
+    if admin_id :
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="The user is Unauthorised")
+    sql_query_to_remove_employee = f"""DELETE FROM employees
+    WHERE admin_id LIKE '{admin_id}' ;"""
+    sql_query_to_remove_manager = f"""DELETE FROM manager
+    WHERE admin_id LIKE '{admin_id}' ;"""
+    sql_query_to_remove_project = f"""DELETE FROM project
+    WHERE admin_id LIKE '{admin_id}' ;"""
+    sql_query_to_remove_joining_request = f"""DELETE FROM joining_request
+    WHERE admin_id LIKE '{admin_id}' ;"""
+    sql_query_to_remove_terminated_records = f"""DELETE FROM employee_termination_records
+    WHERE admin_id LIKE '{admin_id}' ;"""
+    try:
+        cursor.execute("START TRANSACTION;")
+        cursor.execute(sql_query_to_remove_employee)
+        cursor.execute(sql_query_to_remove_manager)
+        cursor.execute(sql_query_to_remove_project)
+        cursor.execute(sql_query_to_remove_joining_request)
+        cursor.execute(sql_query_to_remove_terminated_records)
+    except Exception as e:
+        sql.rollback()
+        print(e)
+    else:
+        return JSONResponse(context = {"message":"Everything Removed Successfully"})
+    

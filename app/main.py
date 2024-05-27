@@ -5,13 +5,14 @@ from fastapi import FastAPI, status
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from router.admin_router import admin_router 
 from router.manager_router import manager_router 
 from router.emp_router import emp_router
 from models.index_model import JoiningRequest 
 from config.db_connection import sql , cursor
 from schema.schemas import DataFormatter
+
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
@@ -34,7 +35,7 @@ def register_as_employee_form(request: Request):
     else:
         return templates.TemplateResponse("joining_request.html",{"request": request, "data_entries":data_entries})
 
-@app.post(r"/registration_form_submission")
+@app.post(r"/registration_form_submission", response_class=JSONResponse)
 def register_as_employee( request: Request, joining_request:JoiningRequest):
     print(joining_request)
     sql_query_to_register_employee = f"""
@@ -59,7 +60,7 @@ def register_as_employee( request: Request, joining_request:JoiningRequest):
         print(e)
     else:
         redirect_url = request.url_for("register_as_employee_form")
-        return RedirectResponse(redirect_url, status.HTTP_303_SEE_OTHER)
+        return JSONResponse(content = {"message": "Joining Record Saved Successfully"})
 
 app.include_router(admin_router)
 

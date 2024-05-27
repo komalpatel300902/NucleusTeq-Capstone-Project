@@ -6,6 +6,7 @@ class ProjectDetails(BaseModel):
     dead_line: str
     description: str 
     assign_to: str
+    admin_id: str
 
 class ManagerProjectDetails(BaseModel):
     project_id: str

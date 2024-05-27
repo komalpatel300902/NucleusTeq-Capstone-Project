@@ -2,15 +2,17 @@
 {% block header_content %}
     <title>Login</title>
     <link rel="stylesheet" type= "text/css" href="../../static/css/form_style_II.css"> <!-- Link to your external CSS file -->
-    <script src = "../../static/js/admin/index.js"></script>
+    
 {% endblock %}
 {% block content %}
     <div id = "header">
         <h2>Admin Login</h2>
     </div>
-
+    <div>
+        {{error}}
+    </div>
     <main class="form-container">
-        <form  method="post">
+        <form  id = "myForm" >
             <div class = "form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -22,4 +24,5 @@
             <button type="submit" onclick="validateCredential()">Login</button>
         </form>
     </main>
+    <script src = "../../static/js/admin/index.js"></script>
 {% endblock %}

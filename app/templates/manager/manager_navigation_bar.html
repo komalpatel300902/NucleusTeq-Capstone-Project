@@ -22,15 +22,18 @@
                 </ul>
             </li>
             <li>
-                <a href="{{request.url_for('project_manager_have')}}">Project</a>
+                <a href="#">Project</a>
+                <ul>
+                    <a href="{{request.url_for('project_manager_have')}}">Project I Have</a>
+                </ul>
             </li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="" onclick="logout()">Logout</a></li>
         </ul>
     </nav>
 
     {% block content %}
     {% endblock %}
-
+    <script src = "../../static/js/manager/logout.js"></script>
     <!-- Your content goes here -->
 </body>
 </html>

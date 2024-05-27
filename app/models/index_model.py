@@ -14,4 +14,6 @@ class JoiningRequest(BaseModel):
     date_of_joining: str
     
 
-
+class LoginDetails(BaseModel):
+    username: str
+    password: str

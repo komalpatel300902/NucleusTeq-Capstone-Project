@@ -7,6 +7,7 @@
     <h2>Records</h2>
     
     <h3>Workers</h3>
+    <input type = "hidden" id="manager_id" name = "manager_id" value = '{{manager.manager_id}}'>
     <table>
         <thead>
             <tr>
@@ -32,7 +33,7 @@
                 <td>
                     <select id = "project-{{worker.emp_id}}">
                         {% for project in projects %}
-                        <option>{{ project.project_id }} : {{project.project_name}} </option>
+                        <option value="{{project.project_id}}">{{ project.project_id }} : {{project.project_name}} </option>
                         {% endfor %}
                     </select>
                 </td>
