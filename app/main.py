@@ -1,7 +1,7 @@
 """
 [main.py] : Starting of app
 """
-from fastapi import FastAPI, status 
+from fastapi import FastAPI, status , Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import Request
@@ -10,7 +10,7 @@ from router.admin_router import admin_router
 from router.manager_router import manager_router 
 from router.emp_router import emp_router
 from models.index_model import JoiningRequest 
-from config.db_connection import sql , cursor
+from config.db_connection import get_db
 from schema.schemas import DataFormatter
 
 app = FastAPI()
@@ -23,7 +23,8 @@ async def index_page(request: Request):
     return templates.TemplateResponse("index.html",{"request": request})
 
 @app.get(r"/registration_form")
-def register_as_employee_form(request: Request):
+def register_as_employee_form(request: Request, db = Depends(get_db)):
+    sql, cursor = db
     sql_query_to_fetch_all_admin = f"""SELECT DISTINCT admin_id , admin_name FROM admin;"""
     try:
         cursor.execute(sql_query_to_fetch_all_admin)
@@ -36,7 +37,8 @@ def register_as_employee_form(request: Request):
         return templates.TemplateResponse("joining_request.html",{"request": request, "data_entries":data_entries})
 
 @app.post(r"/registration_form_submission", response_class=JSONResponse)
-def register_as_employee( request: Request, joining_request:JoiningRequest):
+def register_as_employee( request: Request, joining_request:JoiningRequest, db = Depends(get_db)):
+    sql, cursor = db
     print(joining_request)
     sql_query_to_register_employee = f"""
     INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)

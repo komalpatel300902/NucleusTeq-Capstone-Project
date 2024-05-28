@@ -97,6 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                 } else {
                     alert('Form submission failed.');
+                    if (response.status === 422) {
+                        // Unauthorized - show error message
+                        const errorDetail = response.json();
+                        alert(errorDetail.message);
+                        alert("Password must be alpha Numeric With atleast 1 Upper Case and 1 Lowercase alphabet \n Email must bolong organization ");
+                        window.location.href = '/registration_form';
+                    }
+                    location.reload();
                 }
             } catch (error) {
                 console.error('Error:', error);

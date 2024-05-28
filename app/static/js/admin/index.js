@@ -26,7 +26,7 @@ function validateCredential() {
                 // Unauthorized - show error message
                 alert('Invalid username or password');
                 window.location.href = '/admin_login';
-            } else {
+            }else {
                 // Other errors - log to console
                 console.error('Login failed:', response.statusText);
             }

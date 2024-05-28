@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                 } else {
                     alert('Form submission failed.');
+                    if (response.status === 422) {
+                        // Unauthorized - show error message
+                        alert("Password must be alpha Numeric \n Email must bolong organization ")
+                        window.location.href = '/registration_form';
+                    }
                 }
             } catch (error) {
                 console.error('Error:', error);
