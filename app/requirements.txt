@@ -4,3 +4,4 @@ python-multipart==0.0.8
 mysql-connector==2.2.9
 pydantic==2.5.3
 pytest-order==1.2.1
+coverage==7.2.7

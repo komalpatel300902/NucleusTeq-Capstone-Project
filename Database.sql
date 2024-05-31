@@ -3,16 +3,17 @@ CREATE TABLE joining_request(
     name VARCHAR(30),
 	password VARCHAR(100),
     emp_type VARCHAR(20),
-    admin_id VARCHAR(20),
+    admin_id VARCHAR(30),
     email VARCHAR(40),
     mobile VARCHAR(11),
     gender ENUM("Male","Female","Other"),
+    date_of_joining	DATE,
     status VARCHAR(10),
     PRIMARY KEY(id)
 );
 
 CREATE TABLE admin (
-    admin_id VARCHAR(20) PRIMARY KEY,
+    admin_id VARCHAR(30) PRIMARY KEY,
     admin_name VARCHAR(40),
     password VARCHAR(100),
     email VARCHAR(50),
@@ -25,11 +26,12 @@ CREATE TABLE employees
     emp_id VARCHAR(30),
     emp_name VARCHAR(30),
 	password VARCHAR(100),
-    admin_id VARCHAR(20),
+    admin_id VARCHAR(30),
     email VARCHAR(40),
     mobile VARCHAR(11),
     gender ENUM("Male","Female","Other"),
     skills VARCHAR(150),
+    project_assigned ENUM('YES','NO') DEFAULT 'NO',
     PRIMARY KEY(emp_id),
     FOREIGN KEY(admin_id) REFERENCES admin(admin_id)
 );
@@ -38,14 +40,13 @@ CREATE TABLE project
 (
     project_id VARCHAR(30),
     project_name VARCHAR(30),
-    admin_id VARCHAR(10),
-    admin_name VARCHAR(30),
+    admin_id VARCHAR(30),
     start_date DATE,
     dead_line DATE,
     status VARCHAR(30),
-    project_assigned ENUM("YES","NO"),
-    project_completion_date DATE,
-    description text,
+    project_assigned ENUM("YES","NO") DEFAULT "NO",
+    description MEDIUMTEXT,
+    project_completed ENUM("YES","NO") DEFAULT "NO",
     PRIMARY KEY(project_id),
     FOREIGN KEY(admin_id) REFERENCES admin(admin_id)
 );
@@ -54,7 +55,7 @@ CREATE TABLE project_completed
 (
     project_id VARCHAR(30),
     project_name VARCHAR(30),
-    admin_id VARCHAR(10),
+    admin_id VARCHAR(30),
     admin_name VARCHAR(30),
     start_date DATE,
     dead_line DATE,
@@ -69,8 +70,7 @@ CREATE TABLE manager
     manager_id VARCHAR(30),
     manager_name VARCHAR(30),
     password VARCHAR(100),
-    admin_id VARCHAR(20),
-    admin_name VARCHAR(30),
+    admin_id VARCHAR(30),
     email VARCHAR(40),
     mobile VARCHAR(11),
     gender ENUM("Male","Female","Other"),
@@ -112,7 +112,7 @@ CREATE TABLE manager_request_for_employees
 );
 
 CREATE TABLE employee_termination_records (
-    id VARCHAR(20) PRIMARY KEY,
+    id VARCHAR(30) PRIMARY KEY,
     name VARCHAR(30),
     emp_type VARCHAR(30),
     admin_id VARCHAR(30),

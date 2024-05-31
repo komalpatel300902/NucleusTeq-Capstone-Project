@@ -1,7 +1,7 @@
 """
 [main.py] : Starting of app
 """
-from fastapi import FastAPI, status , Depends
+from fastapi import FastAPI, status , Depends, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import Request
@@ -28,11 +28,37 @@ app.mount("/static", StaticFiles(directory="static"),name = "static")
 
 @app.get("/",response_class=HTMLResponse)
 async def index_page(request: Request):
+
+    """    
+    Index Page [Welcome Page]
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        
+    Returns:
+        [text/html] :index.html
+    """
+    
     logging.info("Accessed Index page")
     return templates.TemplateResponse("index.html",{"request": request})
 
 @app.get(r"/registration_form")
 def register_as_employee_form(request: Request, db = Depends(get_db)):
+
+    """    
+    Employee and Manager Registration Form
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :joining_request.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logging.info("Accessed registration form page")
 
     sql, cursor = db
@@ -48,12 +74,28 @@ def register_as_employee_form(request: Request, db = Depends(get_db)):
         logging.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
         logging.error(f"Error occurred while fetching admin data: {e}")
-        print(e)
+        HTTPException(status_code=500 , detail="Unable render the registration Form")
     else:
         return templates.TemplateResponse("joining_request.html",{"request": request, "data_entries":data_entries})
 
 @app.post(r"/registration_form_submission", response_class=JSONResponse)
 def register_as_employee( request: Request, joining_request:JoiningRequest, db = Depends(get_db)):
+
+    """    
+    Employee Registration Request is addressed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        joining_request (JoiningRequest) : Holds the Data of Submitted Registration Form.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message": "Joining Record Saved Successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logging.info("Received registration form submission Request")
     sql, cursor = db
     print(joining_request)
@@ -81,7 +123,7 @@ def register_as_employee( request: Request, joining_request:JoiningRequest, db =
     except Exception as e:
         sql.rollback()
         logging.error(f"Error occurred while saving employee registration record having id : {joining_request.id}: {e}")
-        print(e)
+        raise HTTPException(status_code = 500 , detail = "Error occurred while saving employee registration record")
     else:
         redirect_url = request.url_for("register_as_employee_form")
         return JSONResponse(content = {"message": "Joining Record Saved Successfully"})

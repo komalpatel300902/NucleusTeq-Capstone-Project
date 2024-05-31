@@ -8,19 +8,7 @@ class DataFormatter:
     Returns:
         List[Dictionary] : Formatted Data
     """
-
-    def table_column_extractor(self, schema) -> List:
-        """
-        Create list of column names
-
-        Args:
-            schema (List[Tuples]) : Holds the column defination of table
-
-        Return:
-            List : List of column
-        """
-        return [column_defination[0] for column_defination in schema]
-        
+ 
 
     def dictionary_convertor(self,table_columns,table_row) -> Dict:
         """
@@ -60,9 +48,5 @@ class DataFormatter:
         Return:
             Dictionary[Dictionary] : Formatted Data
         """
-        if schema:
-            table_column = self.table_column_extractor(schema)
-            return [self.dictionary_convertor(table_column, table_row ) for table_row in table_data]
-        else:
-            return [self.dictionary_convertor(table_column, table_row ) for table_row in table_data]
+        return [self.dictionary_convertor(table_column, table_row ) for table_row in table_data]
         

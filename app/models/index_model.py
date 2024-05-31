@@ -1,10 +1,16 @@
-"""[Sign up , Registration]"""
+"""
+To use, simply use 'import index_model'
 
+This module defines a various class inheriting BaseModel for holding employee data. 
+"""
 from pydantic import BaseModel, validator , field_validator
 from fastapi import HTTPException
 import re
 
 class JoiningRequest(BaseModel):
+    """
+    When employee makes a Joining Request the data is stored in this class.
+    """
     id: str
     name : str
     password: str
@@ -17,9 +23,12 @@ class JoiningRequest(BaseModel):
 
     @field_validator('password')
     def validate_password(cls, v):
-        if len(v) < 8 and len(v) > 30:
+        if len(v) < 8 :
             print("Length validated")
-            raise ValueError("Password must have more than equal to 8 and Less than equal to 30 letter")
+            raise HTTPException(status_code=422,detail='Length of password must be > 8 and  < 30')
+        if len(v) > 30 :
+            print("Length validated")
+            raise HTTPException(status_code=422,detail='Length of password must be > 8 and  < 30')
         if not re.search(r'[A-Z]', v):
             print("Upper class validated")
             raise ValueError('Password must contain at least one uppercase letter')
@@ -52,5 +61,8 @@ class JoiningRequest(BaseModel):
 
 
 class LoginDetails(BaseModel):
+    """
+    When admin, manager, employee tries to log the form data is handled by this class.
+    """
     username: str
     password: str

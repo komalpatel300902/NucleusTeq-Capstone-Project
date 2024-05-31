@@ -11,10 +11,26 @@ def client():
     return TestClient(app)
 
 @pytest.mark.order(20)
-def test_manager_login(client):
+def test_login_page_of_manager(client):
     response = client.get("/manager_login")
     assert response.status_code == 200
     
+@pytest.mark.order(20)
+def test_manager_login_processing(client):
+    response = client.post("/manager_login_data", json = {
+        "username": "Test_MGR001",
+        "password": "Password1"
+    })
+    assert response.status_code == 200
+    assert response.json() == {"message":"Login Successful"}
+   
+    response = client.post("/admin_login_data", json = {
+        "username": "Test_ADM",
+        "password": "Test_Passwd0"
+    })
+    assert response.status_code == 401
+    assert response.json() == {"detail":"Invalid username or password"}
+     
 @pytest.mark.order(21 )
 def test_manager_home(client):
     response = client.get("/manager_home")
@@ -72,13 +88,13 @@ def test_project_manager_have(client):
 
 
 @pytest.mark.order(33)
-def test_update_project_status(client):
+def test_update_the_project_status_page(client):
     response = client.get("/update_project_status")
     assert response.status_code == 200
 
 
 @pytest.mark.order(34)
-def test_update_project_status(client):
+def test_update_the_status_of_project(client):
     response = client.put("/update_project_status", json = {"manager_id":"Test_MGR001", "project_id":"Test_PROJ001","status":"In Progress"})
     assert response.status_code == 200
     assert response.json() == {"message": "Project status Updated Successfully"}

@@ -1,9 +1,13 @@
 """
-Facility: 
-1 : View all employees(manager included)
-2 : UPDATE skills
-3 : View all details about its project
-"""
+To use, simply 'import emp_router'
+
+This module holds all the functionalities that a employee has.
+1. Employee Login Panal
+2. View all employee
+3. View project he/she has
+4. Update the skill
+5. Logout
+""" 
 
 import json
 from fastapi import APIRouter, HTTPException , Request, status , Depends , Response
@@ -34,18 +38,45 @@ class EmployeeUserSession:
         return self.employee_id is not None
 employee_user = EmployeeUserSession()
 def get_user():
-    return employee_user.employee_id
+    if employee_user.employee_id:
+        return employee_user.employee_id
+    else:
+        raise HTTPException(status_code=401, detail="Unauthoroised User")
 
 templates = Jinja2Templates(directory="templates/employee")
 
 @emp_router.get("/employee_login")
 async def employee_login(request :Request):
+    """    
+    Employee Login Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+
+    Returns:
+        [text/html] : index.html
+    """
     logger.info("Accessed Employee Login Page")
     return templates.TemplateResponse("index.html",{"request":request})
 
 
 @emp_router.post(r"/employee_login_data", response_class = HTMLResponse)
 async def employee_credential_authentication(response: Response,request : Request, login_details: LoginDetails , db = Depends(get_db)) -> None:
+    """    
+    Employee Credential will be Authenticated here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        login_detail (LoginDetail): Fetch username and Password.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message":"Login Successful"}
+    
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+        HTTPException [status_code = 401] : Username or Password is Incorrect.
+    """
     logger.info(f"Attempting to authenticate Employee: {login_details.username}")
     sql, cursor = db
     sql_query_to_check_employee = f"""SELECT COUNT(emp_id) ,emp_id, password 
@@ -62,7 +93,8 @@ async def employee_credential_authentication(response: Response,request : Reques
 
     except Exception as e:
         logger.error(f"Error executing authentication query: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while executing authentication query")
+    
     else:
         condition = data[0][0]
         print(condition)
@@ -81,12 +113,37 @@ async def employee_credential_authentication(response: Response,request : Reques
 
 @emp_router.get("/employee_home")
 async def employee_home(request :Request, emp_id = Depends(get_user)):
+    """    
+    Employee Home Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        emp_id (String): Fetch emp_id from UserSession.
+       
+    Returns:
+        [text/html] :home.html
+
+    """
     logger.info(f"{emp_id} : Accessed Employee Home Page")
     return templates.TemplateResponse("home.html",{"request":request})
 
 
 @emp_router.get(r"/employee_for_project")
 async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_user), db = Depends(get_db)) -> None:
+    """    
+    View all Employee Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        emp_id (String): Fetch emp_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :all_employee.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
     logger.info(f"{emp_id} : Accessed View All Employee Page")
     sql, cursor = db
 
@@ -114,14 +171,28 @@ async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_us
 
     except Exception as e:
         logger.error(f"Error executing query or While formatting the Data: {e}")
-
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering view all employee page")
+    
     else:
         return templates.TemplateResponse("all_employees.html",{"request":request, "data_entries": data_entries})
 
 
 @emp_router.get(r"/update_skills_as_employee")
 async def update_skills_as_employee(request : Request , emp_id: str = Depends(get_user), db = Depends(get_db)) -> None: 
+    """    
+    Update Skill Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        emp_id (String): Fetch emp_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :update_skill.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
     logger.info(f"{emp_id} : Accessed Update Skill As Employee Page")
     sql, cursor = db
     sql_query_to_fetch_employee_details = f"""SELECT emp_id , emp_name , gender , mobile , email , skills
@@ -137,12 +208,27 @@ async def update_skills_as_employee(request : Request , emp_id: str = Depends(ge
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering update skill page")
+    
     else:
         return templates.TemplateResponse("update_skill.html",{"request":request, "employees": employees})
 
 @emp_router.put(r"/add_skill",response_class=JSONResponse)
 async def add_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+    """    
+    Add Skill Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (UpdateSkill): Fetch new skill and employee info.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message": "Skill added Successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
     logger.info("Request Recieved to add new skill")
     sql, cursor = db
     sql_query_to_add_skill = f"""
@@ -161,7 +247,8 @@ async def add_skill(request : Request, employee_data: UpdateSkill, db = Depends(
     except Exception as e:
         sql.rollback()
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while adding skill")
+    
     else:
         
         redirect_url = request.url_for("update_skills_as_employee")
@@ -169,6 +256,20 @@ async def add_skill(request : Request, employee_data: UpdateSkill, db = Depends(
 
 @emp_router.put(r"/replace_skill",response_class=JSONResponse)
 async def replace_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+    """    
+    Replace Skill Request will be Addressed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (UpdateSkill): Fetch new skill and employee info.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message": "Skill Replaces Successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
     logger.info("Request Recieved to Replace the existing skill")
     sql, cursor = db
 
@@ -188,8 +289,8 @@ async def replace_skill(request : Request, employee_data: UpdateSkill, db = Depe
     except Exception as e:
         sql.rollback()
         logger.error(f"Error executing query : {e}")
-
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while replacing the skill")
+    
     else:
         
         redirect_url = request.url_for("update_skills_as_employee")
@@ -197,6 +298,20 @@ async def replace_skill(request : Request, employee_data: UpdateSkill, db = Depe
     
 @emp_router.get(r"/employee_project_details")
 async def employee_project_details(request: Request , emp_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+    """    
+    View Project Employee Have Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        emp_id (String): Fetch emp_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :employee_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
     logger.info(f"{emp_id} : Accessed Employee Project Detail Page")
     sql, cursor = db
 
@@ -218,7 +333,8 @@ async def employee_project_details(request: Request , emp_id: str = Depends(get_
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering project record page")
+    
     else:
         return templates.TemplateResponse("employee_project.html",{"request":request, "project_records": project_records})
 
