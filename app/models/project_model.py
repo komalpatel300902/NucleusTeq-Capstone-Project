@@ -36,3 +36,9 @@ class UnassignPtojectToEmployee(BaseModel):
 class UnassignPtojectToManager(BaseModel):
     manager_id: str
     project_id: str
+
+class Project_Update_Status(BaseModel):
+    manager_id: str
+    project_id: str
+    status: str
+

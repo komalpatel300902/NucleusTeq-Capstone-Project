@@ -8,6 +8,7 @@ function validateCredential() {
     console.log(password)
     console.log(username)
 
+
     fetch('/manager_login_data', {
         method: 'POST',
         body: JSON.stringify({ username: username , password: password}),
@@ -25,7 +26,7 @@ function validateCredential() {
             if (response.status === 401) {
                 // Unauthorized - show error message
                 alert('Invalid username or password');
-                window.location.href = '/manager_login';
+                location.reload();
             } else {
                 // Other errors - log to console
                 console.error('Login failed:', response.statusText);
@@ -42,3 +43,16 @@ function preventEnterKeySubmission(event) {
         event.preventDefault();
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const username_field = document.getElementById("username")
+    const password_field = document.getElementById("password")
+    const submit_button = document.getElementById("submit_button")
+    // If you want to prevent submission for all input fields in the form
+    username_field.addEventListener("keydown", preventEnterKeySubmission);
+    password_field.addEventListener("keydown", preventEnterKeySubmission);
+    submit_button.addEventListener("keydown", preventEnterKeySubmission);
+
+    // If you want to prevent submission for specific input fields
+    // var specificInput = document.getElementById("specificInputId");
+    // specificInput.addEventListener("keydown", preventEnterKeySubmission);
+});

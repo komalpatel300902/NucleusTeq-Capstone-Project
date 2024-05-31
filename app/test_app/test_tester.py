@@ -5,13 +5,11 @@ import pytest
 from fastapi.testclient import TestClient
 from main import app
 
-# @pytest.fixture
-# def client():
-#     return TestClient(app)
 
-# @pytest.mark.run()
-# def test_joining_request(client):
-#     response = client.get("/joining_request", headers= {"admin_id":"Test_ADM000"})
+# @pytest.mark.order(52)
+# def test_remove_all(client):
+#     response = client.delete(f"/remove_all?admin_id=Test_ADM0")
 #     assert response.status_code == 200
+#     assert response.json() == {"message":"Everything Removed Successfully"}
     
        
