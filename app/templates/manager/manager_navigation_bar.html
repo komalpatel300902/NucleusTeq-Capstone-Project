@@ -24,7 +24,9 @@
             <li>
                 <a href="#">Project</a>
                 <ul>
-                    <a href="{{request.url_for('project_manager_have')}}">Project I Have</a>
+                    <li><a href="{{request.url_for('project_manager_have')}}">Project I Have</a></li>
+            
+                    <li><a href="{{request.url_for('update_project_status_page')}}">Update Project Status</a></li>
                 </ul>
             </li>
             <li><a href="" onclick="logout()">Logout</a></li>

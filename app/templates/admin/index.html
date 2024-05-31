@@ -12,7 +12,7 @@
         {{error}}
     </div>
     <main class="form-container">
-        <form  id = "myForm" >
+        <form  id = "loginForm" >
             <div class = "form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -21,8 +21,9 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit" onclick="validateCredential()">Login</button>
+            <button type= "submit" id="submit_button" onclick="validateCredential()">Login</button>
         </form>
     </main>
-    <script src = "../../static/js/admin/index.js"></script>
+    <script src="../../static/js/admin/index.js" ></script>
 {% endblock %}
+    

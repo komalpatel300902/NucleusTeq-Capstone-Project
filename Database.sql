@@ -45,9 +45,24 @@ CREATE TABLE project
     status VARCHAR(30),
     project_assigned ENUM("YES","NO"),
     project_completion_date DATE,
+    description text,
     PRIMARY KEY(project_id),
     FOREIGN KEY(admin_id) REFERENCES admin(admin_id)
 );
+
+CREATE TABLE project_completed
+(
+    project_id VARCHAR(30),
+    project_name VARCHAR(30),
+    admin_id VARCHAR(10),
+    admin_name VARCHAR(30),
+    start_date DATE,
+    dead_line DATE,
+    status VARCHAR(30),
+    project_completion_date DATE,
+    PRIMARY KEY(project_id),
+);
+
 
 CREATE TABLE manager
 (

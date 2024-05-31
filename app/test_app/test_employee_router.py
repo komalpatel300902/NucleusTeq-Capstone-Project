@@ -10,12 +10,12 @@ from main import app  # assuming your FastAPI instance is in main.py
 def client():
     return TestClient(app)
 
-@pytest.mark.order(31)
+@pytest.mark.order(38)
 def test_employee_login(client):
     response = client.get("/employee_login")
     assert response.status_code == 200
 
-@pytest.mark.order(32)
+@pytest.mark.order(39)
 def test_employee_login(client):
     for num in range(1,7):
         response = client.post("/employee_login_data", json={
@@ -26,22 +26,22 @@ def test_employee_login(client):
         assert response.json() == {"message":"Login Successful"}
     
 
-@pytest.mark.order(33 )
+@pytest.mark.order(40 )
 def test_employee_home(client):
     response = client.get("/employee_home")
     assert response.status_code == 200
 
-@pytest.mark.order(34 )
+@pytest.mark.order(41 )
 def test_fetch_all_workers_for_project(client):
     response = client.get("/employee_for_project")
     assert response.status_code == 200
    
-@pytest.mark.order(35 )
+@pytest.mark.order(42 )
 def test_update_skills_as_employee(client):
     response = client.get("/update_skills_as_employee")
     assert response.status_code == 200
  
-@pytest.mark.order(36 )
+@pytest.mark.order(43 )
 def test_add_skill(client):
     response = client.put("/add_skill", json={
         "emp_id": "Test_EMP001",
@@ -50,7 +50,7 @@ def test_add_skill(client):
     assert response.status_code == 200
     assert response.json() == {"message": "Skill added Successfully"}
 
-@pytest.mark.order(37 )
+@pytest.mark.order(44 )
 def test_replace_skill(client):
     response = client.put("/replace_skill", json={
         "emp_id": "Test_EMP001",
@@ -59,7 +59,7 @@ def test_replace_skill(client):
     assert response.status_code == 200
     assert response.json() ==  {"message":"Skill replaced Successfully"}
 
-@pytest.mark.order(38 )
+@pytest.mark.order(45 )
 def test_employee_project_details(client):
     response = client.get("/employee_project_details")
     assert response.status_code == 200

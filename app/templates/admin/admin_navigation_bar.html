@@ -30,6 +30,8 @@
                 <a href="#">Project</a>
                 <ul>
                     <li><a href="{{request.url_for('create_project_form')}}">Create Project</a></li>
+                    <li><a href="{{request.url_for('manager_request_to_complete_project_page')}}">Manager Request</a></li>
+                    <li><a href="{{request.url_for('fetch_all_project_for_admin')}}">View all Project</a></li>
                 </ul>
             </li>
             <li><a href="#" onclick="logout()">Logout</a></li>

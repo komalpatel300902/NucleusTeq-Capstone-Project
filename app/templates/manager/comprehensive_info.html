@@ -6,35 +6,31 @@
 {% block content %}
     <h2>Records</h2>
     
-    <h3>Workers</h3>
+    <h3>Projects</h3>
     <table>
         <thead>
             <tr>
-                <th>Employee ID</th>
+                <th>Project ID</th>
                 <th>Name</th>
-                <th>Gender</th>
-                <th>Email</th>
                 <th>Admin ID</th>
                 <th>Admin Name</th>
+                <th>Start Date</th>
+                <th>Deadline</th>
                 <th>Manager ID</th>
                 <th>Manager Name</th>
-                <th>Project ID</th>
-                <th>Project Name</th>
             </tr>
         </thead>
         <tbody>
-            {% for worker in workers %}
+            {% for project in projects %}
             <tr>
-                <td>{{ worker.emp_id }}</td>
-                <td>{{ worker.emp_name }}</td>
-                <td>{{ worker.gender }}</td>
-                <td>{{ worker.email }}</td>
-                <td>{{ worker.admin_id }}</td>
-                <td>{{ worker.admin_name }}</td>
-                <td>{{ worker.manager_id }}</td>
-                <td>{{ worker.manager_name }}</td>
-                <td>{{ worker.project_id }}</td>
-                <td>{{ worker.project_name }}</td>
+                <td>{{ project.project_id }}</td>
+                <td>{{ project.project_name }}</td>
+                <td>{{ project.admin_id }}</td>
+                <td>{{ project.admin_name }}</td>
+                <td>{{ project.start_date }}</td>
+                <td>{{ project.dead_line }}</td>
+                <td>{{ project.manager_id }}</td>
+                <td>{{ project.manager_name }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -69,34 +65,38 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <h3>Projects</h3>
+<h3>Employee</h3>
     <table>
         <thead>
             <tr>
-                <th>Project ID</th>
+                <th>Employee ID</th>
                 <th>Name</th>
+                <th>Gender</th>
+                <th>Email</th>
                 <th>Admin ID</th>
                 <th>Admin Name</th>
-                <th>Start Date</th>
-                <th>Deadline</th>
                 <th>Manager ID</th>
                 <th>Manager Name</th>
+                <th>Project ID</th>
+                <th>Project Name</th>
             </tr>
         </thead>
         <tbody>
-            {% for project in projects %}
+            {% for worker in workers %}
             <tr>
-                <td>{{ project.project_id }}</td>
-                <td>{{ project.project_name }}</td>
-                <td>{{ project.admin_id }}</td>
-                <td>{{ project.admin_name }}</td>
-                <td>{{ project.start_date }}</td>
-                <td>{{ project.dead_line }}</td>
-                <td>{{ project.manager_id }}</td>
-                <td>{{ project.manager_name }}</td>
+                <td>{{ worker.emp_id }}</td>
+                <td>{{ worker.emp_name }}</td>
+                <td>{{ worker.gender }}</td>
+                <td>{{ worker.email }}</td>
+                <td>{{ worker.admin_id }}</td>
+                <td>{{ worker.admin_name }}</td>
+                <td>{{ worker.manager_id }}</td>
+                <td>{{ worker.manager_name }}</td>
+                <td>{{ worker.project_id }}</td>
+                <td>{{ worker.project_name }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    
 {% endblock %}

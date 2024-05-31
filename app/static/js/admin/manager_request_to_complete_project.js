@@ -1,17 +1,14 @@
-function requestForEmployees(empId){
-    // You can use fetch API or any other library like Axios for making AJAX requests
-    const selectField = document.getElementById("project-"+empId);
-    const manger_idField = document.getElementById("mnaager_id");
-    const manager_id = manger_idField.value;
-    const projectId = selectField.value;
-    fetch("/request_for_employee" , {
-        method: 'POST',
+function approve(projectId) {
+    // Here you can implement the logic for assigning a project to an employee
+    
+    fetch("/approve_completion_of_project?project_id="+projectId , {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
         },
         // You can optionally send data in the request body if needed
-        body: JSON.stringify({ emp_id: empId, project_id: projectId , manager_id: manager_id})
+        // body: JSON.stringify({ manager_id: managerId, project_id: projectId, status: project_status })
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed
@@ -23,24 +20,22 @@ function requestForEmployees(empId){
         console.error('Error accepting request:', error);
     });
 }
-
-function filterEmployee(){
-    const selectField = document.getElementById("searchInput");
-    
-    const skill = manger_idField.value;
-    fetch("/filtered_employee?skill="+skill , {
-        method: 'GET',
+function reviewAgain(projectId) {
+    // Here you can implement the logic for assigning a project to an employee
+   
+    fetch("/reject_completion_of_project?project_id="+projectId , {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
             // Add any other headers if required
         },
         // You can optionally send data in the request body if needed
-        // body: JSON.stringify({ skill : skill})
+        // body: JSON.stringify({ manager_id: managerId, project_id: projectId, status: project_status })
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed
         location.reload()
-        console.log('Filtered record successfully');
+        console.log('Request accepted successfully');
     })
     .catch(error => {
         // Handle errors, show error message or log the error
