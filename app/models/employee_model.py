@@ -1,4 +1,10 @@
 from pydantic import BaseModel
+"""
+To use, simply use 'import employee_model'
+
+This module defines a various class inheriting BaseModel for holding employee data, 
+after any request is made from admin, manager and Employee.
+"""
 
 class AcceptJoiningRequest(BaseModel):
     id: str
@@ -7,7 +13,6 @@ class AcceptJoiningRequest(BaseModel):
 
 class RejectJoiningRequest(BaseModel):
     id: str
-    
 
 class RemoveEmployee(BaseModel):
     emp_id: str

@@ -1,11 +1,20 @@
 """
-1: Accept / Reject joining request
-2: View all manager , employee and projects
-3: Admin can assign and unassign project to employees
-4: Admin can approve/ reject manager request for resource
-5: Delete employee (include manager)
-6: Update employee detail
-"""
+To use, simply 'import admin_router'
+
+This module holds all the functionalities that a admin has.
+1. Admin Login Panal
+2. View all employee and project
+3. Add new employee (Manager/employee)
+4. Address manager request for employees
+5. Assign project (manager/employee)
+6. Unassign project (manager/employee)
+7. Remove employee (manager/employee)
+8. Update employee skill
+9. create Project
+10. Manager Request  for completion of project 
+11. View all project
+12. Logout 
+""" 
 from fastapi import APIRouter, HTTPException, Request , Form , status, Response , Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse , JSONResponse, RedirectResponse
@@ -17,14 +26,18 @@ from models.project_model import (ProjectDetails,
                                   ManagerRequestForEmployees, 
                                   AssignProjectToEmployee,
                                   AssignProjectToManager, 
-                                  UnassignPtojectToEmployee,
-                                  UnassignPtojectToManager)
+                                  UnassignProjectToEmployee,
+                                  UnassignProjectToManager)
 import json
 from datetime import datetime
 from logging_config import setup_logging
 import logging
 
 class UserSession:
+
+    """
+    A UserSession holds the admin_id once admin is authenticated
+    """
     def __init__(self):
         self.admin_id = None
     
@@ -39,9 +52,12 @@ class UserSession:
 
 setup_logging()
 logger = logging.getLogger(__name__)
-user = UserSession()
+admin_user = UserSession()
 def get_user():
-    return user.admin_id
+    if admin_user.admin_id: 
+        return admin_user.admin_id
+    else:
+        raise HTTPException(status_code=401, detail="Unauthoroised User")
 
 admin_router = APIRouter()
 
@@ -49,12 +65,40 @@ admin_router = APIRouter()
 templates = Jinja2Templates(directory="templates/admin")
 
 @admin_router.get(r"/admin_login", response_class = HTMLResponse)
-async def admin_login(request : Request) -> None:
+async def admin_login(request : Request):
+    
+    """
+    Starting point of the Apllication.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+
+    Returns:
+        [text/html]: index page
+    """
+
     logger.info("Accessed Admin Login Page.")
     return templates.TemplateResponse("index.html",{"request":request})
 
 @admin_router.post(r"/admin_login_data", response_class = HTMLResponse)
-async def admin_credential_authentication(response: Response,request : Request,  login_details: LoginDetails, db = Depends(get_db)) -> None:
+async def admin_credential_authentication(response: Response ,request : Request,  login_details: LoginDetails, db = Depends(get_db)) -> None:
+    
+    """    
+    Login Credential of admin is authenticated here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        login_details (LoginDetails): Holds the username and password of admin.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Login Successful"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+        HTTPException [status_code = 401] : Username or Password is Incorrect.
+    """
+     
     logger.info(f"Attempting to authenticate admin: {login_details.username}")
     sql, cursor = db
     sql_query_to_check_admin = f"""SELECT COUNT(admin_id) ,admin_id, password 
@@ -71,15 +115,15 @@ async def admin_credential_authentication(response: Response,request : Request, 
 
     except Exception as e:
         logger.error(f"Error executing authentication query: {e}")
-        print(e)
-        
+        raise HTTPException(status_code=500, detail="An error occurred while removing employee")
+    
     else:
         condition = data[0][0]
         print(type(condition))
         if condition:
             logger.info(f"Admin {login_details.username} authenticated successfully.")
 
-            user.login(login_details.username)
+            admin_user.login(login_details.username)
             logger.info("Admin id is saved as SessionUser")
 
             redirect_url = request.url_for('admin_home')
@@ -93,12 +137,40 @@ async def admin_credential_authentication(response: Response,request : Request, 
 
         
 @admin_router.get("/admin_home", response_class = HTMLResponse)
-def admin_home(request: Request, admin_id = Depends(get_user)):
+async def admin_home(request: Request, admin_id = Depends(get_user)):  
+    
+    """
+    Admin Home Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (str): Fetch the admin id from UserSession.
+
+    Returns:
+        [text/html]: Home page of admin.
+    """ 
+
     logger.info(f"{admin_id} : Accessed Admin Home Page.")
     return templates.TemplateResponse("home.html",{"request":request})
 
 @admin_router.get(r"/joining_request", response_class = JSONResponse)
 async def get_joining_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+    
+    """    
+    Joining Request of Employee Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : Joining request of employee page.
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed Joining Request of Employee Page")
     logger.info(f"Fetching joining requests for admin: {admin_id}")
     sql,cursor = db
@@ -120,7 +192,8 @@ async def get_joining_request(request : Request, admin_id: str = Depends(get_use
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
         logger.error(f"Error fetching joining requests: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering joining request page for admin")
+    
     else:
         print(formatted_data)
         # return JSONResponse(content = {"message":""})
@@ -130,6 +203,22 @@ async def get_joining_request(request : Request, admin_id: str = Depends(get_use
 
 @admin_router.post(r"/accept_joining_request", response_class = JSONResponse)
 async def accept_joining_request(request : Request, joining_request: AcceptJoiningRequest , db = Depends(get_db)):
+    
+    """    
+    Approval of Joining Request is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        joining_request (AcceptJoiningRequest) : Holds the emp_id and emp_type(Manager/employee).
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Employee Joining Request was successfully Accepted"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+    
     logger.info(f"Processing acceptance of joining request for ID: {joining_request.id}")
     sql, cursor = db
     if joining_request.emp_type == "Employee":
@@ -148,10 +237,7 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
         """
         logger.debug(f"SQL Query to Insert the data into Manager Table : {query_to_insert_date_in_table} ")
 
-    else:
-        logger.error(f"Invalid employee type: {joining_request.emp_type}")
-        raise HTTPException(status_code=400, detail="Invalid employee type")
-
+    
     query_to_update_status_of_joining_request = f"""
     UPDATE joining_request
     SET status = 'Approved'
@@ -168,7 +254,6 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
 
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error while processing acceptance of joining request ID: {joining_request.id} - {e}")
         raise HTTPException(status_code=500, detail="An error occurred while processing the request")
     else:
@@ -177,6 +262,22 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
 
 @admin_router.post(r"/reject_joining_request", response_class = JSONResponse)
 async def reject_joining_request(request : Request, joining_request: RejectJoiningRequest, db = Depends(get_db)) -> None:
+    
+    """    
+    Rejection of Joining Request is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        joining_request (AcceptJoiningRequest) : Holds the emp_id and emp_type(Manager/employee).
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Employee Joining Request was Rejected"}
+
+    Raises:
+        HTTPException [status_code = 500] : error executing query.
+    """
+
     logger.info(f"Processing rejection of joining request for ID: {joining_request.id}")
     sql, cursor = db
     query_to_update_status_of_joining_request = f"""
@@ -195,7 +296,8 @@ async def reject_joining_request(request : Request, joining_request: RejectJoini
     except Exception as e:
         sql.rollback()
         logger.error(f"Error while processing rejection of joining request ID: {joining_request.id} - {e}")  
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rejecting employee joining request")
+    
     else:
         redirect_url = request.url_for("get_joining_request")
         return JSONResponse(content = {"message":"Employee Joining Request was Rejected"})
@@ -205,6 +307,22 @@ async def reject_joining_request(request : Request, joining_request: RejectJoini
 
 @admin_router.get(r"/create_project_form", response_class = HTMLResponse)
 async def create_project_form(request: Request, admin_id: str = Depends(get_user), db = Depends(get_db)):
+    
+    """    
+    Create Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String) : Fetch admin id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : create_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : An error occurred while rendering project form page.
+    """
+
     logger.info(f"{admin_id} : Accessed Project Form Page")
     
     sql, cursor = db
@@ -226,7 +344,9 @@ async def create_project_form(request: Request, admin_id: str = Depends(get_user
         managers = data_formatter.dictionary_list(table_data=manager_data, table_column=manager_table_column)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
-        print(e)
+        logger.error(f"Error executing SQL Query or Formatting the Data : {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while rendering project form page")
+    
     else:
         logger.info(f"Project form was Rendered Successfully")
         return templates.TemplateResponse("create_project.html",{"request":request, "managers":managers, "admin":{"admin_id":admin_id}})
@@ -235,6 +355,22 @@ async def create_project_form(request: Request, admin_id: str = Depends(get_user
 
 @admin_router.post(r"/create_project_form_processing",response_class=JSONResponse)
 async def create_project_form_processing(request: Request, project_details: ProjectDetails, db = Depends(get_db) ):
+    
+    """    
+    Creation of New Project Request is Addressed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        project_details (ProjectDetails) : Fetch user data.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"A Project has been created successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : An error occurred while rendering project form page.
+    """
+
     logger.info(f"Processing project creation for project_id: {project_details.project_id}")
     
     sql, cursor = db
@@ -280,13 +416,31 @@ async def create_project_form_processing(request: Request, project_details: Proj
 
     except Exception as e:
         sql.rollback()
-        print(e)
+        logger.error(f"error executing above SQL Query or Formatting data: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while creating new project")
+    
     else:
         redirect_url = request.url_for("fetch_all_employees_and_project_for_admin")
         return JSONResponse(content = {"message":"A Project has been created successfully"})
 
 @admin_router.get(r"/admin_view_all",response_class=HTMLResponse)
 async def fetch_all_employees_and_project_for_admin(request : Request, admin_id = Depends(get_user),db = Depends(get_db))->None:
+    
+    """    
+    View all Employee and Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : comprehensive_info.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed View all Employee And Project Page")
     logger.info("Fetching all employees, managers, and projects information")
     sql, cursor = db
@@ -355,13 +509,28 @@ async def fetch_all_employees_and_project_for_admin(request : Request, admin_id 
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
         logger.error(f"Error fetching information - {e}")
-        print(e)
         raise HTTPException(status_code=500, detail="An error occurred while fetching information")
     else:
         return templates.TemplateResponse("comprehensive_info.html",{"request":request, "managers": managers,"workers":workers, "projects":projects})
 
 @admin_router.get(r"/admin_view_all_project",response_class=HTMLResponse)
 async def fetch_all_project_for_admin(request : Request, admin_id = Depends(get_user),db = Depends(get_db))->None:
+    
+    """    
+    View all  Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : view_all_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed View Project Page")
     logger.info("Fetching  projects information")
     sql, cursor = db
@@ -382,7 +551,6 @@ async def fetch_all_project_for_admin(request : Request, admin_id = Depends(get_
     table_column_project_information = ["project_id", "project_name","admin_id","admin_name","start_date","dead_line","manager_id","manager_name","status","description"]
     
     try:
-
         cursor.execute(sql_query_to_get_project_information)
         table_data_for_project = cursor.fetchall()
         logger.info(f"Project details fetched successfully")
@@ -391,16 +559,33 @@ async def fetch_all_project_for_admin(request : Request, admin_id = Depends(get_
         data_formatter = DataFormatter()
         projects = data_formatter.dictionary_list(table_data = table_data_for_project, table_column=table_column_project_information)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
+    
     except Exception as e:
         logger.error(f"Error fetching information - {e}")
-        print(e)
         raise HTTPException(status_code=500, detail="An error occurred while fetching information")
+    
     else:
         return templates.TemplateResponse("view_all_project.html",{"request":request, "projects":projects})
 
 
 @admin_router.get(r"/assign_project",response_class=HTMLResponse)
 async def get_employee_for_assigning_project(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))->None: 
+    
+    """    
+    Assign project to Manager an Employee Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : assign_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed Assign project to Employee Page")
     logger.info(f"Fetching employees, managers, and projects details for admin_id: {admin_id}")
 
@@ -469,8 +654,8 @@ async def get_employee_for_assigning_project(request : Request, admin_id: str = 
 
     except Exception as e:
         logger.error(f"Error fetching or formatting data: {e}")
-        print(e)
         raise HTTPException(status_code=500, detail="An error occurred while fetching data")
+    
     else:
         logger.error(f"WebPage for assigning project to employees and manager Rendered Successfully") 
         return templates.TemplateResponse("assign_project.html",{"request": request, "employees":employees,"managers":managers,"manager_projects": manager_projects , "employee_projects":employee_projects})
@@ -478,6 +663,22 @@ async def get_employee_for_assigning_project(request : Request, admin_id: str = 
 
 @admin_router.post(r"/assign_employee_a_project",response_class=JSONResponse)
 async def assign_project_to_employees(request : Request ,employee_data : AssignProjectToEmployee, db = Depends(get_db) )->None:
+    
+    """    
+    Assigning of project to employee is addressed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (AssignProjectToEmployee): Holds project and employee info.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"A project is assigned to employee"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Assigning project_id: {employee_data.project_id} to employee_id: {employee_data.emp_id}")
 
     sql, cursor = db
@@ -513,8 +714,8 @@ async def assign_project_to_employees(request : Request ,employee_data : AssignP
     except Exception as e:
         sql.rollback()
         logger.error(f"Error assigning project: {e}")
-        print(e)
         HTTPException(status_code = 500, detail = "Error Assigning Project")
+
     else: 
         redirect_url = request.url_for("get_employee_for_assigning_project")
         return JSONResponse(content = {"message":"A project is assigned to employee"})
@@ -522,6 +723,21 @@ async def assign_project_to_employees(request : Request ,employee_data : AssignP
 @admin_router.post(r"/assign_manager_a_project",response_class=JSONResponse)
 async def assign_project_to_employees(request : Request , manager_data: AssignProjectToManager , db = Depends(get_db)):
     
+    """    
+    Assigning of project to Manager is addressed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_data (AssignProjectToManager): Holds project and manager info.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"A project is assigned to manager"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Assigning project_id: {manager_data.project_id} to manager_id: {manager_data.manager_id}")
 
     sql,cursor = db
@@ -571,7 +787,6 @@ async def assign_project_to_employees(request : Request , manager_data: AssignPr
 
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error assigning project to manager: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while assigning the project to the manager")
    
@@ -583,6 +798,22 @@ async def assign_project_to_employees(request : Request , manager_data: AssignPr
 
 @admin_router.get(r"/unassign_project",response_class=HTMLResponse)
 async def unassign_project_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))->None:
+    
+    """    
+    Unassign Manager and Employee from Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : unassign_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed Unassign Project to Employee Page")
     logger.info(f"Fetching employee and manager project details for admin_id: {admin_id}")
 
@@ -615,6 +846,7 @@ async def unassign_project_page(request : Request, admin_id: str = Depends(get_u
 
     employee_table_column = ["emp_id","emp_name","gender","mobile","email","project_id", "project_name","manager_id","manager_name"]
     manager_table_column = ["manager_id", "manager_name","gender","mobile","email","project_id","project_name"]
+
     try:
         cursor.execute(sql_query_to_find_employee_project)
         employee_data = cursor.fetchall()
@@ -628,8 +860,8 @@ async def unassign_project_page(request : Request, admin_id: str = Depends(get_u
         employees = data_formatter.dictionary_list(table_data = employee_data, table_column=employee_table_column)
         managers = data_formatter.dictionary_list(table_data = manager_data, table_column=manager_table_column)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
+
     except Exception as e:
-        print(e)
         logger.error(f"Error fetching or formatting data: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while fetching data")
    
@@ -638,7 +870,23 @@ async def unassign_project_page(request : Request, admin_id: str = Depends(get_u
         return templates.TemplateResponse("unassign_project.html",{"request":request,"employees":employees,"managers":managers})
 
 @admin_router.put(r"/unassign_employee_from_project",response_class=JSONResponse)
-async def unassig_employee_from_project(request : Request, employee_data : UnassignPtojectToEmployee, db = Depends(get_db)  )->None:
+async def unassig_employee_from_project(request : Request, employee_data : UnassignProjectToEmployee, db = Depends(get_db)  )->None:
+
+    """    
+    Unassign Employee from Project Resquest is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (UnassignProjectToEmployee): Fetch Data of User and Project.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Employee was unassigned from a Project"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Unassigning employee {employee_data.emp_id} from project")
     sql, cursor = db
     sql_query_to_unassign_employee_from_project = f"""
@@ -665,13 +913,29 @@ async def unassig_employee_from_project(request : Request, employee_data : Unass
         sql.rollback()
         logger.error(f"Error unassigning employee from project: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while unassigning the employee")
-        print(e)
+
     else:
         redirect_url = request.url_for("unassign_project_page")
         return JSONResponse(content = {"message":"Employee was unassigned from a Project"})
 
 @admin_router.put(r"/unassign_manager_from_project",response_class=JSONResponse)
-async def unassig_manager_from_project(request : Request, manager_data: UnassignPtojectToManager, db = Depends(get_db) )->None:
+async def unassig_manager_from_project(request : Request, manager_data: UnassignProjectToManager, db = Depends(get_db) )->None:
+
+    """    
+    Unassign Manager from Project Resquest is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_data (UnassignProjectToManager): Fetch Data of User and Project.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Manager was unassigned from a Project"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Unassigning manager {manager_data.manager_id} from project {manager_data.project_id}")
     sql, cursor = db
     sql_query_to_update_manager_project_details =  f"""
@@ -705,6 +969,22 @@ async def unassig_manager_from_project(request : Request, manager_data: Unassign
 
 @admin_router.get(r"/manager_request",response_class=HTMLResponse)
 async def get_manager_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+
+    """    
+    Manager Request for Employee Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : manager_request.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed Manager Request Page")
     logger.info(f"Fetching manager requests for admin_id: {admin_id}")
     sql, cursor = db
@@ -733,12 +1013,28 @@ async def get_manager_request(request : Request, admin_id: str = Depends(get_use
     except Exception as e:
         logger.error(f"Error fetching manager requests: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while fetching manager requests")
-        print(e)
+    
     else: 
         return templates.TemplateResponse("manager_request.html",{"request":request,"data_entries":data_entries})
 
 @admin_router.post(r"/accept_manager_request",response_class=JSONResponse)
 async def accept_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees, db = Depends(get_db)):
+
+    """    
+    Approval  Manager Request is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_request_for_employee (ManagerRequestForEmployee): Holds employee and manager info.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Manager request Accepted"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Accepting manager request for employee {manager_request_for_employees.emp_id} for project {manager_request_for_employees.project_id} assigned by manager {manager_request_for_employees.manager_id}")
 
     sql, cursor = db
@@ -746,7 +1042,6 @@ async def accept_manager_request(request : Request, manager_request_for_employee
     INSERT INTO employee_project_details (emp_id,project_id,manager_id)
     VALUES ('{manager_request_for_employees.emp_id}', '{manager_request_for_employees.project_id}', '{manager_request_for_employees.manager_id}')"""
     logger.debug(f"[Query 1]: SQL Query to save Record when manager request is Accepted : {sql_query_to_insert_record} ") 
-
 
     sql_query_to_update = f"""
     UPDATE manager_request_for_employees
@@ -779,7 +1074,6 @@ async def accept_manager_request(request : Request, manager_request_for_employee
 
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error accepting manager request: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while accepting the manager request")
     
@@ -789,6 +1083,22 @@ async def accept_manager_request(request : Request, manager_request_for_employee
     
 @admin_router.put(r"/reject_manager_request",response_class=JSONResponse)
 async def reject_manager_request(request : Request, manager_request_for_employees: ManagerRequestForEmployees, db = Depends(get_db)):
+
+    """    
+    Rejection of Manager Request for Employee is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_request_for_employees (ManagerRequestForEmployees): Fetch Data of User and Project.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Manager request Rejected"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Rejecting manager request for employee {manager_request_for_employees.emp_id} for project {manager_request_for_employees.project_id} assigned by manager {manager_request_for_employees.manager_id}")
     sql, cursor = db
     sql_query_to_update_manager_request_status = f"""
@@ -806,7 +1116,6 @@ async def reject_manager_request(request : Request, manager_request_for_employee
    
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error rejecting manager request: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while rejecting the manager request")
     
@@ -817,6 +1126,22 @@ async def reject_manager_request(request : Request, manager_request_for_employee
 #[In Progress]
 @admin_router.get(r"/update_employee_skill",response_class=HTMLResponse)
 async def update_employees_skill(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+
+    """    
+    Update Employee Skill Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : update_skill.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed Update Skill of Employee Page")
     logger.info(f"Fetching employee details for admin {admin_id} to update skills")
     sql, cursor = db
@@ -837,7 +1162,6 @@ async def update_employees_skill(request : Request, admin_id: str = Depends(get_
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
 
     except Exception as e:
-        print(e)
         logger.error(f"Error fetching employee details: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while fetching employee details")
     
@@ -845,7 +1169,23 @@ async def update_employees_skill(request : Request, admin_id: str = Depends(get_
         return templates.TemplateResponse("update_skill.html",{"request": request,"employees":employees}) 
 
 @admin_router.put(r"/add_employee_skill",response_class=JSONResponse)
-async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) :
+
+    """    
+    Add Employee Skill Request is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (UpdateSkill): Fetch skill to be add and emp_id.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"skill added successfully"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Adding skill '{employee_data.skills}' to employee with ID: {employee_data.emp_id}")
     
     sql, cursor = db
@@ -865,7 +1205,6 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill, 
 
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error adding skill: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while adding skill")
     
@@ -876,6 +1215,22 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill, 
 
 @admin_router.put(r"/replace_employee_skill",response_class=JSONResponse)
 async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+
+    """    
+    Replace Employee Skill Request is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (UpdateSkill): Fetch skill to be replaced and emp_id.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Employee skill replaced Successfully"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Replacing skill for employee with ID: {employee_data.emp_id} with '{employee_data.skills}'")
     
     sql, cursor = db
@@ -894,7 +1249,6 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill, 
 
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error replacing skill: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while replacing skill")
    
@@ -904,6 +1258,22 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill, 
 
 @admin_router.get(r"/manager_request_to_complete_project",response_class=HTMLResponse)
 async def manager_request_to_complete_project_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+
+    """    
+    Manager Request for Completion of Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : manager_request_to_complete_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed View completed Project Page")
     logger.info("Fetching project information")
     sql, cursor = db
@@ -935,13 +1305,28 @@ async def manager_request_to_complete_project_page(request : Request, admin_id: 
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
         logger.error(f"Error fetching information - {e}")
-        print(e)
         raise HTTPException(status_code=500, detail="An error occurred while fetching information")
     else:
         return templates.TemplateResponse("manager_request_to_complete_project.html",{"request":request,  "projects":projects})
 
 @admin_router.put("/reject_completion_of_project")
 async def reject_completion_of_project(request : Request, project_id :str, db = Depends(get_db)):
+
+    """    
+    Rejection of Manager Request of completion of project is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        project_id (String): Holds Project_id.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Employee skill replaced Successfully"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Processing rejection of completion of project: {project_id}")
     sql, cursor = db
     query_to_update_status_of_project = f"""
@@ -960,13 +1345,30 @@ async def reject_completion_of_project(request : Request, project_id :str, db = 
     except Exception as e:
         sql.rollback()
         logger.error(f"Error while Updating project status of  ID: {project_id} - {e}")  
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rejecting completion of project")
+    
     else:
         return JSONResponse(content = {"message":"Project status set to Review"})
 
 
 @admin_router.delete("/approve_completion_of_project")
 async def approve_completion_of_project(request : Request, project_id :str, db = Depends(get_db)):
+
+    """    
+    Approval of completion of project is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        project_id (String): Holds project_id.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Project Completed"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Processing Approval of completion of project: {project_id}")
     sql, cursor = db
     sql_query_to_update_employee_table = f"""
@@ -998,14 +1400,31 @@ async def approve_completion_of_project(request : Request, project_id :str, db =
     except Exception as e:
         sql.rollback()
         logger.error(f"Error while Updating project status of  ID: {project_id} - {e}")  
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while approving project completion")
+    
     else:
-        return JSONResponse(content = {"message":f"Project Completed"})
+        return JSONResponse(content = {"message":"Project Completed"})
 
 
 
 @admin_router.get(r"/remove_workers",response_class=HTMLResponse)
 async def remove_employees_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+
+    """    
+    Remove Employee Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :remove_employee.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{admin_id} : Accessed Remove Employee Page Page")
     logger.info(f"Fetching managers and employees data for admin {admin_id} to remove workers")
     
@@ -1039,7 +1458,6 @@ async def remove_employees_page(request : Request, admin_id: str = Depends(get_u
         employees_data_entries = data_formatter.dictionary_list(table_data=employee_data, table_column=table_column)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
     except Exception as e:
-        print(e)
         logger.error(f"Error fetching managers and employees data: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while fetching data")
    
@@ -1050,6 +1468,22 @@ async def remove_employees_page(request : Request, admin_id: str = Depends(get_u
 #[In Progress]
 @admin_router.delete("/remove_manager",response_class=JSONResponse)
 async def remove_manager(request : Request , manager_id : str, db = Depends(get_db))-> None:
+
+    """    
+    Removal of Manager is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_id (String): Holds manager_id.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Manager has been removed successfully"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Removing manager with ID: {manager_id}")
     sql, cursor = db
     sql_query_to_store_record = f"""
@@ -1106,7 +1540,8 @@ async def remove_manager(request : Request , manager_id : str, db = Depends(get_
 
     except Exception as e:
         sql.rollback()
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while removing Manager")
+    
     else:
         
         redirect_url = request.url_for('remove_employees_page')
@@ -1115,6 +1550,22 @@ async def remove_manager(request : Request , manager_id : str, db = Depends(get_
 
 @admin_router.delete("/remove_employee", response_class=JSONResponse)
 async def remove_employee(request : Request , emp_id: str, db = Depends(get_db))-> None:
+
+    """    
+    Removal of Employee is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        emp_id (String): Holds emp_id.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Employee has been removed successfully"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Removing employee with ID: {emp_id}")
     sql, cursor = db
     sql_query_to_remove_employee = f"""
@@ -1152,7 +1603,6 @@ async def remove_employee(request : Request , emp_id: str, db = Depends(get_db))
 
     except Exception as e:
         sql.rollback()
-        print(e)
         logger.error(f"Error removing employee: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while removing employee")
     
@@ -1162,11 +1612,18 @@ async def remove_employee(request : Request , emp_id: str, db = Depends(get_db))
         return JSONResponse(content={"message":"Employee has been removed successfully"})
     
     
-@admin_router.post("/admin_logout",response_class = HTMLResponse)
+@admin_router.get("/admin_logout",response_class = HTMLResponse)
 async def logout(request: Request):
     logger.info("Admin successfully logged out")
-    user.logout()
+    admin_user.logout()
     return JSONResponse(content = {"message": "Admin successfully Logout"})
+
+
+'''
+The below code is only used in Testing.
+
+Remove all the test entity [project | Manager | Employee] I created while testing.
+'''
 
 @admin_router.delete("/remove_all",response_class= JSONResponse)
 async def remove_all(request:Request , db = Depends(get_db), admin_id: str = Depends(get_user)):
@@ -1200,7 +1657,9 @@ async def remove_all(request:Request , db = Depends(get_db), admin_id: str = Dep
 
     except Exception as e:
         sql.rollback()
-        print(e)
+        logger.error("error occured while removing all data")
+        raise HTTPException(status_code=500, detail="An error occurred while removing all data")
+    
     else:
         return JSONResponse(content = {"message":"Everything Removed Successfully"})
     

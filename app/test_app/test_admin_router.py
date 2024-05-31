@@ -10,20 +10,27 @@ from main import app  # assuming your FastAPI instance is in main.py
 def client():
     return TestClient(app)
 
-@pytest.mark.order( 4)
-def test_admin_home(client):
+@pytest.mark.order(4)
+def test_login_page_of_admin(client):
     response = client.get("/admin_login")
     assert response.status_code == 200
-   
-@pytest.mark.order( 5)
-def test_admin_home(client):
+    
+@pytest.mark.order(5)
+def test_admin_login_processing(client):
     response = client.post("/admin_login_data", json = {
         "username": "Test_ADM0",
-        "password": "Test_password0"
+        "password": "Test_Password0"
     })
     assert response.status_code == 200
-    assert response.json == {"message":"Login Successful"}
-
+    assert response.json() == {"message":"Login Successful"}
+   
+    response = client.post("/admin_login_data", json = {
+        "username": "Test_ADM",
+        "password": "Test_Passwd0"
+    })
+    assert response.status_code == 401
+    assert response.json() == {"detail":"Invalid username or password"}
+                
 @pytest.mark.order(6)
 def test_admin_home(client):
     response = client.get("/admin_home")
@@ -52,7 +59,13 @@ def test_accept_joining_request(client):
         })
         assert response.status_code == 200
         assert response.json() == {"message":"Employee Joining Request was successfully Accepted"}
-    
+
+    response = client.post("/accept_joining_request", json={
+            "id": "Test_EMP001",
+            "emp_type": "Employee"
+        })
+    assert response.status_code == 500
+    assert response.json() == {"detail":"An error occurred while processing the request"}
 
 @pytest.mark.order(9)
 def test_reject_joining_request(client):
@@ -118,6 +131,18 @@ def test_create_project_form_processing(client):
     })
     assert response.status_code == 200
     assert response.json() == {"message":"A Project has been created successfully"}
+
+    response = client.post("/create_project_form_processing", json={
+        "project_id": "Test_PROJ004",
+        "project_name": "Test_Project004",
+        "dead_line": "2030-12-20",
+        "description": "This is project For Test Purpose",
+        "assign_to": "Later",
+        "admin_id": "Test_ADM0"
+    })
+    assert response.status_code == 500
+    assert response.json() == {"detail":"An error occurred while creating new project"}
+
 
 
 @pytest.mark.order(12)
@@ -206,7 +231,7 @@ def test_assign_project_to_employees(client):
     assert response.status_code == 200
     assert response.json() == {"message":"A project is assigned to employee"}
 
-
+    
 @pytest.mark.order(26)
 def test_manager_request(client):
     response = client.get("/manager_request")
@@ -333,13 +358,13 @@ def test_manager_project_completion_request(client):
     assert response.status_code == 200
 
 @pytest.mark.order(36)
-def test_reject_completion_of_project(client):
+def test_reject_completion_of_project_three(client):
     response = client.put("/reject_completion_of_project?project_id=Test_PROJ003")
     assert response.status_code == 200
     assert response.json() == {"message":"Project status set to Review"}
 
 @pytest.mark.order(37)
-def test_approve_completion_of_project(client):
+def test_approve_completion_of_project_one(client):
     response = client.delete("/approve_completion_of_project?project_id=Test_PROJ001")
     assert response.status_code == 200
     assert response.json() == {"message":"Project Completed"}
@@ -392,7 +417,12 @@ def test_approve_completion_of_project(client):
     assert response.json() == {"message":f"Project Completed"}
 
 
-
+@pytest.mark.order( 52)
+def test_admin_login(client):
+    response = client.get("/admin_logout")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Admin successfully Logout"}
+   
 # @pytest.mark.order(52)
 # def test_remove_all(client):
 #     response = client.delete(f"/remove_all?admin_id=Test_ADM0")

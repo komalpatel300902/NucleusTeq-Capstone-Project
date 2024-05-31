@@ -11,6 +11,27 @@ from app.main import app
 def client():
     return TestClient(app)
 
+@pytest.mark.order(0)
+def test_admin_access_without_login(client):
+    response = client.get("/admin_home")
+    assert response.status_code == 401
+    response.json() == {"detail":"Unauthoroised User"}
+
+@pytest.mark.order(0)
+def test_manager_access_without_login(client):
+    response = client.get("/manager_home")
+    assert response.status_code == 401
+    response.json() == {"detail":"Unauthoroised User"}
+
+@pytest.mark.order(0)
+def test_employee_access_without_login(client):
+    response = client.get("/employee_home")
+    assert response.status_code == 401
+    response.json() == {"detail":"Unauthoroised User"}
+
+
+
+
 @pytest.mark.order(1)
 def test_index_page(client):
     response = client.get("/")
@@ -23,6 +44,7 @@ def test_register_as_employee_form(client):
 
 @pytest.mark.order(3) 
 def test_register_as_employee_submission(client):
+    
     for num in range(3):
         response = client.post(
             "/registration_form_submission",
@@ -85,19 +107,36 @@ def test_register_as_employee_submission(client):
                 "emp_type": "Employee",
                 "admin_id": "Test_ADM0",
                 "email": "employee14@nucleusteq.com",
-                "mobile": "6262321",
+                "mobile": "6262321", # 7 digit
                 "gender": "Male",
                 "date_of_joining": "2024-05-01"
             }
         )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
+    """Checking Mobile Number [Less than 10 Digit]"""
     response = client.post(
             "/registration_form_submission",
             json={
                 "id": "Test_EMP0014",
                 "name": "Employee14",
-                "password": "pass",
+                "password": "Password14",
+                "emp_type": "Employee",
+                "admin_id": "Test_ADM0",
+                "email": "employee14@nucleusteq.com",
+                "mobile": "6262321abc", # Alphanumeric
+                "gender": "Male",
+                "date_of_joining": "2024-05-01"
+            }
+        )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    # [Password Length less than 8]
+    response = client.post(
+            "/registration_form_submission",
+            json={
+                "id": "Test_EMP0014",
+                "name": "Employee14",
+                "password": "Passwd1",
                 "emp_type": "Employee",
                 "admin_id": "Test_ADM0",
                 "email": "employee14@nucleusteq.com",
@@ -107,6 +146,23 @@ def test_register_as_employee_submission(client):
             }
         )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    #  password > 30
+    response = client.post(
+            "/registration_form_submission",
+            json={
+                "id": "Test_EMP0014",
+                "name": "Employee14",
+                "password": "Passwdsqwertyuiopasdfghjklzxcvbnmqazwsx123",
+                "emp_type": "Employee",
+                "admin_id": "Test_ADM0",
+                "email": "employee14@nucleusteq.com",
+                "mobile": "6263212321",
+                "gender": "Male",
+                "date_of_joining": "2024-05-01"
+            }
+        )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
 
     # checking password[for Upper Case]
     response = client.post(
@@ -192,3 +248,22 @@ def test_register_as_employee_submission(client):
             }
         )
     assert response.status_code == status.HTTP_200_OK
+
+    # [For except Block : Passing Duplicate Entry]
+    response = client.post(
+            "/registration_form_submission",
+            json={
+                "id": "Test_MGR001",
+                "name": "Manager",
+                "password": "Password100",
+                "emp_type": "Manager",
+                "admin_id": "Test_ADM0",
+                "email": "manager100@nucleusteq.com",
+                "mobile": "6263218976",
+                "gender": "Binary",
+                "date_of_joining": "2024-05-01"
+            }
+    )
+    assert response.status_code == 500
+    assert response.json() == {"detail" : "Error occurred while saving employee registration record"}
+    

@@ -10,3 +10,4 @@ app/test_app/__pycache__
 app/test_app/.pytest_cache
 .pytest_cache
 .vscode
+app/.coverage

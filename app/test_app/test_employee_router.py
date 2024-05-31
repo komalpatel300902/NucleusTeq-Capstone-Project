@@ -11,7 +11,7 @@ def client():
     return TestClient(app)
 
 @pytest.mark.order(38)
-def test_employee_login(client):
+def test_login_page_of_employee(client):
     response = client.get("/employee_login")
     assert response.status_code == 200
 
@@ -25,7 +25,13 @@ def test_employee_login(client):
         assert response.status_code == 200
         assert response.json() == {"message":"Login Successful"}
     
-
+        response = client.post("/employee_login_data",json = {
+        "username": "Test_ADM",
+        "password": "Test_Passwd0"
+        })
+        assert response.status_code == 401
+        assert response.json() == {"detail":"Invalid username or password"}
+        
 @pytest.mark.order(40 )
 def test_employee_home(client):
     response = client.get("/employee_home")

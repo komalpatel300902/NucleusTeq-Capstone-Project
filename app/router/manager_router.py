@@ -1,8 +1,14 @@
 """
-1: able to view all the employees, manager and projects.
-2: filter employees by skill and uassigned employees.
-3: request employees to admin
-4: see all theproject on which manager is working
+To use, simply 'import manager_router'
+
+This module holds all the functionalities that a manager has.
+1. Manager Login Panal
+2. View all employee and project
+3. Filter employee (unassigned) on the basis of skill
+4. Request admin for employee for project
+5. View project he/she has
+6. Update the status of project
+7. Logout
 """ 
 
 from fastapi import APIRouter, HTTPException , Request , status, Depends , Response 
@@ -33,22 +39,50 @@ class ManagerUserSession:
 
 manager_user = ManagerUserSession()
 def get_user():
-    if manager_user:
+    if manager_user.manager_id:
         return manager_user.manager_id
     else:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail = "Unauthorised User")
-
+        raise HTTPException(status_code=401, detail="Unauthoroised User")
 manager_router = APIRouter()
 
 
 templates = Jinja2Templates(directory = "templates/manager")
 @manager_router.get("/manager_login")
 async def manager_login(request: Request):
+
+    """    
+    Manager Login Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        
+    Returns:
+        [text/html] :index.html
+
+    """
+
     logger.info(f"Accessed Manager Login Page")
     return templates.TemplateResponse("index.html",{"request":request}) 
 
 @manager_router.post(r"/manager_login_data", response_class = HTMLResponse)
 async def manager_credential_authentication(response: Response,request : Request, login_details: LoginDetails, db = Depends(get_db)) -> None:
+    
+    """    
+    Manager Credential will be Authenticated here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        login_detail (LoginDetail): Fetch username and Password.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message":"Login Successful"}
+    
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+        HTTPException [status_code = 401] : Username or Password is Incorrect.
+    """
+
     logger.info(f"Attempting to authenticate Employee: {login_details.username}")
     sql , cursor = db
 
@@ -59,19 +93,20 @@ async def manager_credential_authentication(response: Response,request : Request
     logger.debug(f"SQL Query to Check Wheather Manager Record Exist or Not : {sql_query_to_check_manager}")
 
     print( "manager",login_details.username , login_details.password )
+
     try:
         cursor.execute(sql_query_to_check_manager)
         data = cursor.fetchall()
         logger.info(f"Authentication query executed successfully for admin: {login_details.username}")
 
-
     except Exception as e:
-        print(e)
         logger.error(f"Error executing authentication query: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while executing authentication query")
+    
     else:
         condition = data[0][0]
         print(type(condition))
-
+ 
         if condition:
             logger.info(f"Employee {login_details.username} authenticated successfully.")
 
@@ -82,6 +117,7 @@ async def manager_credential_authentication(response: Response,request : Request
             redirect_url = request.url_for('admin_home')
             print(redirect_url)
             return JSONResponse(content={"message":"Login Successful"})
+        
         else:
             logger.warning(f"Invalid login attempt for admin: {login_details.username}")
             raise HTTPException(status_code=401, detail="Invalid username or password")
@@ -90,12 +126,39 @@ async def manager_credential_authentication(response: Response,request : Request
 
 @manager_router.get("/manager_home")
 async def manager_home(request: Request, manager_id = Depends(get_user)):
+    
+    """    
+    Manager Home Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_id (String): Fetch manager_id from UserSession.
+        
+    Returns:
+        [text/html] :home.html
+    """
+
     logger.info(f"{manager_id} : Accessed Manager Home Page")
     return templates.TemplateResponse("home.html",{"request":request}) 
 
 
 @manager_router.get(r"/comprehensive_info")
 async def get_all_employees_and_project(request: Request,manager_id = Depends(get_user), db = Depends(get_db)) -> None:
+    
+    """    
+    View all Employee and Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_id (String): Fetch manager_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :compresive_info.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
 
     logger.info(f"{manager_id} : Accessed View all Employees Page")
 
@@ -158,15 +221,34 @@ async def get_all_employees_and_project(request: Request,manager_id = Depends(ge
         managers = data_formatter.dictionary_list(table_data = table_data_for_manager, table_column=table_column_manager_information)
         projects = data_formatter.dictionary_list(table_data = table_data_for_project, table_column=table_column_project_information)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
+    
     except Exception as e:
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while view all employee page")
+    
     else:
         return templates.TemplateResponse("comprehensive_info.html",{"request":request, "managers": managers,"workers":workers, "projects":projects})
 
 
 @manager_router.get(r"/filtered_employee")
 async def get_filtered_employees(request: Request, skill:str = "" , manager_id: str = Depends(get_user), db = Depends(get_db) ) -> None:
+    
+    """    
+    Employee (Unassigned) for Project Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        skill (String) : Hold value of filter.
+        manager_id (String): Fetch manager_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :filter_employee_for_project.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{manager_id} : Accessed Employee for Project Page")
     sql , cursor = db
     sql_query_to_fetch_employees = f"""SELECT e.emp_id , e.emp_name , e.gender , e.mobile , e.email , e.skills
@@ -187,6 +269,7 @@ async def get_filtered_employees(request: Request, skill:str = "" , manager_id: 
 
     table_column_employee_information = ["emp_id", "emp_name","gender","mobile","email","skills"]
     project_column = ["project_id","project_name"]
+    
     try:
         cursor.execute(sql_query_to_fetch_employees)
         table_data_for_employee_request = cursor.fetchall()
@@ -200,14 +283,32 @@ async def get_filtered_employees(request: Request, skill:str = "" , manager_id: 
         workers = data_formatter.dictionary_list(table_data = table_data_for_employee_request, table_column=table_column_employee_information)
         projects = data_formatter.dictionary_list(table_data = data_of_project , table_column = project_column)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
+    
     except Exception as e:
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering the filter employee for project page")
+    
     else:
         return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects , "manager":{"manager_id":manager_id}})
 
 @manager_router.post(r"/request_for_employee", response_class=JSONResponse)
 async def request_employee(request:Request , employee_data: RequestForEmployee, db = Depends(get_db)) -> None:
+    
+    """    
+    Manager Request for Employee is Processed Here
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (RequestForEmployee): Fetch manager and Employee data.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message":"Request for employee sent Successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"Requset Recieved of Manager asking for Employee: {employee_data.emp_id} in Project: {employee_data.project_id}")
     sql, cursor = db
     sql_query_for_employee_request = f"""
@@ -229,9 +330,9 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
     except Exception as e:
         logger.error(f"Error executing query : {e}")
         sql.rollback()
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while sending manager request")
+    
     else:
-        
         redirect_url = request.url_for("get_filtered_employees")
         return JSONResponse(content = {"message":"Request for employee sent Successfully"})
 
@@ -239,7 +340,24 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
 
 @manager_router.get(r"/projects_manager_have")
 async def project_manager_have(request: Request, manager_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+    
+    """    
+    Project Manager Have Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_id (String): Fetch manager_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :manager_project_info.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{manager_id} : Accessed Project Manager Have Page")
+
     sql, cursor = db
     sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line, p.status , p.description
     FROM  project AS p
@@ -247,6 +365,7 @@ async def project_manager_have(request: Request, manager_id: str = Depends(get_u
     ON mpd.project_id = p.project_id
     WHERE mpd.manager_id = '{manager_id}';
     """
+
     logger.debug(f"SQL Query to See the Project that Manager Have ")
 
     table_column_project_information = ["project_id", "project_name","start_date","dead_line","status","description"]
@@ -259,14 +378,32 @@ async def project_manager_have(request: Request, manager_id: str = Depends(get_u
         data_formatter = DataFormatter()
         projects = data_formatter.dictionary_list(table_data = table_data_for_project, table_column=table_column_project_information)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
+    
     except Exception as e:
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering the mangers project page")
+    
     else:
         return templates.TemplateResponse("manager_project_info.html",{"request":request, "projects":projects})
 
 @manager_router.get("/update_project_status")
 async def update_project_status_page(request: Request, manager_id = Depends(get_user), db = Depends(get_db)):
+    
+    """    
+    Update Project Status Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_id (String): Fetch manager_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] :update_project_status.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info(f"{manager_id} : Accessed update Project Status Page")
     sql, cursor = db
     sql_query_to_fetch_project = f"""SELECT p.project_id , p.project_name , p.start_date , p.dead_line, p.status , p.description
@@ -287,9 +424,11 @@ async def update_project_status_page(request: Request, manager_id = Depends(get_
         data_formatter = DataFormatter()
         projects = data_formatter.dictionary_list(table_data = table_data_for_project, table_column=table_column_project_information)
         logger.info("Data formatted successfully. Ready for sending it to Webpage")
+    
     except Exception as e:
         logger.error(f"Error executing query or while formatting the Data: {e}")
-        print(e)
+        raise HTTPException(status_code=500, detail="An error occurred while rendering the update project status page")
+    
     else:
         status_list = [ "Started" , "In Progress" ,"Review" , "Completed"]
         return templates.TemplateResponse("update_project_status.html",{"request":request, "projects":projects, "status_list":status_list , "manager":{"manager_id": manager_id}})
@@ -297,6 +436,22 @@ async def update_project_status_page(request: Request, manager_id = Depends(get_
 
 @manager_router.put("/update_project_status")
 async def update_project_status(request: Request, project_info: Project_Update_Status, db = Depends(get_db)):
+    
+    """    
+    Update Project Status Request is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        project_info (Project_Update_status): Fetch project status Manager want to Update.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message": "Project status Updated Successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
     logger.info("Recieved Request to update the status of the Project")
     sql , cursor = db
     sql_query_to_update_project_status = f"""
@@ -309,8 +464,12 @@ async def update_project_status(request: Request, project_info: Project_Update_S
         cursor.execute("START TRANSACTION ;")
         cursor.execute(sql_query_to_update_project_status)
         sql.commit()
+    
     except Exception as e:
         sql.rollback()
+        logger.error(f"error in updating status of the project : {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while while updating status of the project")
+    
     else:
         return JSONResponse(status_code= status.HTTP_200_OK , content= {"message": "Project status Updated Successfully"})
 

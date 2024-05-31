@@ -1,3 +1,8 @@
+"""
+To use, simply use 'import project_model'
+
+This module defines a various class inheriting BaseModel for holding project data. 
+"""
 from pydantic import BaseModel
 
 class ProjectDetails(BaseModel): 
@@ -30,10 +35,10 @@ class AssignProjectToManager(BaseModel):
     manager_id : str
     project_id : str
 
-class UnassignPtojectToEmployee(BaseModel):
+class UnassignProjectToEmployee(BaseModel):
     emp_id: str
 
-class UnassignPtojectToManager(BaseModel):
+class UnassignProjectToManager(BaseModel):
     manager_id: str
     project_id: str
 
