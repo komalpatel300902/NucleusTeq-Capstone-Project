@@ -416,16 +416,15 @@ def test_approve_completion_of_project(client):
     assert response.status_code == 200
     assert response.json() == {"message":f"Project Completed"}
 
-
-@pytest.mark.order( 52)
-def test_admin_login(client):
+@pytest.mark.order(52)
+def test_logout_process_of_admin(client):
     response = client.get("/admin_logout")
     assert response.status_code == 200
     assert response.json() == {"message": "Admin successfully Logout"}
-   
-# @pytest.mark.order(52)
-# def test_remove_all(client):
-#     response = client.delete(f"/remove_all?admin_id=Test_ADM0")
-#     assert response.status_code == 200
-#     assert response.json() == {"message":"Everything Removed Successfully"}
+
+@pytest.mark.order(70)
+def test_remove_all(client):
+    response = client.delete(f"/remove_all?admin_id=Test_ADM0")
+    assert response.status_code == 200
+    assert response.json() == {"message":"Everything Removed Successfully"}
     

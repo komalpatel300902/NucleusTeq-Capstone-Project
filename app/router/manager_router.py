@@ -39,7 +39,7 @@ class ManagerUserSession:
 
 manager_user = ManagerUserSession()
 def get_user():
-    if manager_user.manager_id:
+    if manager_user.is_authenticated():
         return manager_user.manager_id
     else:
         raise HTTPException(status_code=401, detail="Unauthoroised User")

@@ -520,3 +520,801 @@
 2024-06-01 01:45:55,427 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
 2024-06-01 01:46:09,578 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
 2024-06-01 01:46:16,776 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:51:05,884 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:52:54,262 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:54:39,744 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:54:43,095 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:55:05,594 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:55:20,400 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:58:12,079 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:58:18,999 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:58:23,281 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 15:58:56,749 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:00:33,873 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:02:41,914 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:02:49,813 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:06:45,645 - root - INFO - Accessed Index page
+2024-06-01 16:06:48,320 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:06:50,052 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 16:06:51,962 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-01 16:06:52,842 - root - INFO - Accessed Index page
+2024-06-01 16:06:53,766 - root - INFO - Accessed registration form page
+2024-06-01 16:06:53,766 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-01 16:06:53,766 - root - INFO - Admin Details fetched Successfully
+2024-06-01 16:06:53,766 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:06:55,495 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:07:08,060 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:07:08,061 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:07:08,063 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:07:08,066 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:07:08,066 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:07:08,067 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:07:08,073 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:07:17,308 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:07:17,308 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:07:17,309 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:07:17,310 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:07:17,310 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:07:17,311 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:07:17,318 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:07:17,351 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:07:22,138 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:07:24,207 - router.admin_router - INFO - ADM001 : Accessed View all Employee And Project Page
+2024-06-01 16:07:24,207 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-01 16:07:24,207 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-01 16:07:24,207 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-01 16:07:24,208 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-01 16:07:24,210 - router.admin_router - INFO - All information fetched successfully
+2024-06-01 16:07:24,216 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-01 16:07:24,230 - router.admin_router - INFO - Project details fetched successfully
+2024-06-01 16:07:24,231 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-01 16:07:24,282 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:07:30,224 - router.admin_router - INFO - ADM001 : Accessed Joining Request of Employee Page
+2024-06-01 16:07:30,225 - router.admin_router - INFO - Fetching joining requests for admin: ADM001
+2024-06-01 16:07:30,225 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM001 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM001' AND a.admin_id = 'ADM001';
+2024-06-01 16:07:30,227 - router.admin_router - INFO - Data query executed successfully for admin: ADM001
+2024-06-01 16:07:30,231 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:07:30,231 - router.admin_router - INFO - Rendering joining requests page for admin: ADM001
+2024-06-01 16:07:35,805 - router.admin_router - INFO - ADM001 : Accessed Manager Request Page
+2024-06-01 16:07:35,806 - router.admin_router - INFO - Fetching manager requests for admin_id: ADM001
+2024-06-01 16:07:35,806 - router.admin_router - DEBUG - SQL Query to fetch Manager Request : 
+    SELECT m.manager_name, m.manager_id, p.project_name , p.project_id , e.emp_name , e.emp_id
+    FROM manager_request_for_employees AS mrfe
+    INNER JOIN manager AS m
+    ON mrfe.manager_id = m.manager_id
+    INNER JOIN project AS p
+    ON mrfe.project_id = p.project_id
+    INNER JOIN employees AS e
+    ON mrfe.emp_id = e.emp_id
+    WHERE mrfe.status = "Pending" AND mrfe.admin_id = 'ADM001';
+     
+2024-06-01 16:07:35,808 - router.admin_router - INFO - Fetched manager requests successfully
+2024-06-01 16:07:35,808 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:07:38,372 - router.admin_router - INFO - ADM001 : Accessed Assign project to Employee Page
+2024-06-01 16:07:38,373 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM001
+2024-06-01 16:07:38,373 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM001';  
+2024-06-01 16:07:38,373 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-01 16:07:38,374 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM001'
+    GROUP BY m.manager_id;
+     
+2024-06-01 16:07:38,374 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-01 16:07:38,375 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-01 16:07:38,378 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-01 16:07:38,379 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-01 16:07:38,381 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-01 16:07:38,399 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-01 16:07:38,399 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-01 16:08:02,657 - router.admin_router - INFO - Assigning project_id: PROJ001 to manager_id: MGR003
+2024-06-01 16:08:02,657 - router.admin_router - DEBUG - SQL Query to find manager record: 
+    SELECT COUNT(project_id) 
+    FROM manager_project_details
+    WHERE project_id = 'PROJ001';
+    
+2024-06-01 16:08:02,657 - router.admin_router - DEBUG - SQL Query to update manager project details: 
+    UPDATE manager_project_details 
+    SET manager_id = 'MGR003'
+    WHERE project_id = 'PROJ001';
+    
+2024-06-01 16:08:02,657 - router.admin_router - DEBUG - SQL Query to insert data when Manager is Assigned a Project: INSERT INTO manager_project_details (manager_id,project_id)
+    VALUES('MGR003','PROJ001');
+    
+2024-06-01 16:08:02,657 - router.admin_router - DEBUG - SQL Query to update project table: UPDATE project
+    SET project_assigned = 'YES', status = 'Started'
+    WHERE project_id = 'PROJ001' ;
+    
+2024-06-01 16:08:02,665 - router.admin_router - INFO - Manager details fetched successfully
+2024-06-01 16:08:02,666 - router.admin_router - INFO - Manager project details Update successfully 
+2024-06-01 16:08:02,792 - router.admin_router - INFO - Successfully assigned project_id: PROJ001 to manager_id: MGR003
+2024-06-01 16:08:02,839 - router.admin_router - INFO - ADM001 : Accessed Assign project to Employee Page
+2024-06-01 16:08:02,839 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM001
+2024-06-01 16:08:02,839 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM001';  
+2024-06-01 16:08:02,839 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-01 16:08:02,839 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM001'
+    GROUP BY m.manager_id;
+     
+2024-06-01 16:08:02,839 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-01 16:08:02,839 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-01 16:08:02,839 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-01 16:08:02,855 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-01 16:08:02,855 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-01 16:08:02,865 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-01 16:08:02,865 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-01 16:08:26,996 - router.admin_router - INFO - ADM001 : Accessed Unassign Project to Employee Page
+2024-06-01 16:08:26,996 - router.admin_router - INFO - Fetching employee and manager project details for admin_id: ADM001
+2024-06-01 16:08:26,996 - router.admin_router - DEBUG - SQL Query to find employee project: SELECT e.emp_id,e.emp_name, e.gender , e.mobile , e.email,
+    p.project_id , p.project_name, m.manager_id , m.manager_name
+    FROM employees AS e
+    INNER JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id 
+    INNER JOIN project AS p
+    ON p.project_id = epd.project_id
+    INNER JOIN manager  AS m
+    ON m.manager_id = epd.manager_id
+    WHERE e.admin_id = 'ADM001'
+    ;
+    
+2024-06-01 16:08:26,998 - router.admin_router - DEBUG - SQL Query to find manager project: SELECT m.manager_id , m.manager_name , m.gender , m.mobile , m.email,
+    GROUP_CONCAT(DISTINCT p.project_id ORDER BY p.project_id ASC SEPARATOR ', ') AS project_id,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_name
+    FROM manager_project_details AS mpd
+    INNER JOIN manager AS m
+    ON m.manager_id = mpd.manager_id
+    INNER JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM001' 
+    GROUP BY m.manager_id ;
+2024-06-01 16:08:27,001 - router.admin_router - INFO - Fetched employee project details successfully
+2024-06-01 16:08:27,001 - router.admin_router - INFO - Fetched manager project details successfully
+2024-06-01 16:08:27,016 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:08:27,016 - router.admin_router - INFO - Successfully Rendered the Unassign Project Webpage
+2024-06-01 16:08:36,572 - router.admin_router - INFO - Unassigning employee EMP004 from project
+2024-06-01 16:08:36,572 - router.admin_router - DEBUG - SQL Query to Delete Employee Record from employee_project_detail Table: 
+    DELETE FROM employee_project_details
+    WHERE emp_id = 'EMP004' ;
+    
+2024-06-01 16:08:36,572 - router.admin_router - DEBUG - SQL Query to Update Project_Assigned Column from employees Table: UPDATE employees
+    SET project_assigned = 'NO'
+    WHERE emp_id = 'EMP004' ;
+2024-06-01 16:08:36,709 - router.admin_router - INFO - Employee EMP004 successfully unassigned from project and Employee Table Update
+2024-06-01 16:08:36,740 - router.admin_router - INFO - ADM001 : Accessed Unassign Project to Employee Page
+2024-06-01 16:08:36,740 - router.admin_router - INFO - Fetching employee and manager project details for admin_id: ADM001
+2024-06-01 16:08:36,740 - router.admin_router - DEBUG - SQL Query to find employee project: SELECT e.emp_id,e.emp_name, e.gender , e.mobile , e.email,
+    p.project_id , p.project_name, m.manager_id , m.manager_name
+    FROM employees AS e
+    INNER JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id 
+    INNER JOIN project AS p
+    ON p.project_id = epd.project_id
+    INNER JOIN manager  AS m
+    ON m.manager_id = epd.manager_id
+    WHERE e.admin_id = 'ADM001'
+    ;
+    
+2024-06-01 16:08:36,740 - router.admin_router - DEBUG - SQL Query to find manager project: SELECT m.manager_id , m.manager_name , m.gender , m.mobile , m.email,
+    GROUP_CONCAT(DISTINCT p.project_id ORDER BY p.project_id ASC SEPARATOR ', ') AS project_id,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_name
+    FROM manager_project_details AS mpd
+    INNER JOIN manager AS m
+    ON m.manager_id = mpd.manager_id
+    INNER JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM001' 
+    GROUP BY m.manager_id ;
+2024-06-01 16:08:36,756 - router.admin_router - INFO - Fetched employee project details successfully
+2024-06-01 16:08:36,756 - router.admin_router - INFO - Fetched manager project details successfully
+2024-06-01 16:08:36,765 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:08:36,765 - router.admin_router - INFO - Successfully Rendered the Unassign Project Webpage
+2024-06-01 16:08:42,915 - router.admin_router - INFO - Unassigning manager MGR003 from project PROJ4
+2024-06-01 16:08:42,915 - router.admin_router - DEBUG - SQL Query to Update the Manager_project_detail Table : 
+    UPDATE manager_project_details
+    SET manager_id = 'Unassigned'
+    WHERE manager_id = 'MGR003' AND project_id = 'PROJ4' ;
+     
+2024-06-01 16:08:42,915 - router.admin_router - DEBUG - SQL Query to Update Project Status in Project Table : UPDATE project
+    SET project_assigned = 'NO',
+    status = 'On Hold'
+    WHERE project_id = 'PROJ4';  
+2024-06-01 16:08:43,105 - router.admin_router - INFO - Manager MGR003 successfully unassigned from project PROJ4
+2024-06-01 16:08:43,137 - router.admin_router - INFO - ADM001 : Accessed Unassign Project to Employee Page
+2024-06-01 16:08:43,137 - router.admin_router - INFO - Fetching employee and manager project details for admin_id: ADM001
+2024-06-01 16:08:43,137 - router.admin_router - DEBUG - SQL Query to find employee project: SELECT e.emp_id,e.emp_name, e.gender , e.mobile , e.email,
+    p.project_id , p.project_name, m.manager_id , m.manager_name
+    FROM employees AS e
+    INNER JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id 
+    INNER JOIN project AS p
+    ON p.project_id = epd.project_id
+    INNER JOIN manager  AS m
+    ON m.manager_id = epd.manager_id
+    WHERE e.admin_id = 'ADM001'
+    ;
+    
+2024-06-01 16:08:43,137 - router.admin_router - DEBUG - SQL Query to find manager project: SELECT m.manager_id , m.manager_name , m.gender , m.mobile , m.email,
+    GROUP_CONCAT(DISTINCT p.project_id ORDER BY p.project_id ASC SEPARATOR ', ') AS project_id,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_name
+    FROM manager_project_details AS mpd
+    INNER JOIN manager AS m
+    ON m.manager_id = mpd.manager_id
+    INNER JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM001' 
+    GROUP BY m.manager_id ;
+2024-06-01 16:08:43,137 - router.admin_router - INFO - Fetched employee project details successfully
+2024-06-01 16:08:43,137 - router.admin_router - INFO - Fetched manager project details successfully
+2024-06-01 16:08:43,148 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:08:43,149 - router.admin_router - INFO - Successfully Rendered the Unassign Project Webpage
+2024-06-01 16:09:11,999 - router.admin_router - INFO - ADM001 : Accessed Project Form Page
+2024-06-01 16:09:11,999 - router.admin_router - INFO - Fetching manager details for admin_id: ADM001
+2024-06-01 16:09:11,999 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM001 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM001'; 
+2024-06-01 16:09:11,999 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM001
+2024-06-01 16:09:11,999 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:09:11,999 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-01 16:09:14,415 - router.admin_router - INFO - ADM001 : Accessed View completed Project Page
+2024-06-01 16:09:14,415 - router.admin_router - INFO - Fetching project information
+2024-06-01 16:09:14,415 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    WHERE p.status = 'completed'
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-01 16:09:14,415 - router.admin_router - INFO - Project details fetched successfully
+2024-06-01 16:09:14,415 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:09:19,973 - router.admin_router - INFO - ADM001 : Accessed Manager Request Page
+2024-06-01 16:09:19,974 - router.admin_router - INFO - Fetching manager requests for admin_id: ADM001
+2024-06-01 16:09:19,974 - router.admin_router - DEBUG - SQL Query to fetch Manager Request : 
+    SELECT m.manager_name, m.manager_id, p.project_name , p.project_id , e.emp_name , e.emp_id
+    FROM manager_request_for_employees AS mrfe
+    INNER JOIN manager AS m
+    ON mrfe.manager_id = m.manager_id
+    INNER JOIN project AS p
+    ON mrfe.project_id = p.project_id
+    INNER JOIN employees AS e
+    ON mrfe.emp_id = e.emp_id
+    WHERE mrfe.status = "Pending" AND mrfe.admin_id = 'ADM001';
+     
+2024-06-01 16:09:19,976 - router.admin_router - INFO - Fetched manager requests successfully
+2024-06-01 16:09:19,976 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:09:22,390 - router.admin_router - INFO - ADM001 : Accessed View completed Project Page
+2024-06-01 16:09:22,391 - router.admin_router - INFO - Fetching project information
+2024-06-01 16:09:22,391 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    WHERE p.status = 'completed'
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-01 16:09:22,392 - router.admin_router - INFO - Project details fetched successfully
+2024-06-01 16:09:22,392 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:09:38,859 - router.admin_router - INFO - ADM001 : Accessed View completed Project Page
+2024-06-01 16:09:38,859 - router.admin_router - INFO - Fetching project information
+2024-06-01 16:09:38,859 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    WHERE p.status = 'completed'
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-01 16:09:38,862 - router.admin_router - INFO - Project details fetched successfully
+2024-06-01 16:09:38,863 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:10:12,639 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:10:35,748 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:11:22,425 - root - INFO - Accessed Index page
+2024-06-01 16:11:26,303 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:11:34,822 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:11:34,829 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:11:34,829 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:11:34,834 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:11:34,834 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:11:34,834 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:11:34,834 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:11:41,819 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:11:41,819 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:11:41,821 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:11:41,821 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:11:41,822 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:11:41,822 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:11:41,826 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:11:41,848 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:12:28,073 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:14:13,385 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:14:34,569 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:14:44,388 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:14:44,395 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:14:44,395 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:14:44,398 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:14:44,398 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:14:44,400 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:14:44,402 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:14:59,474 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:14:59,475 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'Password1' ;
+    
+2024-06-01 16:14:59,476 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:14:59,477 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:14:59,477 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:14:59,479 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:14:59,484 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:14:59,515 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:15:03,592 - router.admin_router - INFO - Admin successfully logged out
+2024-06-01 16:15:03,633 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:17:01,819 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:17:03,747 - root - INFO - Accessed Index page
+2024-06-01 16:17:12,897 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:17:21,743 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:17:21,777 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:17:21,777 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'Password1' ;
+    
+2024-06-01 16:17:21,781 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:17:21,782 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:17:21,782 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:17:21,784 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:18:43,647 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:18:45,941 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:18:53,434 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:18:53,499 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:18:53,501 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:18:53,507 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:18:53,508 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:18:53,508 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:18:53,508 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:20:23,912 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:20:23,912 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:20:23,915 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:20:23,916 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:20:23,916 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:20:23,918 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:20:23,942 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:20:32,647 - router.admin_router - INFO - Admin successfully logged out
+2024-06-01 16:20:32,668 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:20:39,492 - router.admin_router - INFO - Attempting to authenticate admin: sjdbvjbsdjsdnkjsdnksj
+2024-06-01 16:20:39,492 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'sjdbvjbsdjsdnkjsdnksj' AND password = 'sdnjsdjsjd' ;
+    
+2024-06-01 16:20:39,494 - router.admin_router - INFO - Authentication query executed successfully for admin: sjdbvjbsdjsdnkjsdnksj
+2024-06-01 16:20:39,495 - router.admin_router - WARNING - Invalid login attempt for admin: sjdbvjbsdjsdnkjsdnksj
+2024-06-01 16:20:39,501 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:20:45,530 - router.admin_router - INFO - Attempting to authenticate admin: dnvdjvsd
+2024-06-01 16:20:45,530 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'dnvdjvsd' AND password = 'sdnksndks' ;
+    
+2024-06-01 16:20:45,530 - router.admin_router - INFO - Authentication query executed successfully for admin: dnvdjvsd
+2024-06-01 16:20:45,535 - router.admin_router - WARNING - Invalid login attempt for admin: dnvdjvsd
+2024-06-01 16:20:45,568 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:20:47,293 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:20:53,210 - router.admin_router - INFO - Attempting to authenticate admin: dvnsdvsd
+2024-06-01 16:20:53,211 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'dvnsdvsd' AND password = 'sdnsjdcjsmd' ;
+    
+2024-06-01 16:20:53,213 - router.admin_router - INFO - Authentication query executed successfully for admin: dvnsdvsd
+2024-06-01 16:20:53,214 - router.admin_router - WARNING - Invalid login attempt for admin: dvnsdvsd
+2024-06-01 16:20:53,218 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:20:54,887 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:20:59,948 - router.admin_router - INFO - Attempting to authenticate admin: sdncsd
+2024-06-01 16:20:59,948 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'sdncsd' AND password = 'sdnkjsndk' ;
+    
+2024-06-01 16:20:59,952 - router.admin_router - INFO - Authentication query executed successfully for admin: sdncsd
+2024-06-01 16:20:59,953 - router.admin_router - WARNING - Invalid login attempt for admin: sdncsd
+2024-06-01 16:20:59,959 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:06,684 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:06,807 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:06,992 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:07,100 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:07,292 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:07,387 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:07,632 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:27,430 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:28,587 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:27:34,477 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:27:34,478 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:27:34,479 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:27:34,480 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:27:34,480 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:27:34,480 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:27:34,489 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:34,516 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:27:36,403 - router.admin_router - INFO - Admin successfully logged out
+2024-06-01 16:27:36,443 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:41,047 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:27:41,048 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'dnjsndks' ;
+    
+2024-06-01 16:27:41,051 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:27:41,051 - router.admin_router - WARNING - Invalid login attempt for admin: ADM001
+2024-06-01 16:27:41,057 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:42,629 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:49,232 - router.admin_router - INFO - Attempting to authenticate admin: snsdbwds
+2024-06-01 16:27:49,232 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'snsdbwds' AND password = 'sjksnjdsd' ;
+    
+2024-06-01 16:27:49,236 - router.admin_router - INFO - Authentication query executed successfully for admin: snsdbwds
+2024-06-01 16:27:49,236 - router.admin_router - WARNING - Invalid login attempt for admin: snsdbwds
+2024-06-01 16:27:49,243 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:27:50,836 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:28:03,699 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:28:03,699 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password' ;
+    
+2024-06-01 16:28:03,699 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:28:03,699 - router.admin_router - WARNING - Invalid login attempt for admin: ADM001
+2024-06-01 16:28:03,710 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:28:05,093 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:30:58,720 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-01 16:31:00,750 - root - INFO - Accessed Index page
+2024-06-01 16:31:04,065 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:31:09,077 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:31:09,078 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'sfbjshdbfjsdbf' ;
+    
+2024-06-01 16:31:09,080 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:31:09,081 - router.admin_router - WARNING - Invalid login attempt for admin: ADM001
+2024-06-01 16:31:09,089 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:31:10,587 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:31:18,069 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:31:18,071 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:31:18,075 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:31:18,075 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:31:18,075 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:31:18,075 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:31:18,084 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:31:18,116 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:31:19,696 - router.admin_router - INFO - Admin successfully logged out
+2024-06-01 16:31:19,727 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:31:21,869 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 16:31:28,972 - router.manager_router - INFO - Attempting to authenticate Employee: MGR003
+2024-06-01 16:31:28,972 - router.manager_router - DEBUG - SQL Query to Check Wheather Manager Record Exist or Not : SELECT COUNT(manager_id) ,manager_id, password 
+    FROM manager
+    WHERE manager_id = 'MGR003' AND password = 'password15' ;
+    
+2024-06-01 16:31:28,973 - router.manager_router - INFO - Authentication query executed successfully for admin: MGR003
+2024-06-01 16:31:28,974 - router.manager_router - INFO - Employee MGR003 authenticated successfully.
+2024-06-01 16:31:28,974 - router.manager_router - INFO - Employee id is saved as SessionUser
+2024-06-01 16:31:28,974 - router.manager_router - INFO - Redirecting to Employee home 
+2024-06-01 16:31:28,984 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 16:31:29,014 - router.manager_router - INFO - MGR003 : Accessed Manager Home Page
+2024-06-01 16:31:30,608 - router.manager_router - INFO - Manager Logout Successfully
+2024-06-01 16:31:30,647 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 16:31:35,844 - router.manager_router - INFO - Attempting to authenticate Employee: ADM001
+2024-06-01 16:31:35,844 - router.manager_router - DEBUG - SQL Query to Check Wheather Manager Record Exist or Not : SELECT COUNT(manager_id) ,manager_id, password 
+    FROM manager
+    WHERE manager_id = 'ADM001' AND password = 'jsndjfsjfs' ;
+    
+2024-06-01 16:31:35,846 - router.manager_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:31:35,846 - router.manager_router - WARNING - Invalid login attempt for admin: ADM001
+2024-06-01 16:31:35,861 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 16:31:37,391 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 16:31:39,453 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-01 16:31:45,321 - router.emp_router - INFO - Attempting to authenticate Employee: EMP0012
+2024-06-01 16:31:45,324 - router.emp_router - DEBUG - SQL Query to Check Wheather Employee Record Exist or Not : SELECT COUNT(emp_id) ,emp_id, password 
+    FROM employees
+    WHERE emp_id = 'EMP0012' AND password = 'sncksdnfkjsd' ;
+    
+2024-06-01 16:31:45,326 - router.emp_router - INFO - Authentication query executed successfully for admin: EMP0012
+2024-06-01 16:31:45,327 - router.emp_router - WARNING - Invalid login attempt for admin: EMP0012
+2024-06-01 16:31:45,338 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-01 16:31:46,915 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-01 16:32:07,684 - root - INFO - Accessed registration form page
+2024-06-01 16:32:07,684 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-01 16:32:07,685 - root - INFO - Admin Details fetched Successfully
+2024-06-01 16:32:07,690 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:32:55,395 - root - INFO - Received registration form submission Request
+2024-06-01 16:32:55,397 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('smkdmcks',
+    'sjdfjsbdjfs', 
+    'SDF234sjfsk',   
+    'Manager',
+    'ADM001',
+    'komal14march2002@nucleusteq.com',
+    '1235335231',
+    'Male',
+    '2024-06-29',
+    'Pending'
+    )
+    
+2024-06-01 16:32:55,779 - root - INFO - Employee registration with id : smkdmcks hsa been saved successfully
+2024-06-01 16:32:57,686 - root - INFO - Accessed registration form page
+2024-06-01 16:32:57,686 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-01 16:32:57,687 - root - INFO - Admin Details fetched Successfully
+2024-06-01 16:32:57,696 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:33:21,857 - root - INFO - Accessed registration form page
+2024-06-01 16:33:21,857 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-01 16:33:21,857 - root - INFO - Admin Details fetched Successfully
+2024-06-01 16:33:21,861 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:33:32,225 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:33:41,462 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 16:33:41,462 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 16:33:41,467 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 16:33:41,467 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 16:33:41,467 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 16:33:41,470 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 16:33:41,483 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 16:33:41,520 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 16:33:43,537 - router.admin_router - INFO - ADM001 : Accessed Project Form Page
+2024-06-01 16:33:43,539 - router.admin_router - INFO - Fetching manager details for admin_id: ADM001
+2024-06-01 16:33:43,539 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM001 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM001'; 
+2024-06-01 16:33:43,541 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM001
+2024-06-01 16:33:43,541 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:33:43,541 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-01 16:34:14,021 - router.admin_router - INFO - Processing project creation for project_id: pasdas
+2024-06-01 16:34:14,021 - router.admin_router - DEBUG - SQL Query to insert data into Manager project Detail 
+        INSERT INTO manager_project_details (manager_id , project_id)
+        VALUES ('Later','pasdas');
+        
+2024-06-01 16:34:14,025 - router.admin_router - DEBUG - SQL Query to Create Project INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, description)
+    VALUES(
+        'pasdas',
+        'Project13', 
+        'ADM001',
+        '2024-06-01',
+        '2024-06-28',
+        'Not Assigned',
+        'NO',
+        'This project must be made with fast api'
+    );
+     
+2024-06-01 16:34:14,421 - router.admin_router - INFO - Project created successfully with project_id: pasdas
+2024-06-01 16:34:14,433 - router.admin_router - INFO - ADM001 : Accessed Project Form Page
+2024-06-01 16:34:14,433 - router.admin_router - INFO - Fetching manager details for admin_id: ADM001
+2024-06-01 16:34:14,433 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM001 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM001'; 
+2024-06-01 16:34:14,525 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM001
+2024-06-01 16:34:14,525 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:34:14,525 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-01 16:34:20,014 - router.admin_router - INFO - ADM001 : Accessed View all Employee And Project Page
+2024-06-01 16:34:20,014 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-01 16:34:20,014 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-01 16:34:20,014 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-01 16:34:20,014 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-01 16:34:20,017 - router.admin_router - INFO - All information fetched successfully
+2024-06-01 16:34:20,039 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-01 16:34:20,040 - router.admin_router - INFO - Project details fetched successfully
+2024-06-01 16:34:20,043 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-01 16:34:20,108 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 16:34:39,826 - router.admin_router - INFO - ADM001 : Accessed View Project Page
+2024-06-01 16:34:39,826 - router.admin_router - INFO - Fetching  projects information
+2024-06-01 16:34:39,826 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status , p.description
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-01 16:34:39,834 - router.admin_router - INFO - Project details fetched successfully
+2024-06-01 16:34:39,834 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-01 16:34:39,867 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-01 18:49:27,347 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-01 18:49:27,452 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'password1' ;
+    
+2024-06-01 18:49:27,455 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-01 18:49:27,455 - router.admin_router - INFO - Admin ADM001 authenticated successfully.
+2024-06-01 18:49:27,455 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-01 18:49:27,455 - router.admin_router - INFO - Redirecting to admin home
+2024-06-01 18:49:27,455 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 18:49:27,484 - router.admin_router - INFO - ADM001 : Accessed Admin Home Page.
+2024-06-01 18:49:29,184 - router.admin_router - INFO - Admin successfully logged out
+2024-06-01 18:49:29,214 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 18:49:31,171 - router.admin_router - INFO - Attempting to authenticate admin: 
+2024-06-01 18:49:31,173 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = '' AND password = '' ;
+    
+2024-06-01 18:49:31,173 - router.admin_router - INFO - Authentication query executed successfully for admin: 
+2024-06-01 18:49:31,173 - router.admin_router - WARNING - Invalid login attempt for admin: 
+2024-06-01 18:49:33,595 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:17:36,237 - router.admin_router - INFO - Admin successfully logged out
+2024-06-01 19:17:36,281 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:17:39,125 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 19:17:50,313 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 19:17:50,320 - router.manager_router - INFO - Attempting to authenticate Employee: MGR003
+2024-06-01 19:17:50,320 - router.manager_router - DEBUG - SQL Query to Check Wheather Manager Record Exist or Not : SELECT COUNT(manager_id) ,manager_id, password 
+    FROM manager
+    WHERE manager_id = 'MGR003' AND password = 'Password12' ;
+    
+2024-06-01 19:17:50,335 - router.manager_router - INFO - Authentication query executed successfully for admin: MGR003
+2024-06-01 19:17:50,338 - router.manager_router - WARNING - Invalid login attempt for admin: MGR003
+2024-06-01 19:18:02,342 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:18:02,449 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:18:02,658 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:18:02,779 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:18:03,012 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-01 19:18:04,308 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 19:18:09,195 - router.manager_router - INFO - Attempting to authenticate Employee: MGR003
+2024-06-01 19:18:09,195 - router.manager_router - DEBUG - SQL Query to Check Wheather Manager Record Exist or Not : SELECT COUNT(manager_id) ,manager_id, password 
+    FROM manager
+    WHERE manager_id = 'MGR003' AND password = 'jdnksjdnckj' ;
+    
+2024-06-01 19:18:09,198 - router.manager_router - INFO - Authentication query executed successfully for admin: MGR003
+2024-06-01 19:18:09,199 - router.manager_router - WARNING - Invalid login attempt for admin: MGR003
+2024-06-01 19:18:09,209 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 19:18:10,852 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 19:18:19,723 - router.manager_router - INFO - Attempting to authenticate Employee: MGR003
+2024-06-01 19:18:19,723 - router.manager_router - DEBUG - SQL Query to Check Wheather Manager Record Exist or Not : SELECT COUNT(manager_id) ,manager_id, password 
+    FROM manager
+    WHERE manager_id = 'MGR003' AND password = 'password15' ;
+    
+2024-06-01 19:18:19,726 - router.manager_router - INFO - Authentication query executed successfully for admin: MGR003
+2024-06-01 19:18:19,726 - router.manager_router - INFO - Employee MGR003 authenticated successfully.
+2024-06-01 19:18:19,726 - router.manager_router - INFO - Employee id is saved as SessionUser
+2024-06-01 19:18:19,728 - router.manager_router - INFO - Redirecting to Employee home 
+2024-06-01 19:18:19,742 - router.manager_router - INFO - Accessed Manager Login Page
+2024-06-01 19:18:19,773 - router.manager_router - INFO - MGR003 : Accessed Manager Home Page
+2024-06-01 20:24:25,796 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-01 20:24:34,136 - router.emp_router - INFO - Attempting to authenticate Employee: EMP0012
+2024-06-01 20:24:34,136 - router.emp_router - DEBUG - SQL Query to Check Wheather Employee Record Exist or Not : SELECT COUNT(emp_id) ,emp_id, password 
+    FROM employees
+    WHERE emp_id = 'EMP0012' AND password = 'password12' ;
+    
+2024-06-01 20:24:34,147 - router.emp_router - INFO - Authentication query executed successfully for admin: EMP0012
+2024-06-01 20:24:34,147 - router.emp_router - INFO - Employee EMP0012 authenticated successfully.
+2024-06-01 20:24:34,147 - router.emp_router - INFO - Employee id is saved as SessionUser
+2024-06-01 20:24:34,147 - router.emp_router - INFO - Redirecting to Employee home 
+2024-06-01 20:24:34,160 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-01 20:24:34,187 - router.emp_router - INFO - EMP0012 : Accessed Employee Home Page

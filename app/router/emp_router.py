@@ -38,7 +38,7 @@ class EmployeeUserSession:
         return self.employee_id is not None
 employee_user = EmployeeUserSession()
 def get_user():
-    if employee_user.employee_id:
+    if employee_user.is_authenticated():
         return employee_user.employee_id
     else:
         raise HTTPException(status_code=401, detail="Unauthoroised User")

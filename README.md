@@ -13,9 +13,21 @@ The Title of my project is : **`Employee Management Portal`**
     1. [**Database Connectivity**](#database-connectivity)
 1. [**API**](#api)
     1. [**Main**](#main)
+        1. [**Functionalities**](#functionalities-main-has)
+        1. [**DataFlow Diagram**](#dataflow-diagram)
+        1. [**Code**](#code)
     1. [**Admin**](#admin)
+        1. [**Functionalities**](#functionalities-admin-has)
+        1. [**DataFlow Diagram**](#dataflow-diagram-1)
+        1. [**Code**](#code-1)
     1. [**Manager**](#manager)
+        1. [**Functionalities**](#functionalities-manager-has)
+        1. [**DataFlow Diagram**](#dataflow-diagram-2)
+        1. [**Code**](#code-2)
     1. [**Employee**](#employee)
+        1. [**Functionalities**](#functionalities-employee-has)
+        1. [**DataFlow Diagram**](#dataflow-diagram-3)
+        1. [**Code**](#code-3)
 1. [**Testing**](#testing)
     1. [**Test Application**](#application-test)
 
@@ -330,15 +342,22 @@ def get_db():
 ## API
 This FastAPI application serves as a simple `employee management portal`, providing endpoints to manage employee data stored in a database. It allows you to fetch employee details by their unique ID and includes robust error handling for scenarios such as data not found and database errors.
 ### Main
-This is the `starting point` of the FastAPI application. The Functionalities it has : 
+This is the `starting point` of the FastAPI application.
+#### Functionalities Main Has 
+
 1. Welcome Page
 1. Login
 1. Registration of Employee
 
-> **main** : [***open***](./app/main.py)
+#### DataFlow Diagram
+[***open I***](./images/Login%20and%20Joining%20Request%20Data%20Flow%20Diagram.png) 
+
+#### Code 
+[***open***](./app/main.py)
 
 ### Admin
-Functionalities Admin has : 
+
+#### Functionalities Admin Has  
 
 1. Admin Login
 2. View all employee and project
@@ -353,9 +372,16 @@ Functionalities Admin has :
 11. View all project
 12. Logout
 
-> **admin_router** : [***open***](./app/router/admin_router.py)
+#### DataFlow Diagram
+[***open I***](./images/Admin%20Panel%20Data%20Flow%20Diagram%20I.png)   
+[***open II***](./images/Admin%20Panel%20Data%20Flow%20Diagram%20II.png)   
+[***open III***](./images/Admin%20Panel%20Data%20Flow%20Diagram%20III.png)
+
+#### Code
+[***open***](./app/router/admin_router.py)
+
 ### Manager
-Functionalities Manager has :
+#### Functionalities Manager Has
 1. Manager Login Panal
 2. View all employee and project
 3. Filter employee (unassigned) on the basis of skill
@@ -363,18 +389,24 @@ Functionalities Manager has :
 5. View project he/she has
 6. Update the status of project
 7. Logout
+####  DataFlow Diagram
+[***open***](./images/Manager%20Panel%20Data%20Flow%20Diagram.png)
 
-> **manager_router** : [***open***](./app/router/manager_router.py)
+#### Code
+[***open***](./app/router/manager_router.py)
 
 ### Employee
-Functionalities Employee has:
+#### Functionalities Employee Has
 1. Employee Login Panal
 2. View all employee
 3. View project he/she has
 4. Update the skill
 5. Logout
 
-> **employee_router** : [***open***](./app/router/employee_router.py)
+#### DataFlow Diagram
+[***open I***](./images/Employee%20Panel%20Data%20Flow%20Diagram.png)
+#### Code
+[***open***](./app/router/employee_router.py)
 
 ## Testing 
 

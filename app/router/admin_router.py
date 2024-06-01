@@ -54,7 +54,7 @@ setup_logging()
 logger = logging.getLogger(__name__)
 admin_user = UserSession()
 def get_user():
-    if admin_user.admin_id: 
+    if admin_user.is_authenticated(): 
         return admin_user.admin_id
     else:
         raise HTTPException(status_code=401, detail="Unauthoroised User")
@@ -1612,7 +1612,7 @@ async def remove_employee(request : Request , emp_id: str, db = Depends(get_db))
         return JSONResponse(content={"message":"Employee has been removed successfully"})
     
     
-@admin_router.get("/admin_logout",response_class = HTMLResponse)
+@admin_router.post("/admin_logout",response_class = HTMLResponse)
 async def logout(request: Request):
     logger.info("Admin successfully logged out")
     admin_user.logout()
@@ -1626,11 +1626,10 @@ Remove all the test entity [project | Manager | Employee] I created while testin
 '''
 
 @admin_router.delete("/remove_all",response_class= JSONResponse)
-async def remove_all(request:Request , db = Depends(get_db), admin_id: str = Depends(get_user)):
+async def remove_all(request:Request , admin_id: str, db = Depends(get_db) ):
     logger.info(f"Removing all data for admin ID: {admin_id}")
     sql, cursor = db
-    if admin_id :
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="The user is Unauthorised")
+
     sql_query_to_remove_employee = f"""DELETE FROM employees
     WHERE admin_id REGEXP '^Test' ;"""
     sql_query_to_remove_manager = f"""DELETE FROM manager
@@ -1652,6 +1651,7 @@ async def remove_all(request:Request , db = Depends(get_db), admin_id: str = Dep
         cursor.execute(sql_query_to_remove_joining_request)
         cursor.execute(sql_query_to_remove_terminated_records)
         cursor.execute(sql_query_to_remove_project)
+        cursor.execute(sql_query_to_remove_test_project_records)
         sql.commit()
         logger.info("All data removed successfully")
 
