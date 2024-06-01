@@ -21,6 +21,9 @@ The Title of my project is : **`Employee Management Portal`**
 
 ### **```Directory Structure```**
 
+<details>
+<summary><b>View Directory Structure</b></summary>
+
 ```
 NucleusTeq-Capstone-Project
 ├─── .gitignore
@@ -145,6 +148,9 @@ NucleusTeq-Capstone-Project
          └─── __init__.py
     
 ``` 
+
+</details>
+
 ## Database
 
 ###  **ER Diagram**
