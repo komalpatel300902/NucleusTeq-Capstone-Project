@@ -997,7 +997,8 @@ async def get_manager_request(request : Request, admin_id: str = Depends(get_use
     ON mrfe.project_id = p.project_id
     INNER JOIN employees AS e
     ON mrfe.emp_id = e.emp_id
-    WHERE mrfe.status = "Pending" AND mrfe.admin_id = '{admin_id}';
+    WHERE mrfe.status = "Pending" AND mrfe.admin_id = '{admin_id}'
+    GROUP BY m.manager_id, p.project_id,e.emp_id;
     """
     logger.debug(f"SQL Query to fetch Manager Request : {sql_query_for_manager_request} ") 
     table_column = ["manager_name", "manager_id","project_name","project_id","emp_name","emp_id"]

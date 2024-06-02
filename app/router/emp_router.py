@@ -315,7 +315,7 @@ async def employee_project_details(request: Request , emp_id: str = Depends(get_
     logger.info(f"{emp_id} : Accessed Employee Project Detail Page")
     sql, cursor = db
 
-    sql_query_to_fetch_project_details = f"""SELECT p.project_id, p.project_name , p.start_date, p.dead_line, m.manager_id, m.manager_name
+    sql_query_to_fetch_project_details = f"""SELECT p.project_id, p.project_name , p.start_date, p.dead_line, m.manager_id, m.manager_name, p.description
     FROM employee_project_details AS epd
     INNER JOIN manager AS m
     ON m.manager_id = epd.manager_id
@@ -324,7 +324,7 @@ async def employee_project_details(request: Request , emp_id: str = Depends(get_
     WHERE emp_id = '{emp_id}';"""
     logger.debug(f"SQL Query to fetch Project Details : {sql_query_to_fetch_project_details}")
 
-    table_column = ["project_id", "project_name","start_date","dead_line","manager_id","manager_name"]
+    table_column = ["project_id", "project_name","start_date","dead_line","manager_id","manager_name", "description"]
     try:
         cursor.execute(sql_query_to_fetch_project_details)
         table_data = cursor.fetchall()

@@ -1,7 +1,7 @@
 function requestForEmployees(empId){
     // You can use fetch API or any other library like Axios for making AJAX requests
     const selectField = document.getElementById("project-"+empId);
-    const manger_idField = document.getElementById("mnaager_id");
+    const manger_idField = document.getElementById("manager_id");
     const manager_id = manger_idField.value;
     const projectId = selectField.value;
     fetch("/request_for_employee" , {
@@ -15,6 +15,11 @@ function requestForEmployees(empId){
     })
     .then(response => {
         // Handle the response, maybe refresh the page or update UI as needed
+        if (response.ok){
+            alert("Request send Successfully");
+        }else{
+            alert("Request Failed")
+        }
         location.reload()
         console.log('Request accepted successfully');
     })
