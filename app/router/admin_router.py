@@ -620,7 +620,7 @@ async def get_employee_for_assigning_project(request : Request, admin_id: str = 
 
     sql_query_for_project_given_to_manager = f"""SELECT project_id, project_name 
     FROM project 
-    WHERE project_assigned = 'NO' ;""" 
+    WHERE project_assigned = 'NO' AND admin_id = '{admin_id}' ;""" 
     logger.debug(f"SQL Query to get Project for Manager : {sql_query_for_project_given_to_manager} ") 
 
     try:

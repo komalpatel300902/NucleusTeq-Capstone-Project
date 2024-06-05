@@ -39,7 +39,7 @@ def test_employee_home(client):
 
 @pytest.mark.order(41 )
 def test_fetch_all_workers_for_project(client):
-    response = client.get("/employee_for_project")
+    response = client.get("/all_colleague")
     assert response.status_code == 200
    
 @pytest.mark.order(42 )

@@ -128,7 +128,7 @@ async def employee_home(request :Request, emp_id = Depends(get_user)):
     return templates.TemplateResponse("home.html",{"request":request})
 
 
-@emp_router.get(r"/employee_for_project")
+@emp_router.get(r"/all_colleague")
 async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_user), db = Depends(get_db)) :
     """    
     View all Employee Page
@@ -159,13 +159,31 @@ async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_us
     ON a.admin_id = e.admin_id;"""
     logger.debug(f"SQL Query to fetch details of all Employee : {sql_query_to_get_all_information}")
 
+    sql_query_to_get_manager_information = f"""SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin AS a
+    ON a.admin_id = m.admin_id
+    GROUP BY m.manager_id ;"""
+    logger.debug(f"[Query 2] : SQL Query to Fetch all the Managers Information")
+
     table_column = ["emp_id", "emp_name","gender","email","admin_id","admin_name","manager_id","manager_name","project_id","project_name"]
+    table_column_manager_information = ["manager_id", "manager_name","gender","email","admin_id","admin_name","project_id","project_name"]
+    
     try:
         cursor.execute(sql_query_to_get_all_information)
         table_data = cursor.fetchall()
         logger.info("Data Fetched Successfully")
 
+        cursor.execute(sql_query_to_get_manager_information)
+        table_data_for_manager = cursor.fetchall()
+        logger.info("Data Fetched Successfully")
+
         data_formatter = DataFormatter()
+        managers = data_formatter.dictionary_list(table_data = table_data_for_manager, table_column=table_column_manager_information)
         data_entries = data_formatter.dictionary_list(table_data = table_data, table_column=table_column)
         logger.info("Data Formatted Successfully. Redy for sending it to WebPage")
 
@@ -174,7 +192,7 @@ async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_us
         raise HTTPException(status_code=500, detail="An error occurred while rendering view all employee page")
     
     else:
-        return templates.TemplateResponse("all_employees.html",{"request":request, "data_entries": data_entries})
+        return templates.TemplateResponse("all_employees.html",{"request":request, "data_entries": data_entries, "managers": managers})
 
 
 @emp_router.get(r"/update_skills_as_employee")

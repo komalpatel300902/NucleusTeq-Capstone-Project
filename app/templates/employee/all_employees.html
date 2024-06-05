@@ -9,6 +9,38 @@
     </header>
 
     <main>
+        
+        <h3>Managers</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Manager ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Admin ID</th>
+                    <th>Admin Name</th>
+                    <th>Project ID</th>
+                    <th>Project Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for manager in managers %}
+                <tr>
+                    <td>{{ manager.manager_id }}</td>
+                    <td>{{ manager.manager_name }}</td>
+                    <td>{{ manager.gender }}</td>
+                    <td>{{ manager.email }}</td>
+                    <td>{{ manager.admin_id }}</td>
+                    <td>{{ manager.admin_name }}</td>
+                    <td>{{ manager.project_id }}</td>
+                    <td>{{ manager.project_name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h3>Employees</h3>
         <table>
             <tr>
                 <th>Employee ID</th>

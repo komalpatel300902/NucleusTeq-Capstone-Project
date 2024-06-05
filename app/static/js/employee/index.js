@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     // If login fails, handle error (e.g., show error message)
                     alert('Invalid username or password');
-                    location.reload()
+                    window.location.href = '/employee_login';
                 
                 }
             })

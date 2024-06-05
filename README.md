@@ -36,7 +36,7 @@ The Title of my project is : **`Employee Management Portal`**
 <details>
 <summary><b>View Directory Structure</b></summary>
 
-```
+```bash
 NucleusTeq-Capstone-Project
 ├─── .gitignore
 ├─── Database.sql

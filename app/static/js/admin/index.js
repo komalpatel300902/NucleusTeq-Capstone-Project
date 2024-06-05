@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(password)
             console.log(username)
 
-            const response = fetch('/admin_login_data', {
+            fetch('/admin_login_data', {
                 method: 'POST',
                 body: JSON.stringify({ username: username , password: password}),
                 headers: {
@@ -20,11 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     // Request accepted successfully, you can update the UI as needed
                     // location.reload()
+                    console.log("I am inside reponse.ok");
                     window.location.href = '/admin_home';
+                    
+                    
                 } else {
                     // If login fails, handle error (e.g., show error message)
+                    console.log("I am inside else block ");
                     alert('Invalid username or password');
-                    location.reload()
+                    window.location.href = '/admin_login';
+                    
                 
                 }
             })
