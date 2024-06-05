@@ -4816,3 +4816,1662 @@ Java'
     ON p.project_id = epd.project_id
     WHERE emp_id = 'EMP002';
 2024-06-02 15:39:53,321 - router.emp_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:06:40,763 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:06:42,726 - root - INFO - Accessed Index page
+2024-06-03 16:07:30,778 - root - INFO - Accessed Index page
+2024-06-03 16:07:45,585 - root - INFO - Accessed Index page
+2024-06-03 16:08:42,067 - root - INFO - Accessed registration form page
+2024-06-03 16:08:42,067 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:08:42,077 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:08:42,081 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:15:51,716 - root - INFO - Accessed registration form page
+2024-06-03 16:15:51,717 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:15:51,720 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:15:51,730 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:16:49,246 - root - INFO - Received registration form submission Request
+2024-06-03 16:16:49,248 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('MGR1',
+    'Manager1', 
+    'Password1',   
+    'Manager',
+    'ADM1',
+    'manager1@nucleusteq.com',
+    '6266345676',
+    'Male',
+    '2024-06-21',
+    'Pending'
+    )
+    
+2024-06-03 16:16:49,324 - root - INFO - Employee registration with id : MGR1 hsa been saved successfully
+2024-06-03 16:16:51,673 - root - INFO - Accessed registration form page
+2024-06-03 16:16:51,673 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:16:51,680 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:16:51,686 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:17:23,580 - root - INFO - Received registration form submission Request
+2024-06-03 16:17:23,581 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('MGR2',
+    'Manager2', 
+    'Password2',   
+    'Manager',
+    'ADM1',
+    'manager2@nucleusteq.com',
+    '6266345673',
+    'Male',
+    '2024-06-28',
+    'Pending'
+    )
+    
+2024-06-03 16:17:23,613 - root - INFO - Employee registration with id : MGR2 hsa been saved successfully
+2024-06-03 16:17:25,665 - root - INFO - Accessed registration form page
+2024-06-03 16:17:25,666 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:17:25,668 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:17:25,678 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:18:12,670 - root - INFO - Received registration form submission Request
+2024-06-03 16:18:12,671 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('MGR3',
+    'Manager3', 
+    'Password3',   
+    'Manager',
+    'ADM1',
+    'manager3@nucleusteq.com',
+    '6266344676',
+    'Male',
+    '2024-07-05',
+    'Pending'
+    )
+    
+2024-06-03 16:18:12,765 - root - INFO - Employee registration with id : MGR3 hsa been saved successfully
+2024-06-03 16:18:14,635 - root - INFO - Accessed registration form page
+2024-06-03 16:18:14,635 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:18:14,637 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:18:14,642 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:19:07,091 - root - INFO - Received registration form submission Request
+2024-06-03 16:19:07,092 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP1',
+    'Employee1', 
+    'Password1',   
+    'Employee',
+    'ADM1',
+    'employee1@nucleusteq.com',
+    '6228345673',
+    'Female',
+    '2024-06-28',
+    'Pending'
+    )
+    
+2024-06-03 16:19:07,139 - root - INFO - Employee registration with id : EMP1 hsa been saved successfully
+2024-06-03 16:19:09,269 - root - INFO - Accessed registration form page
+2024-06-03 16:19:09,270 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:19:09,271 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:19:09,276 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:19:54,838 - root - INFO - Received registration form submission Request
+2024-06-03 16:19:54,839 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP2',
+    'Employee2', 
+    'Password2',   
+    'Employee',
+    'ADM1',
+    'employee2@nucleusteq.com',
+    '6266345476',
+    'Female',
+    '2024-07-05',
+    'Pending'
+    )
+    
+2024-06-03 16:19:54,913 - root - INFO - Employee registration with id : EMP2 hsa been saved successfully
+2024-06-03 16:19:56,874 - root - INFO - Accessed registration form page
+2024-06-03 16:19:56,874 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:19:56,876 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:19:56,882 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:20:41,359 - root - INFO - Received registration form submission Request
+2024-06-03 16:20:41,361 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP3',
+    'Employee3', 
+    'Password3',   
+    'Employee',
+    'ADM1',
+    'employee3@nucleusteq.com',
+    '6228345623',
+    'Male',
+    '2024-06-28',
+    'Pending'
+    )
+    
+2024-06-03 16:20:41,416 - root - INFO - Employee registration with id : EMP3 hsa been saved successfully
+2024-06-03 16:20:43,396 - root - INFO - Accessed registration form page
+2024-06-03 16:20:43,396 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:20:43,398 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:20:43,402 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:21:25,978 - root - INFO - Received registration form submission Request
+2024-06-03 16:21:25,980 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP4',
+    'Employee4', 
+    'Password4',   
+    'Employee',
+    'ADM1',
+    'employee4@nucleusteq.com',
+    '6266342376',
+    'Female',
+    '2024-06-27',
+    'Pending'
+    )
+    
+2024-06-03 16:21:26,033 - root - INFO - Employee registration with id : EMP4 hsa been saved successfully
+2024-06-03 16:21:28,004 - root - INFO - Accessed registration form page
+2024-06-03 16:21:28,004 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:21:28,006 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:21:28,016 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:22:28,061 - root - INFO - Received registration form submission Request
+2024-06-03 16:22:28,063 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP5',
+    'Employee5', 
+    'Password5',   
+    'Employee',
+    'ADM1',
+    'employee5@nucleusteq.com',
+    '6228345373',
+    'Male',
+    '2024-06-28',
+    'Pending'
+    )
+    
+2024-06-03 16:22:28,184 - root - INFO - Employee registration with id : EMP5 hsa been saved successfully
+2024-06-03 16:22:30,143 - root - INFO - Accessed registration form page
+2024-06-03 16:22:30,144 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:22:30,145 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:22:30,152 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:23:17,177 - root - INFO - Received registration form submission Request
+2024-06-03 16:23:17,178 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP6',
+    'Employee6', 
+    'Password6',   
+    'Employee',
+    'ADM1',
+    'employee6@nucleusteq.com',
+    '6234345623',
+    'Female',
+    '2024-07-06',
+    'Pending'
+    )
+    
+2024-06-03 16:23:17,314 - root - INFO - Employee registration with id : EMP6 hsa been saved successfully
+2024-06-03 16:23:19,401 - root - INFO - Accessed registration form page
+2024-06-03 16:23:19,402 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:23:19,404 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:23:19,408 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:23:56,561 - root - INFO - Received registration form submission Request
+2024-06-03 16:23:56,562 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP7',
+    'Employee7', 
+    'Password7',   
+    'Employee',
+    'ADM1',
+    'employee7@nucleusteq.com',
+    '6266342476',
+    'Male',
+    '2024-07-05',
+    'Pending'
+    )
+    
+2024-06-03 16:23:56,616 - root - INFO - Employee registration with id : EMP7 hsa been saved successfully
+2024-06-03 16:23:58,459 - root - INFO - Accessed registration form page
+2024-06-03 16:23:58,460 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:23:58,464 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:23:58,469 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:24:50,141 - root - INFO - Received registration form submission Request
+2024-06-03 16:24:50,142 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP8',
+    'Employee8', 
+    'Password8',   
+    'Employee',
+    'ADM1',
+    'employee8@nucleusteq.com',
+    '6228343623',
+    'Female',
+    '2024-06-12',
+    'Pending'
+    )
+    
+2024-06-03 16:24:50,293 - root - INFO - Employee registration with id : EMP8 hsa been saved successfully
+2024-06-03 16:24:52,157 - root - INFO - Accessed registration form page
+2024-06-03 16:24:52,158 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:24:52,160 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:24:52,179 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:25:33,229 - root - INFO - Received registration form submission Request
+2024-06-03 16:25:33,232 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP9',
+    'Employee9', 
+    'Password9',   
+    'Employee',
+    'ADM1',
+    'employee9@nucleusteq.com',
+    '6266345479',
+    'Male',
+    '2024-06-28',
+    'Pending'
+    )
+    
+2024-06-03 16:25:33,288 - root - INFO - Employee registration with id : EMP9 hsa been saved successfully
+2024-06-03 16:25:36,185 - root - INFO - Accessed registration form page
+2024-06-03 16:25:36,185 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:25:36,187 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:25:36,191 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:26:22,749 - root - INFO - Received registration form submission Request
+2024-06-03 16:26:22,750 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP10',
+    'Employee10', 
+    'Password10',   
+    'Employee',
+    'ADM1',
+    'employee10@nucleusteq.com',
+    '6266344636',
+    'Female',
+    '2024-06-28',
+    'Pending'
+    )
+    
+2024-06-03 16:26:22,807 - root - INFO - Employee registration with id : EMP10 hsa been saved successfully
+2024-06-03 16:26:25,022 - root - INFO - Accessed registration form page
+2024-06-03 16:26:25,023 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:26:25,025 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:26:25,033 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:27:02,821 - root - INFO - Received registration form submission Request
+2024-06-03 16:27:02,822 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP11',
+    'Employee11', 
+    'Password11',   
+    'Employee',
+    'ADM1',
+    'employee11@nucleusteq.com',
+    '6266345472',
+    'Male',
+    '2024-06-27',
+    'Pending'
+    )
+    
+2024-06-03 16:27:02,882 - root - INFO - Employee registration with id : EMP11 hsa been saved successfully
+2024-06-03 16:27:05,276 - root - INFO - Accessed registration form page
+2024-06-03 16:27:05,276 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:27:05,279 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:27:05,285 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:27:45,809 - root - INFO - Received registration form submission Request
+2024-06-03 16:27:45,811 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP12',
+    'Employee12', 
+    'Password12',   
+    'Employee',
+    'ADM1',
+    'employee12@nucleusteq.com',
+    '6266344673',
+    'Female',
+    '2024-06-22',
+    'Pending'
+    )
+    
+2024-06-03 16:27:46,008 - root - INFO - Employee registration with id : EMP12 hsa been saved successfully
+2024-06-03 16:27:48,412 - root - INFO - Accessed registration form page
+2024-06-03 16:27:48,413 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:27:48,415 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:27:48,424 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:28:40,672 - root - INFO - Received registration form submission Request
+2024-06-03 16:28:40,673 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP13',
+    'Employee13', 
+    'Password13',   
+    'Employee',
+    'ADM1',
+    'employee13@nucleusteq.com',
+    '6266435476',
+    'Female',
+    '2024-06-26',
+    'Pending'
+    )
+    
+2024-06-03 16:28:40,748 - root - INFO - Employee registration with id : EMP13 hsa been saved successfully
+2024-06-03 16:28:42,500 - root - INFO - Accessed registration form page
+2024-06-03 16:28:42,500 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:28:42,502 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:28:42,513 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:29:26,415 - root - INFO - Received registration form submission Request
+2024-06-03 16:29:26,417 - root - DEBUG - SQL Query to save the Joining request of the User: 
+    INSERT INTO joining_request (id, name, password, emp_type, admin_id, email, mobile, gender, date_of_joining, status)
+    VALUES 
+    ('EMP14',
+    'Employee14', 
+    'Password14',   
+    'Employee',
+    'ADM1',
+    'employee14@nucleusteq.com',
+    '6266345676',
+    'Male',
+    '2024-07-06',
+    'Pending'
+    )
+    
+2024-06-03 16:29:26,563 - root - INFO - Employee registration with id : EMP14 hsa been saved successfully
+2024-06-03 16:29:32,687 - root - INFO - Accessed registration form page
+2024-06-03 16:29:32,688 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-03 16:29:32,689 - root - INFO - Admin Details fetched Successfully
+2024-06-03 16:29:32,693 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:29:38,285 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:29:50,723 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-03 16:29:50,723 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-03 16:29:50,729 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-03 16:29:50,730 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-03 16:29:50,730 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-03 16:29:50,733 - router.admin_router - INFO - Redirecting to admin home
+2024-06-03 16:29:50,741 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:30:03,815 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-03 16:30:03,815 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-03 16:30:03,817 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-03 16:30:03,817 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-03 16:30:03,818 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-03 16:30:03,819 - router.admin_router - INFO - Redirecting to admin home
+2024-06-03 16:30:03,875 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-03 16:30:09,118 - router.admin_router - INFO - ADM1 : Accessed View all Employee And Project Page
+2024-06-03 16:30:09,119 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-03 16:30:09,119 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-03 16:30:09,119 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-03 16:30:09,119 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:30:09,250 - router.admin_router - INFO - All information fetched successfully
+2024-06-03 16:30:09,272 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-03 16:30:09,275 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:30:09,276 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:30:09,306 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:24,400 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:24,400 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:24,400 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:24,412 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:24,508 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:24,522 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:30:34,261 - router.admin_router - INFO - Processing acceptance of joining request for ID: MGR1
+2024-06-03 16:30:34,262 - router.admin_router - DEBUG - SQL Query to Insert the data into Manager Table : INSERT INTO manager (manager_id,manager_name,password,admin_id,email,mobile,gender)
+        SELECT id, name, password, admin_id, email, mobile, gender
+        FROM joining_request 
+        WHERE id = 'MGR1';
+         
+2024-06-03 16:30:34,262 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'MGR1' ;
+    
+2024-06-03 16:30:34,408 - router.admin_router - INFO - Joining request ID: MGR1 accepted and status updated to 'Approved'
+2024-06-03 16:30:34,433 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:34,434 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:34,434 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:34,440 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:34,519 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:34,523 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:30:37,849 - router.admin_router - INFO - Processing acceptance of joining request for ID: MGR2
+2024-06-03 16:30:37,849 - router.admin_router - DEBUG - SQL Query to Insert the data into Manager Table : INSERT INTO manager (manager_id,manager_name,password,admin_id,email,mobile,gender)
+        SELECT id, name, password, admin_id, email, mobile, gender
+        FROM joining_request 
+        WHERE id = 'MGR2';
+         
+2024-06-03 16:30:37,849 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'MGR2' ;
+    
+2024-06-03 16:30:37,924 - router.admin_router - INFO - Joining request ID: MGR2 accepted and status updated to 'Approved'
+2024-06-03 16:30:37,945 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:37,946 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:37,946 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:37,973 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:38,042 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:38,053 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:30:40,710 - router.admin_router - INFO - Processing rejection of joining request for ID: MGR3
+2024-06-03 16:30:40,711 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Rejected'
+    WHERE id = 'MGR3' ;
+    
+2024-06-03 16:30:40,769 - router.admin_router - INFO - Joining request ID: MGR3 rejected and status updated to 'Rejected'
+2024-06-03 16:30:40,795 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:40,795 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:40,796 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:40,802 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:40,871 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:40,883 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:30:49,022 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP1
+2024-06-03 16:30:49,023 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP1';
+        
+2024-06-03 16:30:49,023 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP1' ;
+    
+2024-06-03 16:30:49,164 - router.admin_router - INFO - Joining request ID: EMP1 accepted and status updated to 'Approved'
+2024-06-03 16:30:49,182 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:49,182 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:49,182 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:49,186 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:49,266 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:49,274 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:30:57,680 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP2
+2024-06-03 16:30:57,680 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP2';
+        
+2024-06-03 16:30:57,680 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP2' ;
+    
+2024-06-03 16:30:57,757 - router.admin_router - INFO - Joining request ID: EMP2 accepted and status updated to 'Approved'
+2024-06-03 16:30:57,793 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:57,793 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:57,794 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:57,803 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:57,871 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:57,880 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:30:59,711 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP3
+2024-06-03 16:30:59,711 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP3';
+        
+2024-06-03 16:30:59,711 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP3' ;
+    
+2024-06-03 16:30:59,854 - router.admin_router - INFO - Joining request ID: EMP3 accepted and status updated to 'Approved'
+2024-06-03 16:30:59,885 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:30:59,885 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:30:59,885 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:30:59,887 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:30:59,944 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:30:59,956 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:03,783 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP4
+2024-06-03 16:31:03,784 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP4';
+        
+2024-06-03 16:31:03,785 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP4' ;
+    
+2024-06-03 16:31:03,831 - router.admin_router - INFO - Joining request ID: EMP4 accepted and status updated to 'Approved'
+2024-06-03 16:31:03,888 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:03,888 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:03,889 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:03,892 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:03,943 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:03,955 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:09,174 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP5
+2024-06-03 16:31:09,174 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP5';
+        
+2024-06-03 16:31:09,174 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP5' ;
+    
+2024-06-03 16:31:09,383 - router.admin_router - INFO - Joining request ID: EMP5 accepted and status updated to 'Approved'
+2024-06-03 16:31:09,410 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:09,414 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:09,414 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:09,420 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:09,471 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:09,481 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:12,822 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP6
+2024-06-03 16:31:12,823 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP6';
+        
+2024-06-03 16:31:12,823 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP6' ;
+    
+2024-06-03 16:31:12,892 - router.admin_router - INFO - Joining request ID: EMP6 accepted and status updated to 'Approved'
+2024-06-03 16:31:12,917 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:12,917 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:12,917 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:12,919 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:12,955 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:12,959 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:15,169 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP7
+2024-06-03 16:31:15,169 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP7';
+        
+2024-06-03 16:31:15,169 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP7' ;
+    
+2024-06-03 16:31:15,257 - router.admin_router - INFO - Joining request ID: EMP7 accepted and status updated to 'Approved'
+2024-06-03 16:31:15,275 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:15,275 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:15,275 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:15,277 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:15,311 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:15,318 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:18,342 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP8
+2024-06-03 16:31:18,343 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP8';
+        
+2024-06-03 16:31:18,343 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP8' ;
+    
+2024-06-03 16:31:18,409 - router.admin_router - INFO - Joining request ID: EMP8 accepted and status updated to 'Approved'
+2024-06-03 16:31:18,428 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:18,428 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:18,429 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:18,434 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:18,475 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:18,483 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:21,342 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP9
+2024-06-03 16:31:21,344 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP9';
+        
+2024-06-03 16:31:21,344 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP9' ;
+    
+2024-06-03 16:31:21,385 - router.admin_router - INFO - Joining request ID: EMP9 accepted and status updated to 'Approved'
+2024-06-03 16:31:21,419 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:21,420 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:21,420 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:21,424 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:21,451 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:21,455 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:25,031 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP10
+2024-06-03 16:31:25,032 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP10';
+        
+2024-06-03 16:31:25,032 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP10' ;
+    
+2024-06-03 16:31:25,082 - router.admin_router - INFO - Joining request ID: EMP10 accepted and status updated to 'Approved'
+2024-06-03 16:31:25,104 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:25,105 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:25,105 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:25,109 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:25,131 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:25,133 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:27,033 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP11
+2024-06-03 16:31:27,034 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP11';
+        
+2024-06-03 16:31:27,034 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP11' ;
+    
+2024-06-03 16:31:27,093 - router.admin_router - INFO - Joining request ID: EMP11 accepted and status updated to 'Approved'
+2024-06-03 16:31:27,121 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:27,121 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:27,122 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:27,123 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:27,138 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:27,140 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:28,649 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP12
+2024-06-03 16:31:28,649 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP12';
+        
+2024-06-03 16:31:28,649 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP12' ;
+    
+2024-06-03 16:31:28,741 - router.admin_router - INFO - Joining request ID: EMP12 accepted and status updated to 'Approved'
+2024-06-03 16:31:28,762 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:28,763 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:28,763 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:28,765 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:28,773 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:28,774 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:29,938 - router.admin_router - INFO - Processing acceptance of joining request for ID: EMP13
+2024-06-03 16:31:29,938 - router.admin_router - DEBUG - SQL Query to Insert the data into Employees Table : INSERT INTO employees (emp_id,emp_name,password,admin_id,email,mobile,gender,skills)
+        SELECT id, name, password, admin_id, email,mobile , gender, 'None'
+        FROM joining_request
+        WHERE id = 'EMP13';
+        
+2024-06-03 16:31:29,939 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Approved'
+    WHERE id = 'EMP13' ;
+    
+2024-06-03 16:31:30,007 - router.admin_router - INFO - Joining request ID: EMP13 accepted and status updated to 'Approved'
+2024-06-03 16:31:30,074 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:30,075 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:30,075 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:30,084 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:30,088 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:30,089 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:31,979 - router.admin_router - INFO - Processing rejection of joining request for ID: EMP14
+2024-06-03 16:31:31,979 - router.admin_router - DEBUG - SQL Query to Update the Status column of Joining Request Table : 
+    UPDATE joining_request
+    SET status = 'Rejected'
+    WHERE id = 'EMP14' ;
+    
+2024-06-03 16:31:32,026 - router.admin_router - INFO - Joining request ID: EMP14 rejected and status updated to 'Rejected'
+2024-06-03 16:31:32,058 - router.admin_router - INFO - ADM1 : Accessed Joining Request of Employee Page
+2024-06-03 16:31:32,059 - router.admin_router - INFO - Fetching joining requests for admin: ADM1
+2024-06-03 16:31:32,059 - router.admin_router - DEBUG - SQL Query to Fetch Data of Joining Request for Admin : ADM1 : SELECT jr.id , jr.name, jr.emp_type, jr.admin_id, jr.email, jr.mobile, jr.gender, jr.date_of_joining, a.admin_name
+        FROM joining_request AS jr , admin AS a
+        WHERE jr.status = 'Pending' AND jr.admin_id = 'ADM1' AND a.admin_id = 'ADM1';
+2024-06-03 16:31:32,060 - router.admin_router - INFO - Data query executed successfully for admin: ADM1
+2024-06-03 16:31:32,060 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:32,060 - router.admin_router - INFO - Rendering joining requests page for admin: ADM1
+2024-06-03 16:31:39,092 - router.admin_router - INFO - ADM1 : Accessed Remove Employee Page Page
+2024-06-03 16:31:39,092 - router.admin_router - INFO - Fetching managers and employees data for admin ADM1 to remove workers
+2024-06-03 16:31:39,092 - router.admin_router - DEBUG - SQL Query to Fetch Manager Details : 
+    SELECT manager_name, manager_id, email,mobile , gender
+    FROM manager
+    WHERE admin_id = 'ADM1' 
+2024-06-03 16:31:39,092 - router.admin_router - DEBUG - SQL Query to Fetch Employee Detail : 
+    SELECT emp_name, emp_id, email,mobile , gender
+    FROM employees
+    WHERE admin_id = 'ADM1' 
+2024-06-03 16:31:39,096 - router.admin_router - INFO - Fetched managers data successfully
+2024-06-03 16:31:39,100 - router.admin_router - INFO - Fetched managers data successfully
+2024-06-03 16:31:39,154 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:31:51,786 - router.admin_router - INFO - ADM1 : Accessed View all Employee And Project Page
+2024-06-03 16:31:51,786 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-03 16:31:51,787 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-03 16:31:51,787 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-03 16:31:51,787 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:31:51,919 - router.admin_router - INFO - All information fetched successfully
+2024-06-03 16:31:51,942 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-03 16:31:51,944 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:31:51,944 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:31:52,039 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:32:23,601 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-03 16:32:23,601 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-03 16:32:23,601 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-03 16:32:23,602 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-03 16:32:23,605 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:32:23,606 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-03 16:33:23,044 - router.admin_router - INFO - Processing project creation for project_id: ADM_PROJ1
+2024-06-03 16:33:23,044 - router.admin_router - DEBUG - SQL Query to insert data into Manager project Detail 
+        INSERT INTO manager_project_details (manager_id , project_id)
+        VALUES ('MGR1','ADM_PROJ1');
+        
+2024-06-03 16:33:23,046 - router.admin_router - DEBUG - SQL Query to Create Project INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, description)
+    VALUES(
+        'ADM_PROJ1',
+        'Project1', 
+        'ADM1',
+        '2024-06-03',
+        '2024-06-19',
+        'Started',
+        'YES',
+        'This is a web based Project .'
+    );
+     
+2024-06-03 16:33:23,240 - router.admin_router - INFO - Project created successfully with project_id: ADM_PROJ1
+2024-06-03 16:33:23,242 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-03 16:33:23,243 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-03 16:33:23,243 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-03 16:33:23,244 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-03 16:33:23,247 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:33:23,247 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-03 16:34:01,714 - router.admin_router - INFO - Processing project creation for project_id: ADM_PROJ2
+2024-06-03 16:34:01,715 - router.admin_router - DEBUG - SQL Query to insert data into Manager project Detail 
+        INSERT INTO manager_project_details (manager_id , project_id)
+        VALUES ('Later','ADM_PROJ2');
+        
+2024-06-03 16:34:01,720 - router.admin_router - DEBUG - SQL Query to Create Project INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, description)
+    VALUES(
+        'ADM_PROJ2',
+        'Project2', 
+        'ADM1',
+        '2024-06-03',
+        '2024-07-05',
+        'Not Assigned',
+        'NO',
+        'This is ML Project.'
+    );
+     
+2024-06-03 16:34:01,853 - router.admin_router - INFO - Project created successfully with project_id: ADM_PROJ2
+2024-06-03 16:34:01,855 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-03 16:34:01,856 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-03 16:34:01,856 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-03 16:34:01,857 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-03 16:34:01,858 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:34:01,859 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-03 16:34:37,639 - router.admin_router - INFO - Processing project creation for project_id: ADM_PROJ3
+2024-06-03 16:34:37,639 - router.admin_router - DEBUG - SQL Query to insert data into Manager project Detail 
+        INSERT INTO manager_project_details (manager_id , project_id)
+        VALUES ('MGR2','ADM_PROJ3');
+        
+2024-06-03 16:34:37,643 - router.admin_router - DEBUG - SQL Query to Create Project INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, description)
+    VALUES(
+        'ADM_PROJ3',
+        'Project3', 
+        'ADM1',
+        '2024-06-03',
+        '2024-06-26',
+        'Started',
+        'YES',
+        'This is a AI Project.'
+    );
+     
+2024-06-03 16:34:37,856 - router.admin_router - INFO - Project created successfully with project_id: ADM_PROJ3
+2024-06-03 16:34:37,860 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-03 16:34:37,861 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-03 16:34:37,861 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-03 16:34:37,950 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-03 16:34:37,953 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:34:37,953 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-03 16:35:25,611 - router.admin_router - INFO - Processing project creation for project_id: ADM_PROJ4
+2024-06-03 16:35:25,612 - router.admin_router - DEBUG - SQL Query to insert data into Manager project Detail 
+        INSERT INTO manager_project_details (manager_id , project_id)
+        VALUES ('Later','ADM_PROJ4');
+        
+2024-06-03 16:35:25,614 - router.admin_router - DEBUG - SQL Query to Create Project INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, description)
+    VALUES(
+        'ADM_PROJ4',
+        'Project4', 
+        'ADM1',
+        '2024-06-03',
+        '2024-06-27',
+        'Not Assigned',
+        'NO',
+        'This is a Urgent Project.'
+    );
+     
+2024-06-03 16:35:25,759 - router.admin_router - INFO - Project created successfully with project_id: ADM_PROJ4
+2024-06-03 16:35:25,783 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-03 16:35:25,784 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-03 16:35:25,785 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-03 16:35:25,788 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-03 16:35:25,791 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:35:25,792 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-03 16:35:39,752 - router.admin_router - INFO - ADM1 : Accessed View Project Page
+2024-06-03 16:35:39,752 - router.admin_router - INFO - Fetching  projects information
+2024-06-03 16:35:39,752 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status , p.description
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:35:39,755 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:35:39,755 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:35:39,786 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:36:15,583 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:36:15,583 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:36:15,584 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:36:15,584 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-03 16:36:15,585 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:36:15,585 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:36:15,588 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:36:15,592 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:36:15,593 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:36:15,594 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:36:15,650 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:36:15,650 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:36:32,719 - router.admin_router - INFO - Assigning project_id: ADM_PROJ2 to manager_id: MGR1
+2024-06-03 16:36:32,719 - router.admin_router - DEBUG - SQL Query to find manager record: 
+    SELECT COUNT(project_id) 
+    FROM manager_project_details
+    WHERE project_id = 'ADM_PROJ2';
+    
+2024-06-03 16:36:32,719 - router.admin_router - DEBUG - SQL Query to update manager project details: 
+    UPDATE manager_project_details 
+    SET manager_id = 'MGR1'
+    WHERE project_id = 'ADM_PROJ2';
+    
+2024-06-03 16:36:32,719 - router.admin_router - DEBUG - SQL Query to insert data when Manager is Assigned a Project: INSERT INTO manager_project_details (manager_id,project_id)
+    VALUES('MGR1','ADM_PROJ2');
+    
+2024-06-03 16:36:32,719 - router.admin_router - DEBUG - SQL Query to update project table: UPDATE project
+    SET project_assigned = 'YES', status = 'Started'
+    WHERE project_id = 'ADM_PROJ2' ;
+    
+2024-06-03 16:36:32,721 - router.admin_router - INFO - Manager details fetched successfully
+2024-06-03 16:36:32,723 - router.admin_router - INFO - Manager project details record saved successfully
+2024-06-03 16:36:32,853 - router.admin_router - INFO - Successfully assigned project_id: ADM_PROJ2 to manager_id: MGR1
+2024-06-03 16:36:32,884 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:36:32,885 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:36:32,885 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:36:32,885 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-03 16:36:32,886 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:36:32,886 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:36:32,889 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:36:32,891 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:36:32,893 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:36:32,894 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:36:32,954 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:36:32,955 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:36:39,292 - router.admin_router - INFO - Assigning project_id: ADM_PROJ4 to manager_id: MGR2
+2024-06-03 16:36:39,292 - router.admin_router - DEBUG - SQL Query to find manager record: 
+    SELECT COUNT(project_id) 
+    FROM manager_project_details
+    WHERE project_id = 'ADM_PROJ4';
+    
+2024-06-03 16:36:39,293 - router.admin_router - DEBUG - SQL Query to update manager project details: 
+    UPDATE manager_project_details 
+    SET manager_id = 'MGR2'
+    WHERE project_id = 'ADM_PROJ4';
+    
+2024-06-03 16:36:39,293 - router.admin_router - DEBUG - SQL Query to insert data when Manager is Assigned a Project: INSERT INTO manager_project_details (manager_id,project_id)
+    VALUES('MGR2','ADM_PROJ4');
+    
+2024-06-03 16:36:39,293 - router.admin_router - DEBUG - SQL Query to update project table: UPDATE project
+    SET project_assigned = 'YES', status = 'Started'
+    WHERE project_id = 'ADM_PROJ4' ;
+    
+2024-06-03 16:36:39,295 - router.admin_router - INFO - Manager details fetched successfully
+2024-06-03 16:36:39,297 - router.admin_router - INFO - Manager project details record saved successfully
+2024-06-03 16:36:39,489 - router.admin_router - INFO - Successfully assigned project_id: ADM_PROJ4 to manager_id: MGR2
+2024-06-03 16:36:39,518 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:36:39,518 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:36:39,519 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:36:39,519 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-03 16:36:39,520 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:36:39,520 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:36:39,524 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:36:39,526 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:36:39,527 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:36:39,528 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:36:39,589 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:36:39,590 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:37:17,033 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP1
+2024-06-03 16:37:17,034 - router.admin_router - DEBUG - SQL Query to Save the Record when Project is Assigned to Employee : 
+    INSERT INTO employee_project_details (emp_id,manager_id,project_id)
+    WITH employee_project_data AS (
+    SELECT 'EMP1' AS emp_id, mpd.manager_id AS manager_id ,'ADM_PROJ1' AS project_id 
+    FROM manager_project_details AS mpd
+    WHERE mpd.project_id = 'ADM_PROJ1'
+    )
+    SELECT emp_id , manager_id , project_id FROM employee_project_data ; 
+2024-06-03 16:37:17,037 - router.admin_router - DEBUG - SQL Query to Update Project Assigned Column in Employees Table : UPDATE employees
+    SET project_assigned = "YES"
+    WHERE emp_id = 'EMP1' ; 
+2024-06-03 16:37:17,048 - router.admin_router - INFO - Successfully Executed the SQL query to Insert the Record in manager_project_detail Table
+2024-06-03 16:37:17,049 - router.admin_router - INFO - Successfully Executed the SQL query to Update the project_assign column of Employee Table
+2024-06-03 16:37:17,109 - router.admin_router - INFO - Successfully assigned project_id: ADM_PROJ1 to employee_id: EMP1
+2024-06-03 16:37:17,188 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:37:17,188 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:37:17,189 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:37:17,189 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-03 16:37:17,189 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:37:17,189 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:37:17,193 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:37:17,195 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:37:17,200 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:37:17,201 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:37:17,253 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:37:17,253 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:37:24,956 - router.admin_router - INFO - Assigning project_id: ADM_PROJ2 to employee_id: EMP4
+2024-06-03 16:37:24,956 - router.admin_router - DEBUG - SQL Query to Save the Record when Project is Assigned to Employee : 
+    INSERT INTO employee_project_details (emp_id,manager_id,project_id)
+    WITH employee_project_data AS (
+    SELECT 'EMP4' AS emp_id, mpd.manager_id AS manager_id ,'ADM_PROJ2' AS project_id 
+    FROM manager_project_details AS mpd
+    WHERE mpd.project_id = 'ADM_PROJ2'
+    )
+    SELECT emp_id , manager_id , project_id FROM employee_project_data ; 
+2024-06-03 16:37:24,958 - router.admin_router - DEBUG - SQL Query to Update Project Assigned Column in Employees Table : UPDATE employees
+    SET project_assigned = "YES"
+    WHERE emp_id = 'EMP4' ; 
+2024-06-03 16:37:24,961 - router.admin_router - INFO - Successfully Executed the SQL query to Insert the Record in manager_project_detail Table
+2024-06-03 16:37:25,124 - router.admin_router - INFO - Successfully Executed the SQL query to Update the project_assign column of Employee Table
+2024-06-03 16:37:25,160 - router.admin_router - INFO - Successfully assigned project_id: ADM_PROJ2 to employee_id: EMP4
+2024-06-03 16:37:25,234 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:37:25,235 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:37:25,235 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:37:25,235 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-03 16:37:25,236 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:37:25,236 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:37:25,245 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:37:25,252 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:37:25,254 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:37:25,255 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:37:25,301 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:37:25,301 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:37:34,298 - router.admin_router - INFO - Assigning project_id: ADM_PROJ3 to employee_id: EMP7
+2024-06-03 16:37:34,298 - router.admin_router - DEBUG - SQL Query to Save the Record when Project is Assigned to Employee : 
+    INSERT INTO employee_project_details (emp_id,manager_id,project_id)
+    WITH employee_project_data AS (
+    SELECT 'EMP7' AS emp_id, mpd.manager_id AS manager_id ,'ADM_PROJ3' AS project_id 
+    FROM manager_project_details AS mpd
+    WHERE mpd.project_id = 'ADM_PROJ3'
+    )
+    SELECT emp_id , manager_id , project_id FROM employee_project_data ; 
+2024-06-03 16:37:34,300 - router.admin_router - DEBUG - SQL Query to Update Project Assigned Column in Employees Table : UPDATE employees
+    SET project_assigned = "YES"
+    WHERE emp_id = 'EMP7' ; 
+2024-06-03 16:37:34,302 - router.admin_router - INFO - Successfully Executed the SQL query to Insert the Record in manager_project_detail Table
+2024-06-03 16:37:34,304 - router.admin_router - INFO - Successfully Executed the SQL query to Update the project_assign column of Employee Table
+2024-06-03 16:37:34,428 - router.admin_router - INFO - Successfully assigned project_id: ADM_PROJ3 to employee_id: EMP7
+2024-06-03 16:37:34,446 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:37:34,447 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:37:34,447 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:37:34,447 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES"; 
+2024-06-03 16:37:34,447 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:37:34,447 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:37:34,449 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:37:34,452 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:37:34,454 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:37:34,456 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:37:34,509 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:37:34,509 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:41:53,379 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:41:57,577 - root - INFO - Accessed Index page
+2024-06-03 16:41:59,915 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:42:13,240 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:42:13,317 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-03 16:42:13,318 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-03 16:42:13,322 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-03 16:42:13,322 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-03 16:42:13,322 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-03 16:42:13,322 - router.admin_router - INFO - Redirecting to admin home
+2024-06-03 16:42:23,724 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-03 16:42:23,725 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-03 16:42:23,727 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-03 16:42:23,727 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-03 16:42:23,727 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-03 16:42:23,728 - router.admin_router - INFO - Redirecting to admin home
+2024-06-03 16:42:23,764 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-03 16:42:28,937 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-03 16:42:28,937 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-03 16:42:28,938 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-03 16:42:28,938 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-03 16:42:28,938 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-03 16:42:28,938 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' ; 
+2024-06-03 16:42:28,941 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-03 16:42:28,943 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-03 16:42:28,944 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-03 16:42:28,945 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-03 16:42:28,966 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-03 16:42:28,966 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-03 16:42:50,098 - router.admin_router - INFO - ADM1 : Accessed View all Employee And Project Page
+2024-06-03 16:42:50,099 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-03 16:42:50,099 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-03 16:42:50,099 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-03 16:42:50,099 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:42:50,099 - router.admin_router - INFO - All information fetched successfully
+2024-06-03 16:42:50,116 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-03 16:42:50,116 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:42:50,116 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:42:50,211 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:42:58,439 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-03 16:42:58,439 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-03 16:42:58,440 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-03 16:42:58,441 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-03 16:42:58,443 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:42:58,444 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-03 16:43:00,997 - router.admin_router - INFO - ADM1 : Accessed View Project Page
+2024-06-03 16:43:00,997 - router.admin_router - INFO - Fetching  projects information
+2024-06-03 16:43:00,997 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status , p.description
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:43:00,999 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:43:00,999 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:43:01,017 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:43:46,722 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:43:49,811 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:43:59,321 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:44:12,720 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:44:15,443 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-03 16:44:27,548 - root - INFO - Accessed Index page
+2024-06-03 16:44:31,290 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:44:47,845 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:44:47,849 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-03 16:44:47,865 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-03 16:44:47,878 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-03 16:44:47,879 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-03 16:44:47,880 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-03 16:44:47,880 - router.admin_router - INFO - Redirecting to admin home
+2024-06-03 16:44:56,260 - router.admin_router - INFO - Attempting to authenticate admin: ADM001
+2024-06-03 16:44:56,260 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM001' AND password = 'shbdjbshd' ;
+    
+2024-06-03 16:44:56,262 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM001
+2024-06-03 16:44:56,263 - router.admin_router - WARNING - Invalid login attempt for admin: ADM001
+2024-06-03 16:44:56,266 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:44:57,408 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:45:04,285 - router.admin_router - INFO - Attempting to authenticate admin: vdhfbvjsd
+2024-06-03 16:45:04,288 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'vdhfbvjsd' AND password = 'dvkdnvj' ;
+    
+2024-06-03 16:45:04,290 - router.admin_router - INFO - Authentication query executed successfully for admin: vdhfbvjsd
+2024-06-03 16:45:04,291 - router.admin_router - WARNING - Invalid login attempt for admin: vdhfbvjsd
+2024-06-03 16:45:04,298 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:45:06,121 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-03 16:45:31,660 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-03 16:45:31,661 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-03 16:45:31,662 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-03 16:45:31,662 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-03 16:45:31,663 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-03 16:45:31,664 - router.admin_router - INFO - Redirecting to admin home
+2024-06-03 16:45:31,693 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-03 16:45:38,366 - router.admin_router - INFO - ADM1 : Accessed View Project Page
+2024-06-03 16:45:38,366 - router.admin_router - INFO - Fetching  projects information
+2024-06-03 16:45:38,366 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status , p.description
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id 
+    WHERE p.admin_id = 'ADM1'
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:45:38,366 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:45:38,366 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:45:38,383 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:45:43,609 - router.admin_router - INFO - ADM1 : Accessed View completed Project Page
+2024-06-03 16:45:43,609 - router.admin_router - INFO - Fetching project information
+2024-06-03 16:45:43,609 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    WHERE p.status = 'completed'
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:45:43,611 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:45:43,612 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:45:47,000 - router.admin_router - INFO - ADM1 : Accessed Manager Request Page
+2024-06-03 16:45:47,000 - router.admin_router - INFO - Fetching manager requests for admin_id: ADM1
+2024-06-03 16:45:47,000 - router.admin_router - DEBUG - SQL Query to fetch Manager Request : 
+    SELECT m.manager_name, m.manager_id, p.project_name , p.project_id , e.emp_name , e.emp_id
+    FROM manager_request_for_employees AS mrfe
+    INNER JOIN manager AS m
+    ON mrfe.manager_id = m.manager_id
+    INNER JOIN project AS p
+    ON mrfe.project_id = p.project_id
+    INNER JOIN employees AS e
+    ON mrfe.emp_id = e.emp_id
+    WHERE mrfe.status = "Pending" AND mrfe.admin_id = 'ADM1'
+    GROUP BY m.manager_id, p.project_id,e.emp_id;
+     
+2024-06-03 16:45:47,100 - router.admin_router - INFO - Fetched manager requests successfully
+2024-06-03 16:45:47,100 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:45:49,296 - router.admin_router - INFO - ADM1 : Accessed Remove Employee Page Page
+2024-06-03 16:45:49,296 - router.admin_router - INFO - Fetching managers and employees data for admin ADM1 to remove workers
+2024-06-03 16:45:49,296 - router.admin_router - DEBUG - SQL Query to Fetch Manager Details : 
+    SELECT manager_name, manager_id, email,mobile , gender
+    FROM manager
+    WHERE admin_id = 'ADM1' 
+2024-06-03 16:45:49,297 - router.admin_router - DEBUG - SQL Query to Fetch Employee Detail : 
+    SELECT emp_name, emp_id, email,mobile , gender
+    FROM employees
+    WHERE admin_id = 'ADM1' 
+2024-06-03 16:45:49,299 - router.admin_router - INFO - Fetched managers data successfully
+2024-06-03 16:45:49,299 - router.admin_router - INFO - Fetched managers data successfully
+2024-06-03 16:45:49,333 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 16:45:52,457 - router.admin_router - INFO - ADM1 : Accessed View all Employee And Project Page
+2024-06-03 16:45:52,457 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-03 16:45:52,458 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-03 16:45:52,458 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-03 16:45:52,458 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 16:45:52,462 - router.admin_router - INFO - All information fetched successfully
+2024-06-03 16:45:52,467 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-03 16:45:52,484 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 16:45:52,484 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 16:45:52,583 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-03 18:57:04,440 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-03 18:57:05,548 - router.admin_router - INFO - ADM1 : Accessed View all Employee And Project Page
+2024-06-03 18:57:05,548 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-03 18:57:05,548 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-03 18:57:05,548 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-03 18:57:05,548 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-03 18:57:05,553 - router.admin_router - INFO - All information fetched successfully
+2024-06-03 18:57:05,568 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-03 18:57:05,568 - router.admin_router - INFO - Project details fetched successfully
+2024-06-03 18:57:05,568 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-03 18:57:05,671 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-04 13:57:04,858 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-04 13:57:05,114 - root - INFO - Accessed Index page
+2024-06-04 13:57:09,109 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:57:25,012 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:57:25,112 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-04 13:57:25,112 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-04 13:57:25,149 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-04 13:57:25,149 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-04 13:57:25,149 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-04 13:57:25,149 - router.admin_router - INFO - Redirecting to admin home
+2024-06-04 13:57:32,567 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-04 13:57:32,567 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-04 13:57:32,567 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-04 13:57:32,567 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-04 13:57:32,567 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-04 13:57:32,567 - router.admin_router - INFO - Redirecting to admin home
+2024-06-04 13:57:32,591 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-04 13:57:36,820 - router.admin_router - INFO - Admin successfully logged out
+2024-06-04 13:57:36,851 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:57:44,857 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-04 13:57:44,857 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-04 13:57:44,861 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-04 13:57:44,862 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-04 13:57:44,863 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-04 13:57:44,865 - router.admin_router - INFO - Redirecting to admin home
+2024-06-04 13:57:44,874 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:57:44,895 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-04 13:57:47,654 - router.admin_router - INFO - Admin successfully logged out
+2024-06-04 13:57:47,680 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:57:49,957 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-04 13:58:00,883 - router.emp_router - INFO - Attempting to authenticate Employee: EMP1
+2024-06-04 13:58:00,883 - router.emp_router - DEBUG - SQL Query to Check Wheather Employee Record Exist or Not : SELECT COUNT(emp_id) ,emp_id, password 
+    FROM employees
+    WHERE emp_id = 'EMP1' AND password = 'Password1' ;
+    
+2024-06-04 13:58:00,985 - router.emp_router - INFO - Authentication query executed successfully for admin: EMP1
+2024-06-04 13:58:00,985 - router.emp_router - INFO - Employee EMP1 authenticated successfully.
+2024-06-04 13:58:00,985 - router.emp_router - INFO - Employee id is saved as SessionUser
+2024-06-04 13:58:00,985 - router.emp_router - INFO - Redirecting to Employee home 
+2024-06-04 13:58:01,004 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-04 13:58:01,028 - router.emp_router - INFO - EMP1 : Accessed Employee Home Page
+2024-06-04 13:58:02,823 - router.emp_router - INFO - Employee successfully logged out.
+2024-06-04 13:58:02,849 - router.emp_router - INFO - Accessed Employee Login Page
+2024-06-04 13:58:54,978 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:59:03,702 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-04 13:59:03,702 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1' AND password = 'Password1' ;
+    
+2024-06-04 13:59:03,705 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-04 13:59:03,705 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-04 13:59:03,708 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-04 13:59:03,709 - router.admin_router - INFO - Redirecting to admin home
+2024-06-04 13:59:03,724 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 13:59:03,744 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-04 13:59:05,616 - router.admin_router - INFO - ADM1 : Accessed View all Employee And Project Page
+2024-06-04 13:59:05,616 - router.admin_router - INFO - Fetching all employees, managers, and projects information
+2024-06-04 13:59:05,616 - router.admin_router - DEBUG - SQL Query to get all Information : SELECT e.emp_id, e.emp_name, e.gender, e.email,e.admin_id,a.admin_name ,m.manager_id , m.manager_name , p.project_id , p.project_name
+    FROM employees AS e
+    LEFT JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id
+    LEFT JOIN project AS p
+    ON p.project_id = epd.project_id
+    LEFT JOIN manager AS m
+    ON m.manager_id = epd.manager_id
+    LEFT JOIN admin as a
+    ON e.admin_id = a.admin_id
+    ORDER BY e.admin_id ASC;
+     
+2024-06-04 13:59:05,616 - router.admin_router - DEBUG - SQL Query to get manager Information : SELECT m.manager_id, m.manager_name, m.gender, m.email,m.admin_id,a.admin_name , GROUP_CONCAT(mpd.project_id) , GROUP_CONCAT(p.project_name)
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    LEFT JOIN admin as a
+    ON m.admin_id = a.admin_id
+    GROUP BY m.manager_id
+    ORDER BY m.admin_id ASC ; 
+2024-06-04 13:59:05,617 - router.admin_router - DEBUG - SQL Query to get project Information : SELECT p.project_id , p.project_name ,p.admin_id, a.admin_name, p.start_date, p.dead_line, mpd.manager_id, m.manager_name , p.status
+    FROM project AS p
+    LEFT JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    LEFT JOIN manager AS m
+    ON mpd.manager_id = m.manager_id
+    LEFT JOIN admin as a
+    ON p.admin_id = a.admin_id
+    ORDER BY p.admin_id ASC
+    ;
+     
+2024-06-04 13:59:05,621 - router.admin_router - INFO - All information fetched successfully
+2024-06-04 13:59:05,701 - router.admin_router - INFO - Manager details fetched successfully 
+2024-06-04 13:59:05,701 - router.admin_router - INFO - Project details fetched successfully
+2024-06-04 13:59:05,701 - router.admin_router - INFO - Successfully fetched all employees, managers, and projects information
+2024-06-04 13:59:05,816 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-04 13:59:59,894 - router.admin_router - INFO - Admin successfully logged out
+2024-06-04 13:59:59,922 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-04 14:00:01,734 - root - INFO - Accessed registration form page
+2024-06-04 14:00:01,734 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-04 14:00:01,734 - root - INFO - Admin Details fetched Successfully
+2024-06-04 14:00:01,737 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-04 14:00:51,205 - root - INFO - Accessed registration form page
+2024-06-04 14:00:51,207 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-04 14:00:51,212 - root - INFO - Admin Details fetched Successfully
+2024-06-04 14:00:51,219 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-04 14:00:51,221 - root - INFO - Accessed registration form page
+2024-06-04 14:00:51,221 - root - DEBUG - SQL Query for Fetching the Admins: SELECT DISTINCT admin_id , admin_name FROM admin; 
+2024-06-04 14:00:51,221 - root - INFO - Admin Details fetched Successfully
+2024-06-04 14:00:51,234 - root - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-04 14:07:13,472 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-04 14:23:15,686 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-04 14:23:30,905 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-04 14:23:43,560 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-05 14:24:07,103 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-05 16:47:05,312 - root - INFO - FastAPI project initialized. Project is ready to accept requests.

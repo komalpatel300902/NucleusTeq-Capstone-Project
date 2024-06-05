@@ -418,7 +418,7 @@ def test_approve_completion_of_project(client):
 
 @pytest.mark.order(52)
 def test_logout_process_of_admin(client):
-    response = client.get("/admin_logout")
+    response = client.post("/admin_logout")
     assert response.status_code == 200
     assert response.json() == {"message": "Admin successfully Logout"}
 

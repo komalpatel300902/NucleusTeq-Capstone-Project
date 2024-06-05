@@ -61,7 +61,7 @@ async def employee_login(request :Request):
 
 
 @emp_router.post(r"/employee_login_data", response_class = HTMLResponse)
-async def employee_credential_authentication(response: Response,request : Request, login_details: LoginDetails , db = Depends(get_db)) -> None:
+async def employee_credential_authentication(response: Response,request : Request, login_details: LoginDetails , db = Depends(get_db)) :
     """    
     Employee Credential will be Authenticated here.
 
@@ -129,7 +129,7 @@ async def employee_home(request :Request, emp_id = Depends(get_user)):
 
 
 @emp_router.get(r"/employee_for_project")
-async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_user), db = Depends(get_db)) -> None:
+async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_user), db = Depends(get_db)) :
     """    
     View all Employee Page
 
@@ -178,7 +178,7 @@ async def fetch_all_workers_for_project(request: Request,emp_id = Depends(get_us
 
 
 @emp_router.get(r"/update_skills_as_employee")
-async def update_skills_as_employee(request : Request , emp_id: str = Depends(get_user), db = Depends(get_db)) -> None: 
+async def update_skills_as_employee(request : Request , emp_id: str = Depends(get_user), db = Depends(get_db)) : 
     """    
     Update Skill Page
 
@@ -214,7 +214,7 @@ async def update_skills_as_employee(request : Request , emp_id: str = Depends(ge
         return templates.TemplateResponse("update_skill.html",{"request":request, "employees": employees})
 
 @emp_router.put(r"/add_skill",response_class=JSONResponse)
-async def add_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+async def add_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) :
     """    
     Add Skill Page
 
@@ -255,7 +255,7 @@ async def add_skill(request : Request, employee_data: UpdateSkill, db = Depends(
         return JSONResponse(content = {"message": "Skill added Successfully"})
 
 @emp_router.put(r"/replace_skill",response_class=JSONResponse)
-async def replace_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+async def replace_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) :
     """    
     Replace Skill Request will be Addressed Here.
 
@@ -297,7 +297,7 @@ async def replace_skill(request : Request, employee_data: UpdateSkill, db = Depe
         return {"message":"Skill replaced Successfully"}
     
 @emp_router.get(r"/employee_project_details")
-async def employee_project_details(request: Request , emp_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+async def employee_project_details(request: Request , emp_id: str = Depends(get_user), db = Depends(get_db)) :
     """    
     View Project Employee Have Page
 

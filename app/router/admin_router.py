@@ -81,7 +81,7 @@ async def admin_login(request : Request):
     return templates.TemplateResponse("index.html",{"request":request})
 
 @admin_router.post(r"/admin_login_data", response_class = HTMLResponse)
-async def admin_credential_authentication(response: Response ,request : Request,  login_details: LoginDetails, db = Depends(get_db)) -> None:
+async def admin_credential_authentication(response: Response ,request : Request,  login_details: LoginDetails, db = Depends(get_db)) :
     
     """    
     Login Credential of admin is authenticated here.
@@ -154,7 +154,7 @@ async def admin_home(request: Request, admin_id = Depends(get_user)):
     return templates.TemplateResponse("home.html",{"request":request})
 
 @admin_router.get(r"/joining_request", response_class = JSONResponse)
-async def get_joining_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+async def get_joining_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) :
     
     """    
     Joining Request of Employee Page
@@ -261,7 +261,7 @@ async def accept_joining_request(request : Request, joining_request: AcceptJoini
         return JSONResponse(content = {"message":"Employee Joining Request was successfully Accepted"})
 
 @admin_router.post(r"/reject_joining_request", response_class = JSONResponse)
-async def reject_joining_request(request : Request, joining_request: RejectJoiningRequest, db = Depends(get_db)) -> None:
+async def reject_joining_request(request : Request, joining_request: RejectJoiningRequest, db = Depends(get_db)) :
     
     """    
     Rejection of Joining Request is Processed Here.
@@ -542,7 +542,8 @@ async def fetch_all_project_for_admin(request : Request, admin_id = Depends(get_
     LEFT JOIN manager AS m
     ON mpd.manager_id = m.manager_id
     LEFT JOIN admin as a
-    ON p.admin_id = a.admin_id
+    ON p.admin_id = a.admin_id 
+    WHERE p.admin_id = '{admin_id}'
     ORDER BY p.admin_id ASC
     ;
     """
@@ -600,7 +601,7 @@ async def get_employee_for_assigning_project(request : Request, admin_id: str = 
     FROM project AS p
     INNER JOIN manager_project_details AS mpd
     ON mpd.project_id = p.project_id
-    WHERE p.project_assigned = "YES";"""
+    WHERE p.project_assigned = "YES" AND admin_id = '{admin_id}';"""
     logger.debug(f"SQL Query to get Project for Employees : {sql_query_for_project_given_to_employee} ") 
 
     sql_query_to_get_manager_details = f"""
@@ -968,7 +969,7 @@ async def unassig_manager_from_project(request : Request, manager_data: Unassign
         return JSONResponse(content = {"message":"Manager was unassigned from a Project"})
 
 @admin_router.get(r"/manager_request",response_class=HTMLResponse)
-async def get_manager_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+async def get_manager_request(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)):
 
     """    
     Manager Request for Employee Page
@@ -1126,7 +1127,7 @@ async def reject_manager_request(request : Request, manager_request_for_employee
 
 #[In Progress]
 @admin_router.get(r"/update_employee_skill",response_class=HTMLResponse)
-async def update_employees_skill(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+async def update_employees_skill(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)) :
 
     """    
     Update Employee Skill Page
@@ -1215,7 +1216,7 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill, 
         return JSONResponse(content = {"message":"skill added successfully"})
 
 @admin_router.put(r"/replace_employee_skill",response_class=JSONResponse)
-async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) -> None:
+async def update_employees_skill(request : Request, employee_data: UpdateSkill, db = Depends(get_db)) :
 
     """    
     Replace Employee Skill Request is Processed Here.
@@ -1258,7 +1259,7 @@ async def update_employees_skill(request : Request, employee_data: UpdateSkill, 
         return JSONResponse(content = {"message":"Employee skill replaced Successfully"})
 
 @admin_router.get(r"/manager_request_to_complete_project",response_class=HTMLResponse)
-async def manager_request_to_complete_project_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+async def manager_request_to_complete_project_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)):
 
     """    
     Manager Request for Completion of Project Page
@@ -1409,7 +1410,7 @@ async def approve_completion_of_project(request : Request, project_id :str, db =
 
 
 @admin_router.get(r"/remove_workers",response_class=HTMLResponse)
-async def remove_employees_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db))-> None:
+async def remove_employees_page(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)):
 
     """    
     Remove Employee Page
@@ -1468,7 +1469,7 @@ async def remove_employees_page(request : Request, admin_id: str = Depends(get_u
 
 #[In Progress]
 @admin_router.delete("/remove_manager",response_class=JSONResponse)
-async def remove_manager(request : Request , manager_id : str, db = Depends(get_db))-> None:
+async def remove_manager(request : Request , manager_id : str, db = Depends(get_db)):
 
     """    
     Removal of Manager is Processed Here.
@@ -1550,7 +1551,7 @@ async def remove_manager(request : Request , manager_id : str, db = Depends(get_
     
 
 @admin_router.delete("/remove_employee", response_class=JSONResponse)
-async def remove_employee(request : Request , emp_id: str, db = Depends(get_db))-> None:
+async def remove_employee(request : Request , emp_id: str, db = Depends(get_db)):
 
     """    
     Removal of Employee is Processed Here.

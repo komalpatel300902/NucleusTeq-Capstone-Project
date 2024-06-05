@@ -65,7 +65,7 @@ async def manager_login(request: Request):
     return templates.TemplateResponse("index.html",{"request":request}) 
 
 @manager_router.post(r"/manager_login_data", response_class = HTMLResponse)
-async def manager_credential_authentication(response: Response,request : Request, login_details: LoginDetails, db = Depends(get_db)) -> None:
+async def manager_credential_authentication(response: Response,request : Request, login_details: LoginDetails, db = Depends(get_db)) :
     
     """    
     Manager Credential will be Authenticated here.
@@ -143,7 +143,7 @@ async def manager_home(request: Request, manager_id = Depends(get_user)):
 
 
 @manager_router.get(r"/comprehensive_info")
-async def get_all_employees_and_project(request: Request,manager_id = Depends(get_user), db = Depends(get_db)) -> None:
+async def get_all_employees_and_project(request: Request,manager_id = Depends(get_user), db = Depends(get_db)) :
     
     """    
     View all Employee and Project Page
@@ -231,7 +231,7 @@ async def get_all_employees_and_project(request: Request,manager_id = Depends(ge
 
 
 @manager_router.get(r"/filtered_employee")
-async def get_filtered_employees(request: Request, skill:str = "" , manager_id: str = Depends(get_user), db = Depends(get_db) ) -> None:
+async def get_filtered_employees(request: Request, skill:str = "" , manager_id: str = Depends(get_user), db = Depends(get_db) ) :
     
     """    
     Employee (Unassigned) for Project Page
@@ -292,7 +292,7 @@ async def get_filtered_employees(request: Request, skill:str = "" , manager_id: 
         return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects , "manager":{"manager_id":manager_id}})
 
 @manager_router.post(r"/request_for_employee", response_class=JSONResponse)
-async def request_employee(request:Request , employee_data: RequestForEmployee, db = Depends(get_db)) -> None:
+async def request_employee(request:Request , employee_data: RequestForEmployee, db = Depends(get_db)) :
     
     """    
     Manager Request for Employee is Processed Here
@@ -339,7 +339,7 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
 
 
 @manager_router.get(r"/projects_manager_have")
-async def project_manager_have(request: Request, manager_id: str = Depends(get_user), db = Depends(get_db)) -> None:
+async def project_manager_have(request: Request, manager_id: str = Depends(get_user), db = Depends(get_db)) :
     
     """    
     Project Manager Have Page
