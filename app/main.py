@@ -11,6 +11,7 @@ from router.manager_router import manager_router
 from router.emp_router import emp_router
 from models.index_model import JoiningRequest 
 from config.db_connection import get_db
+from config.password_security import hash_password
 from schema.schemas import DataFormatter
 
 from logging_config import setup_logging
@@ -78,7 +79,7 @@ def register_as_employee_form(request: Request, db = Depends(get_db)):
     else:
         return templates.TemplateResponse("joining_request.html",{"request": request, "data_entries":data_entries})
 
-@app.post(r"/registration_form_submission", response_class=JSONResponse)
+@app.post(r"/registration_form", response_class=JSONResponse)
 def register_as_employee( request: Request, joining_request:JoiningRequest, db = Depends(get_db)):
 
     """    
@@ -104,7 +105,7 @@ def register_as_employee( request: Request, joining_request:JoiningRequest, db =
     VALUES 
     ('{joining_request.id}',
     '{joining_request.name}', 
-    '{joining_request.password}',   
+    '{hash_password(joining_request.password)}',   
     '{joining_request.emp_type}',
     '{joining_request.admin_id}',
     '{joining_request.email}',

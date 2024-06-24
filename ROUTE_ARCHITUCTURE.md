@@ -14,14 +14,14 @@ main.py
 │
 ├─── [GET] /
 └─── [GET] /registration_form
-                └─── [POST] /registration_form_processing
+                └─── [POST] /registration_form
 ```
 ## Admin
 ```bash
 admin_router.py
 │
 ├─── [GET] /admin_login
-│                 └─── [POST] /admin_login_data
+│                 └─── [POST] /admin_login
 │
 ├─── [GET] /admin_home
 │
@@ -30,8 +30,7 @@ admin_router.py
 │                 └─── [POST] /reject_joining_request
 │
 ├─── [GET] /create_project_form
-│                 └─── [POST] /create_project_form_processing
-│
+│                 └─── [POST] /create_project_form
 ├─── [GET] /admin_view_all
 │
 ├─── [GET] /admin_view_all_project
@@ -68,14 +67,14 @@ admin_router.py
 manager_router.py
 │
 ├─── [GET] /manager_login
-│                 └─── [POST] /manager_login_data
+│                 └─── [POST] /manager_login
 │
 ├─── [GET] /manager_home
 │
 ├─── [GET] /comprehensive_info
 │                
 ├─── [GET] /filter_employees
-│                 └─── [POST] /request_for_employees
+│                 └─── [POST] /filter_employees
 │
 ├─── [GET] /project_manager_have
 │
@@ -91,7 +90,7 @@ manager_router.py
 emp_router.py
 │
 ├─── [GET] /employee_login
-│               └─── [POST] /employee_login_data
+│               └─── [POST] /employee_login
 │
 ├─── [GET] /employee_home
 │

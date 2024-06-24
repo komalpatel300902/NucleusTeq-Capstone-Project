@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(password)
             console.log(username)
 
-            const response = fetch('/employee_login_data', {
+            const response = fetch('/employee_login', {
                 method: 'POST',
                 body: JSON.stringify({ username: username , password: password}),
                 headers: {

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const jsonData = JSON.stringify(data);
             console.log(jsonData)
             try {
-                const response = await fetch('/create_project_form_processing', {
+                const response = await fetch('/create_project_form', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

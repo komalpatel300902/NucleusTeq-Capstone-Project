@@ -10,7 +10,7 @@ This module holds all the functionalities that a manager has.
 6. Update the status of project
 7. Logout
 """ 
-
+import re
 from fastapi import APIRouter, HTTPException , Request , status, Depends , Response 
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse , RedirectResponse, JSONResponse
@@ -18,6 +18,7 @@ from models.employee_model import RequestForEmployee
 from models.index_model import LoginDetails
 from models.project_model import Project_Update_Status
 from config.db_connection import get_db
+from config.password_security import hash_password, check_password
 from schema.schemas import DataFormatter
 import logging 
 from logging_config import setup_logging
@@ -64,7 +65,7 @@ async def manager_login(request: Request):
     logger.info(f"Accessed Manager Login Page")
     return templates.TemplateResponse("index.html",{"request":request}) 
 
-@manager_router.post(r"/manager_login_data", response_class = HTMLResponse)
+@manager_router.post(r"/manager_login", response_class = HTMLResponse)
 async def manager_credential_authentication(response: Response,request : Request, login_details: LoginDetails, db = Depends(get_db)) :
     
     """    
@@ -88,7 +89,7 @@ async def manager_credential_authentication(response: Response,request : Request
 
     sql_query_to_check_manager = f"""SELECT COUNT(manager_id) ,manager_id, password 
     FROM manager
-    WHERE manager_id = '{login_details.username}' AND password = '{login_details.password}' ;
+    WHERE manager_id = '{login_details.username}';
     """
     logger.debug(f"SQL Query to Check Wheather Manager Record Exist or Not : {sql_query_to_check_manager}")
 
@@ -105,9 +106,10 @@ async def manager_credential_authentication(response: Response,request : Request
     
     else:
         condition = data[0][0]
+        password = data[0][2]
         print(type(condition))
  
-        if condition:
+        if condition and check_password(login_details.password, password):
             logger.info(f"Employee {login_details.username} authenticated successfully.")
 
             manager_user.login(login_details.username)
@@ -291,7 +293,7 @@ async def get_filtered_employees(request: Request, skill:str = "" , manager_id: 
     else:
         return templates.TemplateResponse("filter_employee_for_project.html",{"request":request, "workers":workers , "projects":projects , "manager":{"manager_id":manager_id}})
 
-@manager_router.post(r"/request_for_employee", response_class=JSONResponse)
+@manager_router.post(r"/filtered_employee", response_class=JSONResponse)
 async def request_employee(request:Request , employee_data: RequestForEmployee, db = Depends(get_db)) :
     
     """    
@@ -311,6 +313,13 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
 
     logger.info(f"Requset Recieved of Manager asking for Employee: {employee_data.emp_id} in Project: {employee_data.project_id}")
     sql, cursor = db
+
+    sql_query_for_getting_tech_stack = f"""SELECT tech_stack FROM project
+    WHERE project_id = '{employee_data.project_id}' ;"""
+
+    sql_query_for_getting_skills = f"""SELECT skills FROM employees
+    WHERE emp_id = '{employee_data.emp_id}' ;"""
+
     sql_query_for_employee_request = f"""
     INSERT INTO manager_request_for_employees (emp_id, manager_id, project_id,admin_id,status)
     WITH request_details AS(
@@ -320,8 +329,21 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
     )
     SELECT * FROM request_details ;"""
     logger.debug(f" SQL Query to save the Manager Request of Employee for his Project")
-
     try:
+        cursor.execute(sql_query_for_getting_tech_stack)
+        tech_satck = cursor.fetchall()[0][0]
+        print("tech stack : " ,tech_satck)
+        cursor.execute(sql_query_for_getting_skills)
+        emp_skill = cursor.fetchall()[0][0]
+    except Exception as e:
+        pass
+
+    skills = emp_skill
+    if not tech_satck:
+        raise HTTPException(status_code = 422, detail = "Tech Stack is empty for this project")
+    if not re.search(tech_satck.lower(),skills.lower()):
+        raise HTTPException(status_code = 422, detail = "Employee does not have the skill for the project")
+    try:  
         cursor.execute("START TRANSACTION;")
         cursor.execute(sql_query_for_employee_request)
         sql.commit()
@@ -336,6 +358,86 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
         redirect_url = request.url_for("get_filtered_employees")
         return JSONResponse(content = {"message":"Request for employee sent Successfully"})
 
+@manager_router.get("/request_admin_to_unassign_emp_from_project")
+async def request_admin_to_unassign_emp_from_project(request: Request, emp_name:str = "" , manager_id: str = Depends(get_user), db = Depends(get_db) ):
+    sql, cursor = db
+    logger.info("Accessed the Request admin to unassign emp from project page.")
+
+    sql_query_to_fetch_emp_details = f"""SELECT emp.emp_id, e.emp_name ,e.gender, e.email, m.manager_id , m.manager_name , p.project_id ,p.project_name , p.description  FROM 
+    manager AS m
+    INNER JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    INNER JOIN employee_project_details AS emp 
+    ON emp.manager_id = m.manager_id AND mpd.project_id = emp.project_id
+    INNER JOIN employees AS e
+    ON e.emp_id = emp.emp_id
+    INNER JOIN project AS p
+    ON p.project_id = emp.project_id
+    WHERE m.manager_id = '{manager_id}' AND e.emp_name REGEXP '{emp_name}';"""
+    logger.debug(f"Query 1 To fetch the employee data successfully : {sql_query_to_fetch_emp_details}")
+
+    table_column = ["emp_id","emp_name","gender", "email", "manager_id", "manager_name","project_id","project_name","description"]
+    try:
+        cursor.execute(sql_query_to_fetch_emp_details)
+        table_data_for_employee_details = cursor.fetchall()
+        logger.info(f"Query 1 Executed and Fetched Data Successfully")
+
+        data_formatter = DataFormatter()
+        workers = data_formatter.dictionary_list(table_data = table_data_for_employee_details, table_column=table_column)
+        logger.info("Data formatted successfully. Ready for sending it to Webpage")
+    
+    except Exception as e:
+        logger.error(f"Error executing query or while formatting the Data: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while rendering the filter employee for project page")
+    
+    else:
+        return templates.TemplateResponse("remove_employee_from_project.html",{"request":request, "workers":workers , "manager":{"manager_id":manager_id}})
+
+@manager_router.post(r"/request_admin_to_unassign_emp_from_project", response_class=JSONResponse)
+async def request_admin_to_unassing_emp_from_project_processing(request:Request , employee_data: RequestForEmployee, db = Depends(get_db)) :
+    
+    """    
+    Manager Request for Employee removal from Project is Processed Here
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        employee_data (RequestForEmployee): Fetch manager and Employee data.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json :{"message":"Request for employee removal sent Successfully"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
+    logger.info(f"Requset Recieved of Manager asking for Employee removal from his Project: {employee_data.emp_id} , Project: {employee_data.project_id}")
+    sql, cursor = db
+
+    sql_query_for_employee_request = f"""
+    INSERT INTO manager_request_for_employee_removal (emp_id, manager_id, project_id,admin_id,status)
+    WITH request_details AS(
+    SELECT '{employee_data.emp_id}' , '{employee_data.manager_id}' , '{employee_data.project_id}' , admin_id , 'Pending'
+    FROM manager 
+    WHERE manager_id = '{employee_data.manager_id}'
+    )
+    SELECT * FROM request_details ;"""
+    logger.debug(f" SQL Query to save the Manager Request of Employee for his Project")
+    
+    try:  
+        cursor.execute("START TRANSACTION;")
+        cursor.execute(sql_query_for_employee_request)
+        sql.commit()
+        logger.info(f"Manager Request of Employee Saved Successfully")
+
+    except Exception as e:
+        logger.error(f"Error executing query : {e}")
+        sql.rollback()
+        raise HTTPException(status_code=500, detail="An error occurred while sending manager request")
+    
+    else:
+        redirect_url = request.url_for("get_filtered_employees")
+        return JSONResponse(content = {"message":"Request for employee removal sent Successfully"})
 
 
 @manager_router.get(r"/projects_manager_have")

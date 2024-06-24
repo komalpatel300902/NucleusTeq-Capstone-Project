@@ -1,0 +1,55 @@
+{% extends "manager_navigation_bar.html" %}
+{% block header_content %}
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/table_stylesheet.css">
+    <link rel = "stylesheet" type = "text/css" href = "../../static/css/search_bar.css">
+    <title>Data Display</title>
+{% endblock %}
+{% block content %}
+    <h2>Employee Under You</h2>
+    <div class = "outer-container">
+        <div class="search-container">
+            <form id="searchForm" >
+                <input type="text" id="searchInput" class="search-input" name="emp_name" placeholder="Search...">
+                <button class="search-button" >Filter</button>
+            </form>
+        </div>
+    </div>
+    <input type = "hidden" id="manager_id" name = "manager_id" value = '{{manager.manager_id}}'>
+<h3>Employee</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Manager ID</th>
+                <th>Manager Name</th>
+                <th>Project ID</th>
+                <th>Project Name</th>
+                <th>Project Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for worker in workers %}
+            <tr>
+                <td>{{ worker.emp_id }}</td>
+                <td>{{ worker.emp_name }}</td>
+                <td>{{ worker.gender }}</td>
+                <td>{{ worker.email }}</td>
+                <td>{{ worker.manager_id }}</td>
+                <td>{{ worker.manager_name }}</td>
+                <td>{{ worker.project_id }}</td>
+                <td>{{ worker.project_name }}</td>
+                <td>{{ worker.description }}</td>
+                <td><button onclick="requestForEmployeesRemoval('{{ worker.emp_id }}','{{worker.project_id}}')">Request</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script src = "../../static/js/manager/request_to_remove_employee_from_project.js"></script>
+
+
+    
+{% endblock %}

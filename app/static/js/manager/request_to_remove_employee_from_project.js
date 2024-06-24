@@ -1,11 +1,10 @@
-async function requestForEmployees(empId){
+async function requestForEmployeesRemoval(empId, projectId){
     // You can use fetch API or any other library like Axios for making AJAX requests
-    const selectField = document.getElementById("project-"+empId);
     const manger_idField = document.getElementById("manager_id");
     const manager_id = manger_idField.value;
-    const projectId = selectField.value;
+    console.log(manager_id, projectId, empId);
     try{
-    const response = await fetch("/filtered_employee" , {
+    const response = await fetch("/request_admin_to_unassign_emp_from_project" , {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -36,8 +35,8 @@ async function requestForEmployees(empId){
 async function filterEmployee(){
     const selectField = document.getElementById("searchInput");
     
-    const skill = manger_idField.value;
-    fetch("/filtered_employee?skill="+skill , {
+    const emp_name= manger_idField.value;
+    fetch("/request_admin_to_unassign_emp_from_project?emp_name="+emp_name , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

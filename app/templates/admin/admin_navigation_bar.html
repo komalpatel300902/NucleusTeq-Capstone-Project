@@ -20,9 +20,10 @@
                 <ul>
                     <li><a href="{{request.url_for('get_joining_request')}}">Add New Employee</a></li>
                     <li><a href="{{request.url_for('get_manager_request')}}">Manager Request</a></li>
+                    <li><a href="{{request.url_for('get_manager_request_to_unassign_emp_from_project')}}">Manager Request to Remove Emp from Project</a></li>
                     <li><a href="{{request.url_for('get_employee_for_assigning_project')}}">Assign Project</a></li>
                     <li><a href="{{request.url_for('unassign_project_page')}}">Unassign Project</a></li>
-                    <li><a href="{{request.url_for('remove_employees_page')}}">Remove Employee</a></li>
+                    <li><a href="{{request.url_for('remove_employees_page')}}">Remove User</a></li>
                     <li><a href="{{request.url_for('update_employees_skill')}}">Update Employee Skills</a></li>
                 </ul>
             </li>

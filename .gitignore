@@ -11,3 +11,4 @@ app/test_app/.pytest_cache
 .pytest_cache
 .vscode
 app/.coverage
+testing_sequence.txt

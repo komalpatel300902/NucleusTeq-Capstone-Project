@@ -9,6 +9,7 @@ class ProjectDetails(BaseModel):
     project_id: str
     project_name: str 
     dead_line: str
+    tech_used: str
     description: str 
     assign_to: str
     admin_id: str

@@ -12,17 +12,18 @@
     <div class="form-container">
         <form id = "employeeRegistrationForm" action="#" method="POST" >
             <div class="form-group">
-                <label for="id">ID:</label>
+                <label for="id">Username:</label>
                 <input type="text" id="id" name="id" required><br>
-            </div>
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required><br>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required><br>
             </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
+            </div>
+            
             <div class="form-group">
                 <label for="emp_type">Employee Type:</label>
                 <select id="emp_type" name="emp_type" required>
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const jsonData = JSON.stringify(data);
             console.log(jsonData)
             try {
-                const response = await fetch('/registration_form_submission', {
+                const response = await fetch('/registration_form', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -99,12 +100,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('Form submission failed.');
                     if (response.status === 422) {
                         // Unauthorized - show error message
-                        const errorDetail = response.json();
-                        alert(errorDetail.message);
+                        const errorDetail =await response.json();
+                        alert(errorDetail.detail);
                         alert("Password must be alpha Numeric With atleast 1 Upper Case and 1 Lowercase alphabet \n Email must bolong organization ");
-                        window.location.href = '/registration_form';
+                        // window.location.href = '/registration_form';
                     }
-                    location.reload();
+                    // location.reload();
                 }
             } catch (error) {
                 console.error('Error:', error);

@@ -16,6 +16,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from models.employee_model import UpdateSkill
 from models.index_model import LoginDetails
 from config.db_connection import get_db
+from config.password_security import check_password , hash_password
 from schema.schemas import DataFormatter
 import logging
 from logging_config import setup_logging
@@ -60,7 +61,7 @@ async def employee_login(request :Request):
     return templates.TemplateResponse("index.html",{"request":request})
 
 
-@emp_router.post(r"/employee_login_data", response_class = HTMLResponse)
+@emp_router.post(r"/employee_login", response_class = HTMLResponse)
 async def employee_credential_authentication(response: Response,request : Request, login_details: LoginDetails , db = Depends(get_db)) :
     """    
     Employee Credential will be Authenticated here.
@@ -81,7 +82,7 @@ async def employee_credential_authentication(response: Response,request : Reques
     sql, cursor = db
     sql_query_to_check_employee = f"""SELECT COUNT(emp_id) ,emp_id, password 
     FROM employees
-    WHERE emp_id = '{login_details.username}' AND password = '{login_details.password}' ;
+    WHERE emp_id = '{login_details.username}';
     """
     logger.debug(f"SQL Query to Check Wheather Employee Record Exist or Not : {sql_query_to_check_employee}")
 
@@ -97,8 +98,9 @@ async def employee_credential_authentication(response: Response,request : Reques
     
     else:
         condition = data[0][0]
+        password = data[0][2]
         print(condition)
-        if condition:
+        if condition and check_password(login_details.password, password):
             logger.info(f"Employee {login_details.username} authenticated successfully.")
 
             employee_user.login(login_details.username)

@@ -19,6 +19,7 @@ from fastapi import APIRouter, HTTPException, Request , Form , status, Response 
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse , JSONResponse, RedirectResponse
 from config.db_connection import get_db
+from config.password_security import hash_password, check_password
 from schema.schemas import DataFormatter
 from models.index_model import JoiningRequest , LoginDetails
 from models.employee_model import AcceptJoiningRequest , RejectJoiningRequest, RemoveEmployee,RemoveManager, UpdateSkill
@@ -80,7 +81,7 @@ async def admin_login(request : Request):
     logger.info("Accessed Admin Login Page.")
     return templates.TemplateResponse("index.html",{"request":request})
 
-@admin_router.post(r"/admin_login_data", response_class = HTMLResponse)
+@admin_router.post(r"/admin_login", response_class = HTMLResponse)
 async def admin_credential_authentication(response: Response ,request : Request,  login_details: LoginDetails, db = Depends(get_db)) :
     
     """    
@@ -103,7 +104,7 @@ async def admin_credential_authentication(response: Response ,request : Request,
     sql, cursor = db
     sql_query_to_check_admin = f"""SELECT COUNT(admin_id) ,admin_id, password 
     FROM admin
-    WHERE admin_id = '{login_details.username}' AND password = '{login_details.password}' ;
+    WHERE admin_id = '{login_details.username}';
     """
     logger.debug(f"SQL Query to Check Wheather Admin Record Exist or Not : {sql_query_to_check_admin}")
 
@@ -119,8 +120,11 @@ async def admin_credential_authentication(response: Response ,request : Request,
     
     else:
         condition = data[0][0]
+        password = data[0][2]
+        print(password)
+        print(login_details)
         print(type(condition))
-        if condition:
+        if condition and check_password(login_details.password, password ):
             logger.info(f"Admin {login_details.username} authenticated successfully.")
 
             admin_user.login(login_details.username)
@@ -353,7 +357,7 @@ async def create_project_form(request: Request, admin_id: str = Depends(get_user
 
 
 
-@admin_router.post(r"/create_project_form_processing",response_class=JSONResponse)
+@admin_router.post(r"/create_project_form",response_class=JSONResponse)
 async def create_project_form_processing(request: Request, project_details: ProjectDetails, db = Depends(get_db) ):
     
     """    
@@ -391,7 +395,7 @@ async def create_project_form_processing(request: Request, project_details: Proj
         """
     logger.debug(f"SQL Query to insert data into Manager project Detail {sql_query_to_insert_manager_project_details}")
 
-    sql_query_to_create_project = f"""INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned, description)
+    sql_query_to_create_project = f"""INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned,tech_stack, description)
     VALUES(
         '{project_details.project_id}',
         '{project_details.project_name}', 
@@ -400,6 +404,7 @@ async def create_project_form_processing(request: Request, project_details: Proj
         '{project_details.dead_line}',
         '{status_value}',
         '{project_assigned}',
+        '{project_details.tech_used}',
         '{project_details.description}'
     );
     """
@@ -1124,6 +1129,157 @@ async def reject_manager_request(request : Request, manager_request_for_employee
     else: 
         redirect_url = request.url_for('get_manager_request')
         return JSONResponse(content = {"message":"Manager request Rejected"})
+
+@admin_router.get(r"/manager_request_to_unassign_emp_from_project",response_class=HTMLResponse)
+async def get_manager_request_to_unassign_emp_from_project(request : Request, admin_id: str = Depends(get_user), db = Depends(get_db)):
+
+    """    
+    Manager Request for Employee Page
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        admin_id (String): Fetch admin_id from UserSession.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        [text/html] : manager_request.html
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
+    logger.info(f"{admin_id} : Accessed Manager Request Page")
+    logger.info(f"Fetching manager requests for admin_id: {admin_id}")
+    sql, cursor = db
+    sql_query_for_manager_request = f"""
+    SELECT m.manager_name, m.manager_id, p.project_name , p.project_id , e.emp_name , e.emp_id
+    FROM manager_request_for_employee_removal AS mrfe
+    INNER JOIN manager AS m
+    ON mrfe.manager_id = m.manager_id
+    INNER JOIN project AS p
+    ON mrfe.project_id = p.project_id
+    INNER JOIN employees AS e
+    ON mrfe.emp_id = e.emp_id
+    WHERE mrfe.status = "Pending" AND mrfe.admin_id = '{admin_id}'
+    GROUP BY m.manager_id, p.project_id,e.emp_id;
+    """
+    logger.debug(f"SQL Query to fetch Manager Request : {sql_query_for_manager_request} ") 
+    table_column = ["manager_name", "manager_id","project_name","project_id","emp_name","emp_id"]
+    try:
+        cursor.execute(sql_query_for_manager_request)
+        data = cursor.fetchall()
+        logger.info("Fetched manager requests successfully")
+
+        data_formatter = DataFormatter()
+        data_entries = data_formatter.dictionary_list(table_data=data, table_column=table_column)
+        logger.info("Data formatted successfully. Ready for sending it to Webpage")
+
+    except Exception as e:
+        logger.error(f"Error fetching manager requests: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while fetching manager requests")
+    
+    else: 
+        return templates.TemplateResponse("manager_request_to_remove_emp_from_project.html",{"request":request,"data_entries":data_entries})
+
+@admin_router.post(r"/accept_manager_request_to_unassign_emp_from_project",response_class=JSONResponse)
+async def accept_manager_request_to_unassign_emp_from_project(request : Request, manager_request_for_employees_removal: ManagerRequestForEmployees, db = Depends(get_db)):
+
+    """    
+    Approval  Manager Request to Unassing from his project is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_request_for_employee (ManagerRequestForEmployee): Holds employee and manager info.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Manager request Accepted"}
+
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
+    logger.info(f"Unassigning employee {manager_request_for_employees_removal.emp_id} from project")
+    sql, cursor = db
+
+    sql_query_to_unassign_employee_from_project = f"""
+    DELETE FROM employee_project_details
+    WHERE emp_id = '{manager_request_for_employees_removal.emp_id}' ;
+    """
+    logger.debug(f"SQL Query to Delete Employee Record from employee_project_detail Table: {sql_query_to_unassign_employee_from_project}")
+
+
+    sql_query_to_update_employee_table = f"""UPDATE employees
+    SET project_assigned = 'NO'
+    WHERE emp_id = '{manager_request_for_employees_removal.emp_id}' ;"""
+    logger.debug(f"SQL Query to Update Project_Assigned Column from employees Table: {sql_query_to_update_employee_table}")
+
+    sql_query_to_update = f"""
+    UPDATE manager_request_for_employee_removal
+    SET status = 'Approved'
+    WHERE emp_id = '{manager_request_for_employees_removal.emp_id}' AND project_id = '{manager_request_for_employees_removal.project_id}' AND manager_id = '{manager_request_for_employees_removal.manager_id}';
+    """
+    try:
+        cursor.execute("START TRANSACTION ;")
+        cursor.execute(sql_query_to_unassign_employee_from_project)
+        cursor.execute(sql_query_to_update_employee_table)
+        cursor.execute(sql_query_to_update)
+        sql.commit()
+        logger.info(f"Employee {manager_request_for_employees_removal.emp_id} successfully unassigned from project and Employee Table Update")
+
+    except Exception as e:
+        sql.rollback()
+        logger.error(f"Error unassigning employee from project: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while unassigning the employee")
+
+    else:
+        redirect_url = request.url_for("unassign_project_page")
+        return JSONResponse(content = {"message":"Employee was unassigned from a Project"})
+
+
+@admin_router.put(r"/reject_manager_request_to_unassign_emp_from_project",response_class=JSONResponse)
+async def reject_manager_request_to_unassign_emp_from_project(request : Request, manager_request_for_employees_removal: ManagerRequestForEmployees, db = Depends(get_db)):
+
+    """    
+    Rejection of Manager Request to unassign Employee from his project is Processed Here.
+
+    Args:
+        request (Request): Holds information of incomming HTTP request.
+        manager_request_for_employees (ManagerRequestForEmployees): Fetch Data of User and Project.
+        db (Tuple) : Holds (sql, cursor) for executing sql query.
+
+    Returns:
+        json : {"message":"Manager request Rejected"}
+        
+    Raises:
+        HTTPException [status_code = 500] : Error executing query.
+    """
+
+    logger.info(f"Manager Request beign Rejected")
+    sql, cursor = db
+    sql_query_to_update = f"""
+    UPDATE manager_request_for_employee_removal
+    SET status = 'Rejected'
+    WHERE emp_id = '{manager_request_for_employees_removal.emp_id}' AND project_id = '{manager_request_for_employees_removal.project_id}' AND manager_id = '{manager_request_for_employees_removal.manager_id}';
+    """
+    logger.debug(f"SQL Query to update manager_request_for_employee_removal Table: {sql_query_to_update}")
+
+
+    
+    try:
+        cursor.execute("START TRANSACTION ;")
+        cursor.execute(sql_query_to_update)
+        sql.commit()
+        logger.info(f"Manager request successfully rejected.")
+
+    except Exception as e:
+        sql.rollback()
+        logger.error(f"Error unassigning employee from project: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while unassigning the employee")
+
+    else:
+        redirect_url = request.url_for("unassign_project_page")
+        return JSONResponse(content = {"message":"Manager Request was Rejected"})
 
 #[In Progress]
 @admin_router.get(r"/update_employee_skill",response_class=HTMLResponse)
