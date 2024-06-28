@@ -33,6 +33,7 @@ import json
 from datetime import datetime
 from logging_config import setup_logging
 import logging
+import re 
 
 class UserSession:
 
@@ -688,6 +689,26 @@ async def assign_project_to_employees(request : Request ,employee_data : AssignP
     logger.info(f"Assigning project_id: {employee_data.project_id} to employee_id: {employee_data.emp_id}")
 
     sql, cursor = db
+
+    sql_query_for_getting_tech_stack = f"""SELECT tech_stack FROM project
+    WHERE project_id = '{employee_data.project_id}' ;"""
+
+    sql_query_for_getting_skills = f"""SELECT skills FROM employees
+    WHERE emp_id = '{employee_data.emp_id}' ;"""
+
+    try:
+        cursor.execute(sql_query_for_getting_tech_stack)
+        tech_satck = cursor.fetchall()[0][0]
+        print("tech stack : " ,tech_satck)
+        cursor.execute(sql_query_for_getting_skills)
+        emp_skill = cursor.fetchall()[0][0]
+    except Exception as e:
+        pass
+
+    skills = emp_skill
+    if not re.search(tech_satck.lower(),skills.lower()):
+        raise HTTPException(status_code = 422, detail = "Employee does not have the skill for the project")
+    
     
     sql_query_to_insert_record = f"""
     INSERT INTO employee_project_details (emp_id,manager_id,project_id)
@@ -747,6 +768,7 @@ async def assign_project_to_employees(request : Request , manager_data: AssignPr
     logger.info(f"Assigning project_id: {manager_data.project_id} to manager_id: {manager_data.manager_id}")
 
     sql,cursor = db
+
     sql_query_to_find_manager_record = f"""
     SELECT COUNT(project_id) 
     FROM manager_project_details

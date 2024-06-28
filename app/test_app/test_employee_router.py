@@ -71,3 +71,9 @@ def test_replace_skill(client):
 def test_employee_project_details(client):
     response = client.get("/employee_project_details")
     assert response.status_code == 200
+
+@pytest.mark.order(211)
+def test_employee_logout(client):
+    response = client.post("/employee_logout")
+    assert response.status_code == 200
+    assert response.json() == {"message": "User Successfully Logout"}

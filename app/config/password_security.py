@@ -14,7 +14,8 @@ def check_password(password, hashed_password_base64):
     hashed_password = base64.b64decode(hashed_password_base64.encode('utf-8'))
     # Check if the password matches the hashed password
     return bcrypt.checkpw(password.encode(), hashed_password)
-
+    
+'''
 if __name__ == "__main__":
 
     password = "Password1"
@@ -25,3 +26,4 @@ if __name__ == "__main__":
     is_correct = check_password("Test_Password0", hashed)
     print(f"Password is correct: {is_correct}")
 
+'''

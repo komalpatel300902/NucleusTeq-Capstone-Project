@@ -3,8 +3,10 @@ To use, simply use 'import project_model'
 
 This module defines a various class inheriting BaseModel for holding project data. 
 """
-from pydantic import BaseModel
-
+from pydantic import BaseModel , field_validator
+from fastapi import HTTPException
+import datetime
+today = datetime.date.today().strftime("%Y-%m-%d")
 class ProjectDetails(BaseModel): 
     project_id: str
     project_name: str 
@@ -13,6 +15,12 @@ class ProjectDetails(BaseModel):
     description: str 
     assign_to: str
     admin_id: str
+
+    @field_validator('dead_line')
+    def check_dead_line(cls,v):
+        if v <= today:
+            raise HTTPException(status_code = 422, detail = "deadline must be greater than todays date")
+        return v
 
 class ManagerProjectDetails(BaseModel):
     project_id: str

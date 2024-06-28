@@ -8736,3 +8736,509 @@ java')
 2024-06-24 01:28:40,862 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
 2024-06-24 01:28:45,790 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
 2024-06-24 01:28:50,942 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:24:31,600 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:24:32,077 - root - INFO - Accessed Index page
+2024-06-27 16:30:06,533 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:30:24,556 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:30:29,835 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:31:29,355 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:32:04,190 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:34:04,665 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:35:21,721 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:35:25,319 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:35:31,335 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:35:38,107 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:35:55,442 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:36:00,851 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:37:36,811 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-27 16:37:49,602 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-27 16:37:49,602 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1';
+    
+2024-06-27 16:37:49,602 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-27 16:37:50,342 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-27 16:37:50,347 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-27 16:37:50,347 - router.admin_router - INFO - Redirecting to admin home
+2024-06-27 16:37:50,404 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-27 16:37:53,555 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:37:53,555 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:37:53,555 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:37:53,555 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:37:53,555 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:37:53,555 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:37:53,561 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:37:53,563 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:37:53,563 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:37:53,563 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:37:53,587 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:37:53,587 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:38:00,774 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP2
+2024-06-27 16:38:00,805 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:38:00,807 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:38:00,807 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:38:00,807 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:38:00,807 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:38:00,807 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:38:00,810 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:38:00,810 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:38:00,810 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:38:00,810 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:38:00,847 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:38:00,849 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:38:02,525 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP2
+2024-06-27 16:38:02,544 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:38:02,544 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:38:02,550 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:38:02,550 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:38:02,551 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:38:02,552 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:38:02,554 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:38:02,554 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:38:02,558 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:38:02,558 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:38:02,587 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:38:02,587 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:42:14,581 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:42:14,581 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:42:14,581 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:42:14,583 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:42:14,583 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:42:14,583 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:42:14,583 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:42:14,590 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:42:14,590 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:42:14,591 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:42:14,615 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:42:14,616 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:42:16,673 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP2
+2024-06-27 16:42:16,696 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:42:16,696 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:42:16,696 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:42:16,696 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:42:16,696 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:42:16,696 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:42:16,701 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:42:16,704 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:42:16,706 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:42:16,706 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:42:16,727 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:42:16,727 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:42:18,019 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP2
+2024-06-27 16:42:18,049 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:42:18,049 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:42:18,049 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:42:18,049 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:42:18,049 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:42:18,051 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:42:18,055 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:42:18,055 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:42:18,055 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:42:18,055 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:42:18,089 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:42:18,089 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:43:14,212 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:43:14,930 - root - INFO - Accessed Index page
+2024-06-27 16:43:18,182 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-27 16:43:29,551 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-27 16:43:29,551 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1';
+    
+2024-06-27 16:43:29,555 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-27 16:43:30,188 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-27 16:43:30,188 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-27 16:43:30,190 - router.admin_router - INFO - Redirecting to admin home
+2024-06-27 16:43:30,244 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-27 16:43:35,875 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:43:35,876 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:43:35,877 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:43:35,877 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:43:35,877 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:43:35,877 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:43:35,880 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:43:35,883 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:43:35,888 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:43:35,888 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:43:35,923 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:43:35,923 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:44:30,457 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:44:30,457 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:44:30,457 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:44:30,457 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:44:30,457 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:44:30,457 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:44:30,460 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:44:30,463 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:44:30,463 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:44:30,466 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:44:30,493 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:44:30,493 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:44:32,601 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP2
+2024-06-27 16:44:43,187 - router.admin_router - INFO - Assigning project_id: ADM_PROJ1 to employee_id: EMP3
+2024-06-27 16:44:43,187 - router.admin_router - DEBUG - SQL Query to Save the Record when Project is Assigned to Employee : 
+    INSERT INTO employee_project_details (emp_id,manager_id,project_id)
+    WITH employee_project_data AS (
+    SELECT 'EMP3' AS emp_id, mpd.manager_id AS manager_id ,'ADM_PROJ1' AS project_id 
+    FROM manager_project_details AS mpd
+    WHERE mpd.project_id = 'ADM_PROJ1'
+    )
+    SELECT emp_id , manager_id , project_id FROM employee_project_data ; 
+2024-06-27 16:44:43,193 - router.admin_router - DEBUG - SQL Query to Update Project Assigned Column in Employees Table : UPDATE employees
+    SET project_assigned = "YES"
+    WHERE emp_id = 'EMP3' ; 
+2024-06-27 16:44:43,196 - router.admin_router - INFO - Successfully Executed the SQL query to Insert the Record in manager_project_detail Table
+2024-06-27 16:44:43,196 - router.admin_router - INFO - Successfully Executed the SQL query to Update the project_assign column of Employee Table
+2024-06-27 16:44:43,323 - router.admin_router - INFO - Successfully assigned project_id: ADM_PROJ1 to employee_id: EMP3
+2024-06-27 16:44:43,377 - router.admin_router - INFO - ADM1 : Accessed Assign project to Employee Page
+2024-06-27 16:44:43,377 - router.admin_router - INFO - Fetching employees, managers, and projects details for admin_id: ADM1
+2024-06-27 16:44:43,378 - router.admin_router - DEBUG - SQL Query to get Employee Details : 
+    SELECT e.emp_id, e.emp_name, e.gender, e.mobile, e.email, e.skills
+    FROM employees AS e
+    WHERE project_assigned IN ('NO','') AND admin_id = 'ADM1';  
+2024-06-27 16:44:43,378 - router.admin_router - DEBUG - SQL Query to get Project for Employees : SELECT p.project_id, p.project_name 
+    FROM project AS p
+    INNER JOIN manager_project_details AS mpd
+    ON mpd.project_id = p.project_id
+    WHERE p.project_assigned = "YES" AND admin_id = 'ADM1'; 
+2024-06-27 16:44:43,378 - router.admin_router - DEBUG - SQL Query to get Manager Detail : 
+    SELECT m.manager_id , m.manager_name, m.gender, m.mobile, m.email, 
+    GROUP_CONCAT(DISTINCT mpd.project_id ORDER BY mpd.project_id ASC SEPARATOR ', ') AS project_they_have,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_names
+    FROM manager AS m
+    LEFT JOIN manager_project_details AS mpd
+    ON m.manager_id = mpd.manager_id
+    LEFT JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1'
+    GROUP BY m.manager_id;
+     
+2024-06-27 16:44:43,378 - router.admin_router - DEBUG - SQL Query to get Project for Manager : SELECT project_id, project_name 
+    FROM project 
+    WHERE project_assigned = 'NO' AND admin_id = 'ADM1' ; 
+2024-06-27 16:44:43,378 - router.admin_router - INFO - Fetched employee details successfully
+2024-06-27 16:44:43,378 - router.admin_router - INFO - Fetched manager details successfully
+2024-06-27 16:44:43,378 - router.admin_router - INFO - Fetched project details for employees successfully
+2024-06-27 16:44:43,385 - router.admin_router - INFO - Fetched project details for managers successfully
+2024-06-27 16:44:43,411 - router.admin_router - INFO - Data formatted successfully for sending it to Webpage
+2024-06-27 16:44:43,411 - router.admin_router - ERROR - WebPage for assigning project to employees and manager Rendered Successfully
+2024-06-27 16:44:50,808 - router.admin_router - INFO - ADM1 : Accessed Unassign Project to Employee Page
+2024-06-27 16:44:50,808 - router.admin_router - INFO - Fetching employee and manager project details for admin_id: ADM1
+2024-06-27 16:44:50,808 - router.admin_router - DEBUG - SQL Query to find employee project: SELECT e.emp_id,e.emp_name, e.gender , e.mobile , e.email,
+    p.project_id , p.project_name, m.manager_id , m.manager_name
+    FROM employees AS e
+    INNER JOIN employee_project_details AS epd
+    ON e.emp_id = epd.emp_id 
+    INNER JOIN project AS p
+    ON p.project_id = epd.project_id
+    INNER JOIN manager  AS m
+    ON m.manager_id = epd.manager_id
+    WHERE e.admin_id = 'ADM1'
+    ;
+    
+2024-06-27 16:44:50,808 - router.admin_router - DEBUG - SQL Query to find manager project: SELECT m.manager_id , m.manager_name , m.gender , m.mobile , m.email,
+    GROUP_CONCAT(DISTINCT p.project_id ORDER BY p.project_id ASC SEPARATOR ', ') AS project_id,
+    GROUP_CONCAT(DISTINCT p.project_name ORDER BY p.project_id ASC SEPARATOR ', ') AS project_name
+    FROM manager_project_details AS mpd
+    INNER JOIN manager AS m
+    ON m.manager_id = mpd.manager_id
+    INNER JOIN project AS p
+    ON p.project_id = mpd.project_id
+    WHERE m.admin_id = 'ADM1' 
+    GROUP BY m.manager_id ;
+2024-06-27 16:44:50,813 - router.admin_router - INFO - Fetched employee project details successfully
+2024-06-27 16:44:50,822 - router.admin_router - INFO - Fetched manager project details successfully
+2024-06-27 16:44:50,873 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 16:44:50,873 - router.admin_router - INFO - Successfully Rendered the Unassign Project Webpage
+2024-06-27 16:53:07,902 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 16:53:32,578 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:00:30,492 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:00:39,008 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:00:42,979 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:00:45,987 - root - INFO - Accessed Index page
+2024-06-27 17:00:51,838 - router.admin_router - INFO - Accessed Admin Login Page.
+2024-06-27 17:00:59,956 - router.admin_router - INFO - Attempting to authenticate admin: ADM1
+2024-06-27 17:00:59,957 - router.admin_router - DEBUG - SQL Query to Check Wheather Admin Record Exist or Not : SELECT COUNT(admin_id) ,admin_id, password 
+    FROM admin
+    WHERE admin_id = 'ADM1';
+    
+2024-06-27 17:00:59,963 - router.admin_router - INFO - Authentication query executed successfully for admin: ADM1
+2024-06-27 17:01:00,558 - router.admin_router - INFO - Admin ADM1 authenticated successfully.
+2024-06-27 17:01:00,558 - router.admin_router - INFO - Admin id is saved as SessionUser
+2024-06-27 17:01:00,558 - router.admin_router - INFO - Redirecting to admin home
+2024-06-27 17:01:00,608 - router.admin_router - INFO - ADM1 : Accessed Admin Home Page.
+2024-06-27 17:01:05,572 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-27 17:01:05,572 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-27 17:01:05,572 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-27 17:01:05,576 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-27 17:01:05,577 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 17:01:05,577 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-27 17:01:31,977 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-27 17:01:31,977 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-27 17:01:31,978 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-27 17:01:31,978 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-27 17:01:31,978 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 17:01:31,983 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-27 17:03:31,429 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-27 17:03:31,429 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-27 17:03:31,429 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-27 17:03:31,431 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-27 17:03:31,431 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 17:03:31,431 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-27 17:04:49,904 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-27 17:04:49,904 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-27 17:04:49,904 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-27 17:04:49,905 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-27 17:04:49,909 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 17:04:49,909 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-27 17:04:50,258 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-27 17:04:50,258 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-27 17:04:50,259 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-27 17:04:50,259 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-27 17:04:50,259 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 17:04:50,259 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-27 17:05:24,490 - router.admin_router - INFO - Processing project creation for project_id: PROJ018
+2024-06-27 17:05:24,490 - router.admin_router - DEBUG - SQL Query to insert data into Manager project Detail 
+        INSERT INTO manager_project_details (manager_id , project_id)
+        VALUES ('Later','PROJ018');
+        
+2024-06-27 17:05:24,492 - router.admin_router - DEBUG - SQL Query to Create Project INSERT INTO project (project_id ,project_name, admin_id, start_date, dead_line, status, project_assigned,tech_stack, description)
+    VALUES(
+        'PROJ018',
+        'Project14', 
+        'ADM1',
+        '2024-06-27',
+        '2024-06-29',
+        'Not Assigned',
+        'NO',
+        'PySpark',
+        'this'
+    );
+     
+2024-06-27 17:05:24,937 - router.admin_router - INFO - Project created successfully with project_id: PROJ018
+2024-06-27 17:05:27,450 - router.admin_router - INFO - ADM1 : Accessed Project Form Page
+2024-06-27 17:05:27,450 - router.admin_router - INFO - Fetching manager details for admin_id: ADM1
+2024-06-27 17:05:27,450 - router.admin_router - DEBUG - SQL Query to fetch Manager details working Under Admin : ADM1 : SELECT manager_id, manager_name
+    FROM manager
+    WHERE admin_id = 'ADM1'; 
+2024-06-27 17:05:27,453 - router.admin_router - INFO - Manager details fetched successfully for admin_id: ADM1
+2024-06-27 17:05:27,454 - router.admin_router - INFO - Data formatted successfully. Ready for sending it to Webpage
+2024-06-27 17:05:27,454 - router.admin_router - INFO - Project form was Rendered Successfully
+2024-06-27 17:09:21,159 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:09:26,032 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:09:28,732 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:09:34,223 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:10:11,295 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:10:25,870 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:10:35,389 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:10:45,613 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:10:53,509 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:11:00,362 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:11:10,841 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:11:26,403 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:11:32,723 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:11:42,594 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:12:03,999 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:12:17,076 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:12:24,315 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:12:39,516 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:12:54,729 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:13:19,434 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:14:40,376 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:16:36,401 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:17:46,790 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:17:54,272 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:17:58,806 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:06,947 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:13,192 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:34,742 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:42,725 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:49,160 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:54,545 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:18:59,031 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:19:16,924 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:19:23,263 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:20:01,210 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:20:13,301 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:20:38,245 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:20:42,246 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:20:49,866 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:20:56,883 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:21:02,144 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:21:57,036 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:22:55,579 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:23:03,195 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:23:08,038 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:23:14,645 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:24:48,679 - root - INFO - FastAPI project initialized. Project is ready to accept requests.
+2024-06-27 17:24:52,930 - root - INFO - FastAPI project initialized. Project is ready to accept requests.

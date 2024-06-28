@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-            location.reload();
+            
             const jsonData = JSON.stringify(data);
             console.log(jsonData)
             try {
@@ -26,9 +26,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     alert('Form submitted successfully!');
-                    
+                    location.reload();
                 } else {
-                    alert('Form submission failed.');
+                    if (response.status === 422){
+                        const errorDetail = await response.json();
+                        alert(errorDetail.detail);
+                    }
+                    else{
+                        alert('Form submission failed.');
+                    }
                 }
             } catch (error) {
                 console.error('Error:', error);

@@ -339,8 +339,6 @@ async def request_employee(request:Request , employee_data: RequestForEmployee, 
         pass
 
     skills = emp_skill
-    if not tech_satck:
-        raise HTTPException(status_code = 422, detail = "Tech Stack is empty for this project")
     if not re.search(tech_satck.lower(),skills.lower()):
         raise HTTPException(status_code = 422, detail = "Employee does not have the skill for the project")
     try:  

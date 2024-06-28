@@ -178,6 +178,12 @@ def test_update_project_status(client):
     assert response.status_code == 200
     assert response.json() == {"message": "Project status Updated Successfully"}
 
+@pytest.mark.order(210)
+def test_manger_logout(client):
+    response = client.post("/manager_logout")
+    assert response.status_code == 200
+    assert response.json() == {"message": "Manager Successfully Logout"}
+
     
     
 

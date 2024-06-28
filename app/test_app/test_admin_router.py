@@ -5,7 +5,11 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from main import app  # assuming your FastAPI instance is in main.py
-
+import datetime
+tommorow_date = datetime.date.today()+ datetime.timedelta(days= 1)
+tommorow_date = tommorow_date.strftime("%Y-%m-%d")
+yesterday_date = datetime.date.today()+ datetime.timedelta(days= -1)
+yesterday_date = yesterday_date.strftime("%Y-%m-%d")
 @pytest.fixture
 def client():
     return TestClient(app)
@@ -91,7 +95,7 @@ def test_create_project_form_processing(client):
     response = client.post("/create_project_form", json={
         "project_id": "Test_PROJ001",
         "project_name": "Test_Project001",
-        "dead_line": "24-11-20",
+        "dead_line": tommorow_date,
         "tech_used": "Fastapi",
         "description": "This is project For Test Purpose",
         "assign_to": "Test_MGR001",
@@ -103,7 +107,7 @@ def test_create_project_form_processing(client):
     response = client.post("/create_project_form", json={
         "project_id": "Test_PROJ002",
         "project_name": "Test_Project002",
-        "dead_line": "2030-12-20",
+        "dead_line": tommorow_date,
         "tech_used": "Django",
         "description": "This is project For Test Purpose",
         "assign_to": "Later",
@@ -115,7 +119,7 @@ def test_create_project_form_processing(client):
     response = client.post("/create_project_form", json={
         "project_id": "Test_PROJ003",
         "project_name": "Test_Project003",
-        "dead_line": "2030-12-20",
+        "dead_line": tommorow_date,
         "description": "This is project For Test Purpose",
         "tech_used": "flask",
         "assign_to": "Test_MGR002",
@@ -127,7 +131,7 @@ def test_create_project_form_processing(client):
     response = client.post("/create_project_form", json={
         "project_id": "Test_PROJ004",
         "project_name": "Test_Project004",
-        "dead_line": "2030-12-20",
+        "dead_line": tommorow_date,
         "tech_used": "pyspark",
         "description": "This is project For Test Purpose",
         "assign_to": "Later",
@@ -139,7 +143,7 @@ def test_create_project_form_processing(client):
     response = client.post("/create_project_form", json={
         "project_id": "Test_PROJ004",
         "project_name": "Test_Project004",
-        "dead_line": "2030-12-20",
+        "dead_line": tommorow_date,
         "tech_used": "pyspark",
         "description": "This is project For Test Purpose",
         "assign_to": "Later",
@@ -147,6 +151,18 @@ def test_create_project_form_processing(client):
     })
     assert response.status_code == 500
     assert response.json() == {"detail":"An error occurred while creating new project"}
+
+    response = client.post("/create_project_form", json={
+        "project_id": "Test_PROJ005",
+        "project_name": "Test_Project005",
+        "dead_line": yesterday_date,
+        "tech_used": "pyspark",
+        "description": "This is project For Test Purpose",
+        "assign_to": "Later",
+        "admin_id": "Test_ADM0"
+    })
+    assert response.status_code == 422
+    assert response.json() == {"detail":"deadline must be greater than todays date"}
 
 
 
@@ -236,6 +252,12 @@ def test_assign_project_to_employees(client):
     assert response.status_code == 200
     assert response.json() == {"message":"A project is assigned to employee"}
 
+    response = client.post("/assign_employee_a_project", json={
+        "emp_id": "Test_EMP005",
+        "project_id": "Test_PROJ004"
+    })
+    assert response.status_code == 422
+    assert response.json() == {"detail":"Employee does not have the skill for the project"}
 
 @pytest.mark.order(51)
 def test_manager_request(client):
